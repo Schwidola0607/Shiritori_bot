@@ -25,7 +25,7 @@ def get_score(word: str) -> int:
 
 class Countdown_timer:
     t = 0 #t - units second
-    state = 0#0 - stop running, 1 - currently counting down
+    state = 0 #0 - stop running, 1 - currently counting down
     def __init__(self, t: int):
         self.t = t
         self.state = 0
@@ -131,7 +131,7 @@ async def on_message(message):
     word = str(message.content)
     if shiritori.state == 2:
         p = shiritori.current_turn_Player() 
-        if str(message.author) == shiritori.current_turn_Player().name:
+        if str(message.author) == p.name:
         # print("input taken!")
             if shiritori.check_word_validity(word) == 0:
                 await channel.send("Invalid word Baka!")
@@ -140,7 +140,8 @@ async def on_message(message):
                 p.clock.stop()
                 shiritori.add_new_word(word)
                 shiritori.next_turn()
-                await channel.send(f'{shiritori.current_turn_Player().name} your turn')
+                await channel.send(f'{p.name} your turn')
+                p = shiritori.current_turn_Player()
                 p.clock.begin()
                 p.clock.count_down()           
     else:
