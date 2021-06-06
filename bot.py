@@ -11,7 +11,6 @@ intents = discord.Intents.all()
 Dictionary = PyDictionary()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-default_time = 120
 scrabble_score = {"a": 1, "c": 3, "b": 3, "e": 1, "d": 2, "g": 2,
         "f": 4, "i": 1, "h": 4, "k": 5, "j": 8, "m": 3,
         "l": 1, "o": 1, "n": 1, "q": 10, "p": 3, "s": 1,
@@ -23,36 +22,20 @@ def get_score(word: str) -> int:
         res += scrabble_score[letter]
     return res
 
-class Countdown_timer:
-    t = 0 #t - units second
-    state = 0 #0 - stop running, 1 - currently counting down
-    def __init__(self, t: int):
-        self.t = t
-        self.state = 0
-    def begin(self):
-        self.state = 1
-    def stop(self):
-        self.state = 0
-    def count_down(self):
-        while self.t >= 0 and self.state == 1:
-            time.sleep(1)
-            self.t -= 1 
-
 class Players:
     name = ""
     score = 0
-    clock = Countdown_timer()
-    def __init__(self, name: str, t: int):
+    def __init__(self, name: str):
         self.name = name
-        self.score = 0
-        self.clock = Countdown_timer(t)
     def add_score(self, word: str):
         self.score += get_score(word)  
     def get_score(self) -> int:
         return self.score 
+    def get_remaining_time(self) -> int: #unit: seconds
+        return self.clock.time_left()
 
 class Game:
-    state = 0 #0 - not begin, 1 - waiting for players, 2 - start/on progress
+    state = 0 #0 - not begin, 1 - waiting for players, 2 - start/on progress, 3 - has just ended
     list_of_players = []
     list_of_used_words = []
     current_letter = ""
@@ -69,7 +52,7 @@ class Game:
         self.list_of_used_words.append(word)
         self.current_letter = word[len(word) - 1]
     def start_game(self):
-        shiritori.state = 2
+        self.state = 2
     def check_word_validity(self, word: str):
         if ' ' in word:
             return 0
@@ -90,14 +73,23 @@ class Game:
     def current_turn_Player(self):
         return self.list_of_players[self.position]
     def end(self):
-        self.state = 0
+        self.state = 3
         self.list_of_players = []
         self.list_of_used_words = []
         self.current_letter = ""
         self.position = 0
-shiritori = Game()
+    def get_winner(self) -> Players:
+        return self.list_of_players[0]
+    def check_end(self):
+        for a in self.list_of_players:
+            if a.get_remaining_time() == 0:
+                self.list_of_players.remove(a)
+        if self.get_player_list_size() == 1:
+            self.end
 
+shiritori = Game()
 bot = commands.Bot(command_prefix = '&', intents = intents)
+
 #play shiritori, create a new game
 @bot.command(name = 'play')
 async def play(ctx):
@@ -113,7 +105,7 @@ async def join(ctx):
     elif shiritori.state == 0:
         await ctx.send("No current game")
     else:   
-        current_player = Players(str(ctx.message.author), default_time)
+        current_player = Players(str(ctx.message.author))
         shiritori.add_new_players(current_player)
         await ctx.send(f'{ctx.message.author} has joined the game')
     # print(f'debug checkpoint#2 {shiritori.state}')
@@ -121,29 +113,32 @@ async def join(ctx):
 #start the game
 @bot.command(name = 'start')
 async def start(ctx):
-    await ctx.send("Game is beginning")
-    shiritori.start_game()
-    # print(f'debug checkpoint#3 {shiritori.state}')
+    if shiritori.state == 1:
+        if shiritori.get_player_list_size() > 1:
+            await ctx.send("Game is beginning")
+            shiritori.start_game()
+        else:
+            await ctx.send("Not enough player!")
+        # print(f'debug checkpoint#3 {shiritori.state}')
+    else:
+        await ctx.send("No current game")
 
 @bot.event
 async def on_message(message):
     channel = message.channel
     word = str(message.content)
-    if shiritori.state == 2:
-        p = shiritori.current_turn_Player() 
-        if str(message.author) == p.name:
-        # print("input taken!")
-            if shiritori.check_word_validity(word) == 0:
-                await channel.send("Invalid word Baka!")
-            else:
-                p.add_score(word)
-                p.clock.stop()
-                shiritori.add_new_word(word)
-                shiritori.next_turn()
-                await channel.send(f'{p.name} your turn')
-                p = shiritori.current_turn_Player()
-                p.clock.begin()
-                p.clock.count_down()           
+    # print(f'reactional debug {shiritori.state}')
+    if shiritori.state == 3:
+        # print(f'debug checkpoint#4 {shiritori.state}')
+        await channel.send(f'Game ended!')
+        await channel.send(f'Congratulation {shiritori.get_winner()}')
+    if shiritori.state == 2 and str(message.author) == shiritori.current_turn_Player().name:
+        if shiritori.check_word_validity(word) == 0:
+            await channel.send("Invalid word Baka!")
+        else:
+            shiritori.add_new_word(word)
+            shiritori.next_turn()
+            await channel.send(f'{shiritori.current_turn_Player().name} your turn')
     else:
         await bot.process_commands(message)
 
