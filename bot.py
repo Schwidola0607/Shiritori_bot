@@ -131,7 +131,8 @@ async def play(ctx, game_type: str):
     elif game_type == "casual":
         default_time = 1800
     else:
-        embedVar = discord.Embed(title=f'{ctx.message.author} please select a game mode', description="bullet, blitz, or casual", color=COLOR)
+        embedVar = discord.Embed(title=f'{ctx.message.author} please select a game mode!', 
+        description="bullet, blitz, or casual", color=COLOR)
         await ctx.message.channel.send(embed=embedVar)
         return
     shiritori.state = 1
@@ -167,8 +168,7 @@ async def start(ctx):
     if shiritori.state == 1:
         if shiritori.get_player_list_size() > 1:
             shiritori.start_game()  
-
-            embedVar = discord.Embed(description= f'The game is beginning. {shiritori.current_turn_Player().name} Please choose a random English word.', color=COLOR)
+            embedVar = discord.Embed(description=f'The game is beginning. {shiritori.current_turn_Player().name} Please choose a random English word.', color=COLOR)
             await ctx.message.channel.send(embed=embedVar)
         else:
             embedVar = discord.Embed(description="Not enough players!", color=COLOR)
@@ -187,16 +187,16 @@ async def on_message(message):
         shiritori.current_turn_Player().stop_countdown()
         # print(shiritori.current_turn_Player().time_left)
         if (shiritori.current_turn_Player().time_left < 0):
-            embedVar = discord.Embed(description=str(message.author) + f' You have ran out of time.', color=COLOR)
+            embedVar = discord.Embed(description=f'{message.author}  You have ran out of time.', color=COLOR)
             await channel.send(embed=embedVar)
-            embedVar = discord.Embed(description=str(message.author) + f' has been kicced from the game.', color=COLOR)
+            embedVar = discord.Embed(description=f'{message.author} has been kicced from the game.', color=COLOR)
             await channel.send(embed=embedVar)
 
             shiritori.kick(shiritori.current_turn_Player())
             shiritori.next_turn()
 
             if (shiritori.check_end()):
-                embedVar = discord.Embed(title = f'Game ended!', description=f'Congratulation {shiritori.get_winner().name}', color=COLOR)
+                embedVar = discord.Embed(title = f'Game ended!', description = f'Congratulation {shiritori.get_winner().name}', color=COLOR)
                 await channel.send(embed=embedVar)
                 shiritori.end()
                 return
@@ -208,9 +208,9 @@ async def on_message(message):
 
                 shiritori.current_turn_Player().invalid_left -= 1
                 if shiritori.current_turn_Player().invalid_left < 0:
-                    embedVar = discord.Embed(description=str(message.author) + f' Your word is invalid for more than 3 times.', color=COLOR)
+                    embedVar = discord.Embed(description=f'{message.author} Your word is invalid for more than 3 times.', color=COLOR)
                     await channel.send(embed=embedVar)
-                    embedVar = discord.Embed(description=str(message.author) + f' has been kicced from the game.', color=COLOR)
+                    embedVar = discord.Embed(description=f'{message.author}  has been kicced from the game.', color=COLOR)
                     await channel.send(embed=embedVar)
                     shiritori.kick(shiritori.current_turn_Player()) 
                     shiritori.next_turn()
@@ -254,7 +254,7 @@ async def mean(ctx, word: str, word_type):
 @bot.command(name = 'pick', help = "choose something")
 async def pick(ctx, s:str):
     activity = s.split('/')
-    print(activity)
+    # print(activity)
     if len(activity) >= 1:
         await ctx.send(f'{bot.user} chooses :point_right:{random.choice(activity)}:point_left:')
     else:
