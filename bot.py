@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 import random
 import time
+import threading
 load_dotenv()
 intents = discord.Intents.all()
 Dictionary = PyDictionary()
@@ -25,6 +26,11 @@ def get_score(word: str) -> int:
 class Players:
     name = ""
     score = 0
+    invalid_left = 3
+    time_left = 10
+    timer_state = 0
+    timer = threading.Timer
+    start_time = 0
     def __init__(self, name: str):
         self.name = name
     def add_score(self, word: str):
@@ -32,18 +38,30 @@ class Players:
     def get_score(self) -> int:
         return self.score 
     def get_remaining_time(self) -> int: #unit: seconds
-        return self.clock.time_left()
+        return self.time_left
+    def reduce_clock(self):
+        self.time_left -= 1
+    def countdown(self):
+        self.timer = threading.Timer(self.time_left, self.reduce_clock)
+        self.start_time = time.time()
+        self.timer.start()
+    def stop_countdown(self):
+        self.timer.cancel()
+        self.time_left -= time.time() - self.start_time
 
 class Game:
     state = 0 #0 - not begin, 1 - waiting for players, 2 - start/on progress, 3 - has just ended
     list_of_players = []
     list_of_used_words = []
+    leaderboard = []
     current_letter = ""
     position = 0
+
     def __init__(self):
         self.state = 0
         self.list_of_players = []
         self.list_of_used_words = []
+        self.leaderboard = []
         self.current_letter = ""
         self.position = 0
     def add_new_players(self, a: Players):
@@ -53,6 +71,7 @@ class Game:
         self.current_letter = word[len(word) - 1]
     def start_game(self):
         self.state = 2
+        self.current_turn_Player().countdown()
     def check_word_validity(self, word: str):
         if ' ' in word:
             return 0
@@ -70,23 +89,28 @@ class Game:
         self.position = self.position + 1
         if self.position == self.get_player_list_size():
             self.position = 0
+        self.current_turn_Player().countdown()
+
     def current_turn_Player(self):
         return self.list_of_players[self.position]
     def end(self):
         self.state = 3
         self.list_of_players = []
         self.list_of_used_words = []
+        self.leaderboard = []
         self.current_letter = ""
         self.position = 0
     def get_winner(self) -> Players:
         return self.list_of_players[0]
     def check_end(self):
-        for a in self.list_of_players:
-            if a.get_remaining_time() == 0:
-                self.list_of_players.remove(a)
-        if self.get_player_list_size() == 1:
-            self.end
-
+        # for a in self.list_of_players:
+        #      if a.get_remaining_time() < 0:
+        #          self.list_of_players.remove(a)
+        #          self.leaderboard.append(a)
+        return self.state == 2 and self.get_player_list_size() == 1
+    def kick(self, a: Players):
+        self.list_of_players.remove(a)
+        self.position -= 1
 shiritori = Game()
 bot = commands.Bot(command_prefix = '&', intents = intents)
 
@@ -108,7 +132,7 @@ async def join(ctx):
         current_player = Players(str(ctx.message.author))
         shiritori.add_new_players(current_player)
         await ctx.send(f'{ctx.message.author} has joined the game')
-    # print(f'debug checkpoint#2 {shiritori.state}')
+    #print(f'debug checkpoint#2 {shiritori.state}')
 
 #start the game
 @bot.command(name = 'start')
@@ -127,18 +151,43 @@ async def start(ctx):
 async def on_message(message):
     channel = message.channel
     word = str(message.content)
-    # print(f'reactional debug {shiritori.state}')
-    if shiritori.state == 3:
-        # print(f'debug checkpoint#4 {shiritori.state}')
-        await channel.send(f'Game ended!')
-        await channel.send(f'Congratulation {shiritori.get_winner()}')
+    #print(f'reactional debug {shiritori.state}')
     if shiritori.state == 2 and str(message.author) == shiritori.current_turn_Player().name:
+        shiritori.current_turn_Player().stop_countdown()
+        # print(shiritori.current_turn_Player().time_left)
+        if (shiritori.current_turn_Player().time_left < 0):
+            await channel.send(f'You have ran out of time retard')
+            await channel.send(str(shiritori.current_turn_Player().name) + " has been kicced.")
+            shiritori.kick(shiritori.current_turn_Player())
+            shiritori.next_turn()
+            if (shiritori.check_end()):
+                await channel.send(f'Game ended!')
+                await channel.send(f'Congratulation {shiritori.get_winner().name}')
+                shiritori.end()
+                return
+
         if shiritori.check_word_validity(word) == 0:
-            await channel.send("Invalid word Baka!")
+            await channel.send(f'Invalid word Baka! " + {"{:.2f}".format(shiritori.current_turn_Player().time_left)} + " seconds left.')
+            shiritori.current_turn_Player().invalid_left -= 1
+            if shiritori.current_turn_Player().invalid_left < 0:
+                await channel.send("Your word is invalid for more than 3 times retard")
+                await channel.send(str(shiritori.current_turn_Player().name) + " has been kicced.")
+                
+                shiritori.current_turn_Player().stop_countdown()
+                shiritori.kick(shiritori.current_turn_Player()) 
+                shiritori.next_turn()
+                
+            if shiritori.check_end():
+                await channel.send(f'Game ended!')
+                await channel.send(f'Congratulation {shiritori.get_winner().name}')
+                shiritori.end()
+                return
+
         else:
             shiritori.add_new_word(word)
             shiritori.next_turn()
-            await channel.send(f'{shiritori.current_turn_Player().name} your turn')
+            await channel.send(f'{shiritori.current_turn_Player().name} your turn. ' + str(shiritori.current_turn_Player().time_left) + " seconds left.")
+
     else:
         await bot.process_commands(message)
 
