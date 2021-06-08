@@ -61,8 +61,7 @@ For more information see our help menu
 Pull requests are accepted! Please open an issue if you find any bugs, or have any idea for a feature. Feedbacks are welcomed
 
 ## License
-Apache V2
-
+Apache License 2.0
 
 
 
