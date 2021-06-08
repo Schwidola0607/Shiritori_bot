@@ -12,19 +12,20 @@ If a player is out of time, they wil be kicked.
 
 ## Usage
 ### Setup
-Navigate to the directory where you clone this project
-Create a .env file in the following format
+Navigate to the directory where you clone this project.
+Create a .env file in the following format.
 
 ```
 DISCORD_TOKEN={your_bot_token}
 DISCORD_GUILD={your_server}
 ```
 
-This is the environment variable(s) that the bot accesses the BOT_TOKEN and GUILD from
+This is the environment variable(s) that the bot accesses the BOT_TOKEN and GUILD from.
 
 ### Game Settings
 
-In class Players, you can change the invalid_left variable, which determined the maximum errors a player can make
+In class Players, you can change the invalid_left variable, which determined the maximum errors a player can make.
+
 ```python
 class Players:
     """a class to represent players"""
@@ -37,7 +38,7 @@ class Players:
     start_time = 0
 ```
 
-Also, you can change the timer here
+Also, you can change the timer here:
 
 ```python
 async def create(ctx, game_type: str):
@@ -51,7 +52,7 @@ async def create(ctx, game_type: str):
         DEFAULT_TIME = 1800
 ```
 
-You can customize DEFAULT_TIME however you like. I'm using chess-style timer countdown
+You can customize DEFAULT_TIME however you like. I'm using chess-style timer countdown.
 
 ### Commands
 For more information see our help menu
