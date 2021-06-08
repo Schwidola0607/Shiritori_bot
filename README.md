@@ -11,6 +11,22 @@ If a player submit X (X is customizable, for more information check out game set
 If a player is out of time, they wil be kicked.
 
 ## Usage
+### Requirements
+Discord.py:
+```bash
+$ pip install discord.py
+```
+
+python-dotenv:
+```bash
+$ pip install python-dotenv
+```
+
+PyDicitionary:
+```bash
+$ pip install PyDictionary
+```
+
 ### Setup
 Navigate to the directory where you clone this project.
 Create a .env file in the following format.
