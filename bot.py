@@ -141,7 +141,7 @@ class Game:
 shiritori = Game()
 bot = commands.Bot(command_prefix = '&', intents = intents)
 @bot.command(name = 'create', help = "Create a blitz, bullet or casual shiritori game")
-async def create(ctx, game_type: str):
+async def create(ctx, game_type: str = None):
     """create a game by selecting the game mode"""
     global DEFAULT_TIME
     if game_type == "bullet":
@@ -150,9 +150,17 @@ async def create(ctx, game_type: str):
         DEFAULT_TIME = 180
     elif game_type == "casual":
         DEFAULT_TIME = 1800
-    else:
+    elif game_type == None:
         embed_var = discord.Embed(
             title = f'{ctx.message.author} please select a game mode!', 
+            description = "bullet, blitz, or casual", 
+            color = COLOR
+        )
+        await ctx.message.channel.send(embed = embed_var)
+        return
+    else:
+        embed_var = discord.Embed(
+            title = f'Invalid game mode. {ctx.message.author} please select again!', 
             description = "bullet, blitz, or casual", 
             color = COLOR
         )
@@ -364,6 +372,7 @@ async def mean(ctx, word: str, word_type):
             color = COLOR
         )
         await ctx.send(embed = embed_var)    
+        
 @bot.event
 async def on_ready():
     """fucntion to confirm bot on board and
