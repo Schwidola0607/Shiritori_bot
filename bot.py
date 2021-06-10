@@ -17,14 +17,14 @@ scrabble_score = {"a": 1, "c": 3, "b": 3, "e": 1, "d": 2, "g": 2,
         "r": 1, "u": 1, "t": 1, "w": 4, "v": 4, "y": 4,
         "x": 8, "z": 10}
 def get_score(word: str) -> int:
-    """return the score of a word according to scrabble"""
+    """return the score of a word using scrabble points"""
     res = 0
     for letter in word:
         res += scrabble_score[letter]
     return res
 DEFAULT_TIME = 1800
 class Players:
-    """ a class to represent players"""
+    """a class to represent players"""
     name = ""
     score = 0
     invalid_left = 3
@@ -186,7 +186,7 @@ async def join(ctx):
     else: 
         print(DEFAULT_TIME) 
         current_player = Players(str(ctx.message.author), DEFAULT_TIME)
-        if shiritori.find_player():
+        if shiritori.find_player(str(ctx.message.author)):
             embed_var = discord.Embed(
                     description = f'{ctx.message.author}'
                     ' You are already in the game!', 
@@ -254,7 +254,10 @@ async def on_message(message):
 
             shiritori.kick(shiritori.current_turn_Player())
             shiritori.next_turn()
+            embed_var = discord.Embed(
+                description = f'{shiritori.current_turn_Player().name}'
 
+            )
             if shiritori.check_end():
                 embed_var = discord.Embed(
                     title = "Game ended!", 
@@ -267,7 +270,7 @@ async def on_message(message):
         else:
             if shiritori.check_word_validity(word) == 0:
                 embed_var = discord.Embed(
-                    description = 'Invalid word Baka!' 
+                    description = 'Invalid word Baka! ' 
                     +"{:.2f}".format(shiritori.current_turn_Player().time_left)
                     +'seconds left.', 
                     color = COLOR
@@ -345,7 +348,7 @@ async def mean(ctx, word: str, word_type):
     temporary_dict = Dictionary.meaning(word)
     for meaning_line in temporary_dict[word_type]:
         embed_var = discord.Embed(
-            description=f'-{meaning_line}', 
+            description = f'-{meaning_line}', 
             color = COLOR
         )
         await ctx.send(embed = embed_var)    
