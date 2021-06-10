@@ -141,7 +141,7 @@ class Game:
 shiritori = Game()
 bot = commands.Bot(command_prefix = '&', intents = intents)
 @bot.command(name = 'create', help = "Create a blitz, bullet or casual shiritori game")
-async def create(ctx, game_type: str):
+async def create(ctx, game_type: str = None):
     """create a game by selecting the game mode"""
     global DEFAULT_TIME
     if game_type == "bullet":
@@ -150,7 +150,7 @@ async def create(ctx, game_type: str):
         DEFAULT_TIME = 180
     elif game_type == "casual":
         DEFAULT_TIME = 1800
-    else:
+    elif game_type == None:
         embed_var = discord.Embed(
             title = f'{ctx.message.author} please select a game mode!', 
             description = "bullet, blitz, or casual", 
@@ -158,7 +158,17 @@ async def create(ctx, game_type: str):
         )
         await ctx.message.channel.send(embed = embed_var)
         return
+    else:
+        embed_var = discord.Embed(
+            title = f'Invalid game mode. {ctx.message.author} please select again!', 
+            description = "bullet, blitz, or casual", 
+            color = COLOR
+        )
+        await ctx.message.channel.send(embed = embed_var)
+        return
     shiritori.state = 1
+    current_player = Players(str(ctx.message.author), DEFAULT_TIME)
+    shiritori.add_new_players(current_player)
     embed_var = discord.Embed(
         title = f'{ctx.message.author} is creating a new game!', 
         description = "Type &join to join the game.", 
@@ -267,12 +277,19 @@ async def on_message(message):
                 shiritori.end()
                 return
 
+            embed_var = discord.Embed(
+                description = f'{shiritori.current_turn_Player().name} your turn.' +
+                f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
+                color = COLOR)
+            await channel.send(embed = embed_var)
+
         else:
             if shiritori.check_word_validity(word) == 0:
+                shiritori.current_turn_Player().countdown()
                 embed_var = discord.Embed(
                     description = 'Invalid word Baka! ' 
                     +"{:.2f}".format(shiritori.current_turn_Player().time_left)
-                    +'seconds left.', 
+                    +' seconds left.', 
                     color = COLOR
                 )
                 await channel.send(embed = embed_var)
@@ -289,10 +306,16 @@ async def on_message(message):
                         description = f'{message.author}'
                         '  has been kicced from the game.', 
                         color = COLOR
-                    )
+                    ) 
                     await channel.send(embed = embed_var)
                     shiritori.kick(shiritori.current_turn_Player()) 
                     shiritori.next_turn()
+                    embed_var = discord.Embed(
+                    description = f'{shiritori.current_turn_Player().name} your turn.' +
+                    f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
+                    color = COLOR
+                    )
+                    await channel.send(embed = embed_var)
                     
                 if shiritori.check_end():
                     embed_var = discord.Embed(
@@ -309,7 +332,7 @@ async def on_message(message):
                 shiritori.next_turn()
                 
                 embed_var = discord.Embed(
-                    description = f'{shiritori.current_turn_Player().name} your turn.' +
+                    description = f'{shiritori.current_turn_Player().name} your turn. ' +
                     f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
                     color = COLOR
                 )
@@ -352,6 +375,7 @@ async def mean(ctx, word: str, word_type):
             color = COLOR
         )
         await ctx.send(embed = embed_var)    
+        
 @bot.event
 async def on_ready():
     """fucntion to confirm bot on board and
