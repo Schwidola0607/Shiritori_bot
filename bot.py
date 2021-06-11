@@ -107,6 +107,14 @@ class Game:
         elif self.dict_type == 1:
             response = requests.get("https://api.urbandictionary.com/v0/define?term=" + word).text
             dict_response = json.loads(response)
+            
+            if ('error' in dict_response): # url is redirected
+                new_url = requests.get("https://www.urbandictionary.com/define.php?term="+ word).url
+                new_word = new_url.rsplit('term=', 1)[1] # get the word redirected to (after the 'term=' part in the url)
+                word = new_word
+                response = requests.get("https://api.urbandictionary.com/v0/define?term=" + word).text
+                dict_response = json.loads(response)
+
             def_list = dict_response['list']
             return len(def_list) != 0
 
@@ -423,6 +431,13 @@ async def mean(ctx, word: str, word_type):
 async def urbanmean(ctx, word: str):
     response = requests.get("https://api.urbandictionary.com/v0/define?term=" + word).text
     dict_response = json.loads(response)
+    if ('error' in dict_response): # url is redirected
+        new_url = requests.get("https://www.urbandictionary.com/define.php?term="+ word).url
+        new_word = new_url.rsplit('term=', 1)[1] # get the word redirected to (after the 'term=' part in the url)
+        word = new_word
+        response = requests.get("https://api.urbandictionary.com/v0/define?term=" + word).text
+        dict_response = json.loads(response)
+
     def_list = dict_response['list']
     if not len(def_list):
         embed_var = discord.Embed(
