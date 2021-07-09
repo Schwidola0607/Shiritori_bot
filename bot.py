@@ -2,9 +2,13 @@ import os
 import time
 import threading
 import discord
+import requests
+import json
+
 from PyDictionary import PyDictionary
 from discord.ext import commands
 from dotenv import load_dotenv
+
 load_dotenv()
 intents = discord.Intents.all()
 Dictionary = PyDictionary()
@@ -23,6 +27,8 @@ def get_score(word: str) -> int:
         res += scrabble_score[letter]
     return res
 DEFAULT_TIME = 1800
+DEFAULT_DICT_TYPE = 0 # 0: casual shiritori, 1: urbandict shiritori
+
 class Players:
     """a class to represent players"""
     name = ""
@@ -60,6 +66,7 @@ class Players:
 class Game:
     """a class to represent the current instance of a game"""
     state = 0 #0 - not begin, 1 - waiting for players, 2 - start/on progress, 3 - has just ended
+    dict_type = DEFAULT_DICT_TYPE #0 - casual shiritori, 1 - urbandict shiritori
     list_of_players = []
     list_of_used_words = []
     leaderboard = []
@@ -67,6 +74,7 @@ class Game:
     position = 0
     def __init__(self):
         self.state = 0
+        self.dict_type = DEFAULT_DICT_TYPE
         self.list_of_players = []
         self.list_of_used_words = []
         self.leaderboard = []
@@ -85,16 +93,23 @@ class Game:
         self.current_turn_Player().countdown()
     def check_word_validity(self, word: str):
         """check for a word validitiy according to the Shiritori's rule"""
-        if ' ' in word:
-            return 0
-        if any(not c.isalnum() for c in word):
-            return 0
-        if (self.current_letter != '' and word[0] != self.current_letter):
-            return 0
-        if word in self.list_of_used_words:
-            return 0
-        temporary_dict = Dictionary.meaning(word)
-        return temporary_dict is not None
+        if self.dict_type == 0:
+            if ' ' in word:
+                return 0
+            if any(not c.isalnum() for c in word):
+                return 0
+            if (self.current_letter != '' and word[0] != self.current_letter):
+                return 0
+            if word in self.list_of_used_words:
+                return 0
+            temporary_dict = Dictionary.meaning(word)
+            return temporary_dict is not None
+        elif self.dict_type == 1:
+            response = requests.get("https://api.urbandictionary.com/v0/define?term=" + word).text
+            dict_response = json.loads(response)
+            def_list = dict_response['list']
+            return len(def_list) != 0
+
     def find_player(self, name: str) -> bool:
         for gamer in self.list_of_players:
             if gamer.name == name:
@@ -128,6 +143,7 @@ class Game:
     def end(self):
         """method to end the game"""
         self.state = 3
+        self.dict_type = DEFAULT_DICT_TYPE
         self.list_of_players = []
         self.list_of_used_words = []
         self.leaderboard = []
@@ -140,8 +156,9 @@ class Game:
 
 shiritori = Game()
 bot = commands.Bot(command_prefix = '&', intents = intents)
-@bot.command(name = 'create', help = "Create a blitz, bullet or casual shiritori game")
-async def create(ctx, game_type: str = None):
+
+@bot.command(name = 'create', help = "Create a blitz, bullet or casual shiritori game with different dictionary modes such as normal or urbandict")
+async def create(ctx, game_type: str = None, dictionary_type: str = None):
     """create a game by selecting the game mode"""
     global DEFAULT_TIME
     if game_type == "bullet":
@@ -157,7 +174,6 @@ async def create(ctx, game_type: str = None):
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
-        return
     else:
         embed_var = discord.Embed(
             title = f'Invalid game mode. {ctx.message.author} please select again!', 
@@ -165,7 +181,32 @@ async def create(ctx, game_type: str = None):
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
+
+    global DEFAULT_DICT_TYPE
+    if dictionary_type == "normal":
+        DEFAULT_DICT_TYPE = 0
+    elif dictionary_type == "urbandict":
+        DEFAULT_DICT_TYPE = 1
+    elif dictionary_type == None:
+        embed_var = discord.Embed(
+            title = f'{ctx.message.author} please select a dictionary mode!', 
+            description = "normal or urbandict", 
+            color = COLOR
+        )
+        await ctx.message.channel.send(embed = embed_var)
+    else:
+        embed_var = discord.Embed(
+            title = f'Invalid dictionary mode. {ctx.message.author} please select again!', 
+            description = "normal or urbandict", 
+            color = COLOR
+        )
+        await ctx.message.channel.send(embed = embed_var)
         return
+
+    if game_type == None or dictionary_type == None:
+        return
+
+    shiritori.__init__()
     shiritori.state = 1
     current_player = Players(str(ctx.message.author), DEFAULT_TIME)
     shiritori.add_new_players(current_player)
@@ -187,14 +228,13 @@ async def join(ctx):
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
-    elif shiritori.state == 0:
+    elif shiritori.state == 0 or shiritori.state == 3:
         embed_var = discord.Embed(
             description = "No current game.", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
     else: 
-        print(DEFAULT_TIME) 
         current_player = Players(str(ctx.message.author), DEFAULT_TIME)
         if shiritori.find_player(str(ctx.message.author)):
             embed_var = discord.Embed(
@@ -217,12 +257,18 @@ async def join(ctx):
 @bot.command(name = 'start')
 async def start(ctx):
     """start the current game"""
+    print(shiritori.dict_type)
     if shiritori.state == 1:
         if shiritori.get_player_list_size() > 1:
             shiritori.start_game()  
+            desc: str
+            if shiritori.dict_type == 0:
+                desc = f'The game is beginning. {shiritori.current_turn_Player().name} Please choose a random English word.'
+            elif shiritori.dict_type == 1:
+                desc = f'The game is beginning. {shiritori.current_turn_Player().name} Please choose a random Urban Dictionary phrase.'
+
             embed_var = discord.Embed(
-                description = f'The game is beginning. {shiritori.current_turn_Player().name}' 
-                ' Please choose a random English word.', 
+                description = desc, 
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
@@ -246,7 +292,7 @@ async def on_message(message):
     channel = message.channel
     word = str(message.content)
     #print(f'reactional debug {shiritori.state}')
-    if shiritori.state == 2 and str(message.author) == shiritori.current_turn_Player().name:
+    if shiritori.state == 2 and str(message.author) == shiritori.current_turn_Player().name and message.content[0] != '&':
         shiritori.current_turn_Player().stop_countdown()
         # print(shiritori.current_turn_Player().time_left)
         if shiritori.current_turn_Player().time_left < 0:
@@ -375,6 +421,26 @@ async def mean(ctx, word: str, word_type):
             color = COLOR
         )
         await ctx.send(embed = embed_var)    
+
+@bot.command(name = 'urbanmean', help = "return the meaning of a string in urban dictionary")
+async def urbanmean(ctx, word: str):
+    response = requests.get("https://api.urbandictionary.com/v0/define?term=" + word).text
+    dict_response = json.loads(response)
+    def_list = dict_response['list']
+    if not len(def_list):
+        embed_var = discord.Embed(
+        description='The phrase has no meaning!', 
+        color = COLOR
+        )
+        await ctx.send(embed = embed_var)
+    else:
+        for mean in def_list:
+            embed_var = discord.Embed(
+            description=str(mean['definition']), 
+            color = COLOR
+            )
+            await ctx.send(embed = embed_var)
+
         
 @bot.event
 async def on_ready():
