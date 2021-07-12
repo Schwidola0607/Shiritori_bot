@@ -130,7 +130,7 @@ class Game:
             else:
                 formatted_name = full_name[0]
             print(formatted_name)
-            with open(f'character_names/{formatted_name[0]}.txt', encoding = 'utf-8') as f:
+            with open(f'dictionary/MAL/character_names/{formatted_name[0]}.txt', encoding = 'utf-8') as f:
                 if formatted_name in f.read():
                     return 1
             return 0
