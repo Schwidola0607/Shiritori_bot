@@ -29,7 +29,6 @@ DEFAULT_TIME = 1800
 DEFAULT_DICT_TYPE = 0 
 """ 0 for english, 1 for urban dictionary, 2 for MAL, 3 for fifa"""
 
-
 shiritori = Game(DEFAULT_DICT_TYPE)
 bot = commands.Bot(command_prefix = '&', intents = intents)
 
