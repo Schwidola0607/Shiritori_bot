@@ -38,7 +38,7 @@ class Game:
         self.current_turn_Player().countdown()
     def check_word_validity(self, word: str):
         """check for a word validitiy according to the Shiritori's rule"""
-        if (self.current_letter != '' and word[0] != self.current_letter): # basic shiritori rule
+        if (self.current_letter != '' and word[0].lower() != self.current_letter.lower()): # basic shiritori rule
             return 0
         if word in self.list_of_used_words: # basic shiritori rule
             return 0
