@@ -1,10 +1,9 @@
 import os
-import time
-import threading
 import discord
 import requests
 import json
-
+from players import Players
+from game import Game
 from PyDictionary import PyDictionary
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -21,165 +20,17 @@ scrabble_score = {"a": 1, "c": 3, "b": 3, "e": 1, "d": 2, "g": 2,
         "r": 1, "u": 1, "t": 1, "w": 4, "v": 4, "y": 4,
         "x": 8, "z": 10}
 def get_score(word: str) -> int:
-    """return the score of a word using scrabble points"""
+    """return the score of a word according to scrabble"""
     res = 0
     for letter in word:
         res += scrabble_score[letter]
     return res
 DEFAULT_TIME = 1800
-DEFAULT_DICT_TYPE = 0 # 0: casual shiritori, 1: urbandict shiritori
+DEFAULT_DICT_TYPE = 0 
+""" 0 for english, 1 for urban dictionary, 2 for MAL, 3 for fifa"""
 
-class Players:
-    """a class to represent players"""
-    name = ""
-    score = 0
-    invalid_left = 3
-    time_left = 0
-    timer_state = 0
-    timer = threading.Timer
-    start_time = 0
-    def __init__(self, name: str, t: int):
-        self.name = name
-        self.time_left = t
-    def add_score(self, word: str):
-        """add score to a Player"""
-        self.score += get_score(word)  
-    def get_score(self) -> int:
-        """get score of a Player"""
-        return self.score 
-    def get_remaining_time(self) -> int: 
-        """get remaining time of a player units: second"""
-        return self.time_left
-    def reduce_clock(self):
-        """substract one second from a Player's remaining time"""
-        self.time_left -= 1
-    def countdown(self):
-        """countdown"""
-        self.timer = threading.Timer(self.time_left, self.reduce_clock)
-        self.start_time = time.time()
-        self.timer.start()
-    def stop_countdown(self):
-        """stop the countdown timer"""
-        self.timer.cancel()
-        self.time_left -= time.time() - self.start_time
 
-class Game:
-    """a class to represent the current instance of a game"""
-    state = 0 #0 - not begin, 1 - waiting for players, 2 - start/on progress, 3 - has just ended
-    dict_type = DEFAULT_DICT_TYPE #0 - casual shiritori, 1 - urbandict shiritori
-    list_of_players = []
-    list_of_used_words = []
-    leaderboard = []
-    current_letter = ""
-    position = 0
-    def __init__(self):
-        self.state = 0
-        self.dict_type = DEFAULT_DICT_TYPE
-        self.list_of_players = []
-        self.list_of_used_words = []
-        self.leaderboard = []
-        self.current_letter = ""
-        self.position = 0
-    def add_new_players(self, gamer: Players):
-        """add a new player when joined"""
-        self.list_of_players.append(gamer)
-    def add_new_word(self, word: str):
-        """new word to list_of_used_word after a turn"""
-        self.list_of_used_words.append(word)
-        self.current_letter = word[len(word) - 1]
-    def start_game(self):
-        """method to start game"""
-        self.state = 2
-        self.current_turn_Player().countdown()
-    def check_word_validity(self, word: str):
-        """check for a word validitiy according to the Shiritori's rule"""
-        if (self.current_letter != '' and word[0] != self.current_letter): # basic shiritori rule
-            return 0
-        if word in self.list_of_used_words: # basic shiritori rule
-            return 0
-
-        if self.dict_type == 0: # normal
-            if ' ' in word:
-                return 0
-            if any(not c.isalnum() for c in word):
-                return 0
-            temporary_dict = Dictionary.meaning(word)
-            return temporary_dict is not None
-
-        elif self.dict_type == 1: # urban
-            response = requests.get("https://api.urbandictionary.com/v0/define?term=" + word).text
-            dict_response = json.loads(response)
-            
-            if ('error' in dict_response): # url is redirected
-                new_url = requests.get("https://www.urbandictionary.com/define.php?term="+ word).url
-                new_word = new_url.rsplit('term=', 1)[1] # get the word redirected to (after the 'term=' part in the url)
-                word = new_word
-                response = requests.get("https://api.urbandictionary.com/v0/define?term=" + word).text
-                dict_response = json.loads(response)
-
-            def_list = dict_response['list']
-            return len(def_list) != 0
-
-        elif self.dict_type == 2: # MAL
-            uppercase_word = word.title()
-            full_name = uppercase_word.split(' ', 1)
-
-            formatted_name: str
-            if len(full_name) >= 2:
-                formatted_name = f'{full_name[0]}, {full_name[1]}' # full_name[0] is last name, full_name[1] is the rest of the name
-            else:
-                formatted_name = full_name[0]
-            print(formatted_name)
-            with open(f'character_names/{formatted_name[0]}.txt', encoding = 'utf-8') as f:
-                if formatted_name in f.read():
-                    return 1
-            return 0
-
-    def find_player(self, name: str) -> bool:
-        for gamer in self.list_of_players:
-            if gamer.name == name:
-                return True
-    def game_owner(self) -> Players:
-        """return the game owner"""
-        return self.list_of_players[0]
-    def get_player_list_size(self) -> int:
-        """return the current number of players"""
-        return len(self.list_of_players)
-    def current_turn_Player(self):
-        """return this turn's Player"""
-        return self.list_of_players[self.position]
-    def kick(self, gamer: Players):
-        """disqualify a player based on time, or the number of invalid times"""
-        self.list_of_players.remove(gamer)
-        self.position -= 1
-    def next_turn(self):
-        """move to next Player's turn"""
-        self.position = self.position + 1
-        if self.position == self.get_player_list_size():
-            self.position = 0
-        self.current_turn_Player().countdown()
-    def check_end(self):
-        """end game condition"""
-        for gamer in self.list_of_players:
-            if gamer.get_remaining_time() < 0:
-                self.list_of_players.remove(gamer)
-                self.leaderboard.append(gamer)
-        return self.state == 2 and self.get_player_list_size() == 1
-    def end(self):
-        """method to end the game"""
-        self.state = 3
-        self.dict_type = DEFAULT_DICT_TYPE
-        self.list_of_players = []
-        self.list_of_used_words = []
-        self.leaderboard = []
-        self.current_letter = ""
-        self.position = 0
-
-    def get_winner(self) -> Players:
-        """return the winner"""
-        return self.list_of_players[0]
-
-shiritori = Game()
+shiritori = Game(DEFAULT_DICT_TYPE)
 bot = commands.Bot(command_prefix = '&', intents = intents)
 
 @bot.command(name = 'create', help = "Create a blitz, bullet or casual shiritori game with different dictionary modes", aliases = ['c'])
@@ -207,24 +58,26 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         )
         await ctx.message.channel.send(embed = embed_var)
 
-    global DEFAULT_DICT_TYPE
+    dict_index = -1
     if dictionary_type == "normal":
-        DEFAULT_DICT_TYPE = 0
+        dict_index = 0
     elif dictionary_type == "urbandict":
-        DEFAULT_DICT_TYPE = 1
+        dict_index = 1
     elif dictionary_type == "MAL":
-        DEFAULT_DICT_TYPE = 2
+        dict_index = 2
+    elif dictionary_type == "fifa":
+        dict_index = 3
     elif dictionary_type == None:
         embed_var = discord.Embed(
             title = f'{ctx.message.author} please select a dictionary mode!', 
-            description = "normal, urbandict or MAL", 
+            description = "normal, urbandict, MAL, or Fifa", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
     else:
         embed_var = discord.Embed(
             title = f'Invalid dictionary mode. {ctx.message.author} please select again!', 
-            description = "normal, urbandict or MAL", 
+            description = "normal, urbandict, MAL, or fifa", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
@@ -233,7 +86,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
     if game_type == None or dictionary_type == None:
         return
 
-    shiritori.__init__()
+    shiritori.__init__(dict_index)
     shiritori.state = 1
     current_player = Players(str(ctx.message.author), DEFAULT_TIME)
     shiritori.add_new_players(current_player)
@@ -295,7 +148,8 @@ async def start(ctx):
                 desc = f'The game is beginning. {shiritori.current_turn_Player().name} Please choose a random Urban Dictionary phrase.'
             elif shiritori.dict_type == 2:
                 desc = f'The game is beginning. {shiritori.current_turn_Player().name} Please choose the full name of a random anime character.'
-
+            elif shiritori.dict_type == 3:
+                desc = f'The game is beginning. {shiritori.current_turn_Player().name} Please choose a fifa player name.'
             embed_var = discord.Embed(
                 description = desc, 
                 color = COLOR
@@ -339,10 +193,7 @@ async def on_message(message):
 
             shiritori.kick(shiritori.current_turn_Player())
             shiritori.next_turn()
-            embed_var = discord.Embed(
-                description = f'{shiritori.current_turn_Player().name}'
 
-            )
             if shiritori.check_end():
                 embed_var = discord.Embed(
                     title = "Game ended!", 
@@ -457,7 +308,7 @@ async def mean(ctx, word: str, word_type):
     temporary_dict = Dictionary.meaning(word)
     for meaning_line in temporary_dict[word_type]:
         embed_var = discord.Embed(
-            description = f'-{meaning_line}', 
+            description=f'-{meaning_line}', 
             color = COLOR
         )
         await ctx.send(embed = embed_var)    
