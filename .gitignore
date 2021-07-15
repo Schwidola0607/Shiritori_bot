@@ -1,2 +1,3 @@
-BOT_TOKEN.txt
+__pychace__
+.pytest_cache
 .env

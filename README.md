@@ -5,29 +5,17 @@ This is my take on the Shiritori bot but in English.
 ## Rules
 Players must submit a word in the chat which begins with the final letter of the previous word.
 Players can not repeat each other's words and also can not repeat their own words.
-A word violates the 2 above rules or has no meaning is considered an invalid word.
+A word violates said rules or has no meaning is considered an invalid word.
 
-If a player submit X (X is customizable, for more information check out game settings) invalid words through out the game, they will be kicked.
+If a player submit 3 invalid words through out the game, they will be kicked.
 If a player is out of time, they wil be kicked.
 
 ## Usage
-### Requirements
-Discord.py:
-```bash
-$ pip install discord.py
-```
-
-python-dotenv:
-```bash
-$ pip install python-dotenv
-```
-
-PyDicitionary:
-```bash
-$ pip install PyDictionary
-```
-
 ### Setup
+```bash
+$ pip install -r requirements.txt
+```
+
 Navigate to the directory where you clone this project.
 Create a .env file in the following format.
 
@@ -40,7 +28,7 @@ This is the environment variable(s) that the bot accesses the BOT_TOKEN and GUIL
 
 ### Game Settings
 
-In class Players, you can change the invalid_left variable, which determined the maximum errors a player can make.
+In class Players, you can change the `invalid_left` variable, which determined the maximum errors a player can make.
 
 ```python
 class Players:
@@ -68,7 +56,7 @@ async def create(ctx, game_type: str):
         DEFAULT_TIME = 1800
 ```
 
-You can customize DEFAULT_TIME however you like. I'm using chess-style timer countdown.
+You can customize `DEFAULT_TIME` however you like. I'm using chess-style timer countdown.
 
 ### Commands
 For more information see our help menu
