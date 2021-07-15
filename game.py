@@ -2,6 +2,7 @@ import requests
 import json
 from dict_trie import Trie
 from fifa.check_fifa import check_players_name
+from dictionary.MAL.character_names.check_MAL_name import check_MAL_name
 from players import Players
 DEFAULT_TIME = 1800
 DEFAULT_DICT_TYPE = 0
@@ -66,19 +67,7 @@ class Game:
             return len(def_list) != 0
 
         elif self.dict_type == 2: # MAL
-            uppercase_word = word.title()
-            full_name = uppercase_word.split(' ', 1)
-
-            formatted_name: str
-            if len(full_name) >= 2:
-                formatted_name = f'{full_name[0]}, {full_name[1]}' # full_name[0] is last name, full_name[1] is the rest of the name
-            else:
-                formatted_name = full_name[0]
-            print(formatted_name)
-            with open(f'character_names/{formatted_name[0]}.txt', encoding = 'utf-8') as f:
-                if formatted_name in f.read():
-                    return 1
-            return 0
+            return check_MAL_name(word)
         elif self.dict_type == 3: #fifa
             return check_players_name(word)
 
