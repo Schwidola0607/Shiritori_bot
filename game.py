@@ -1,5 +1,6 @@
 import requests
 import json
+from dict_trie import Trie
 from fifa.check_fifa import check_players_name
 from players import Players
 DEFAULT_TIME = 1800
@@ -13,7 +14,7 @@ class Game:
     state = 0 #0 - not begin, 1 - waiting for players, 2 - start/on progress, 3 - has just ended
     dict_type = DEFAULT_DICT_TYPE #0 - casual shiritori, 1 - urbandict shiritori
     list_of_players = []
-    list_of_used_words = []
+    list_of_used_words = Trie()
     leaderboard = []
     current_letter = ""
     position = 0
@@ -21,7 +22,7 @@ class Game:
         self.state = 0
         self.dict_type = dict_type
         self.list_of_players = []
-        self.list_of_used_words = []
+        self.list_of_used_words = Trie()
         self.leaderboard = []
         self.current_letter = ""
         self.position = 0
@@ -30,7 +31,7 @@ class Game:
         self.list_of_players.append(gamer)
     def add_new_word(self, word: str):
         """new word to list_of_used_word after a turn"""
-        self.list_of_used_words.append(word)
+        self.list_of_used_words.add(word)
         self.current_letter = word[len(word) - 1]
     def start_game(self):
         """method to start game"""
@@ -116,7 +117,7 @@ class Game:
         self.state = 3
         self.dict_type = DEFAULT_DICT_TYPE
         self.list_of_players = []
-        self.list_of_used_words = []
+        self.list_of_used_words = Trie()
         self.leaderboard = []
         self.current_letter = ""
         self.position = 0
