@@ -75,10 +75,11 @@ class Game:
         elif self.dict_type == 3: #fifa
             return check_players_name(word)
 
-    def find_player(self, name: str) -> bool:
+    def find_player(self, name: str) -> Players:
         for gamer in self.list_of_players:
             if gamer.name == name:
-                return True
+                return gamer
+        return False
     def game_owner(self) -> Players:
         """return the game owner"""
         return self.list_of_players[0]
@@ -123,4 +124,5 @@ class Game:
     def get_winner(self) -> Players:
         """return the winner"""
         return self.list_of_players[0]
+
 

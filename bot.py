@@ -1,3 +1,4 @@
+from fifa.check_fifa import check_players_name
 import os
 import discord
 import requests
@@ -98,7 +99,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
     # print(f'debug checkpoint#1 {shiritori.state}')
 
    
-@bot.command(name = 'join', aliases = ['j'])
+@bot.command(name = 'join', help = 'join a game', aliases = ['j'])
 async def join(ctx):
     """join the current game"""
     if shiritori.state == 2:
@@ -115,7 +116,7 @@ async def join(ctx):
         await ctx.message.channel.send(embed = embed_var)
     else: 
         current_player = Players(str(ctx.message.author), DEFAULT_TIME)
-        if shiritori.find_player(str(ctx.message.author)):
+        if shiritori.find_player(str(ctx.message.author)) != False:
             embed_var = discord.Embed(
                     description = f'{ctx.message.author}'
                     ' You are already in the game!', 
@@ -133,10 +134,10 @@ async def join(ctx):
     #print(f'debug checkpoint#2 {shiritori.state}')
 
 
-@bot.command(name = 'start', aliases = ['s'])
+@bot.command(name = 'start', help = 'start a game', aliases = ['s'])
 async def start(ctx):
     """start the current game"""
-    print(shiritori.dict_type)
+    # print(shiritori.dict_type)
     if shiritori.state == 1:
         if shiritori.get_player_list_size() > 1:
             shiritori.start_game()  
@@ -408,11 +409,11 @@ async def kicc(ctx, player_name: str):
 @bot.command(name = 'abort', help = "abort the game")
 async def abort(ctx):
     """abort the game"""
-    if (shiritori.state == 1 or shiritori.state == 2):
+    if shiritori.state == 1 or shiritori.state == 2:
         if str(ctx.message.author) != shiritori.game_owner().name:
             embed_var = discord.Embed(
                 description=f'{ctx.message.author}' 
-                'you do not have permission', 
+                ', you do not have permission', 
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
@@ -465,7 +466,7 @@ async def urbanmean(ctx, word: str):
             color = COLOR
             )
             await ctx.send(embed = embed_var)
-        
+    
 @bot.event
 async def on_ready():
     """fucntion to confirm bot on board and
