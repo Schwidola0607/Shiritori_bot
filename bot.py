@@ -1,3 +1,4 @@
+from fifa.check_fifa import check_players_name
 import os
 import discord
 import requests
@@ -136,7 +137,7 @@ async def join(ctx):
 @bot.command(name = 'start', aliases = ['s'])
 async def start(ctx):
     """start the current game"""
-    print(shiritori.dict_type)
+    # print(shiritori.dict_type)
     if shiritori.state == 1:
         if shiritori.get_player_list_size() > 1:
             shiritori.start_game()  
@@ -283,6 +284,7 @@ async def resign(ctx):
     if shiritori.state == 1 or shiritori.state == 2:
         temp_gamer = Players(str(ctx.message.author), DEFAULT_TIME)
         await ctx.message.channel.send(f'{ctx.message.author} {DEFAULT_TIME}')
+        await ctx.message.channel.send(shiritori.check_players_in_game(temp_gamer))
         if shiritori.check_players_in_game(temp_gamer) == True:
             shiritori.kick(temp_gamer)
             embed_var = discord.Embed(
