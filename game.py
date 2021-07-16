@@ -78,13 +78,15 @@ class Game:
         return False
     def game_owner(self) -> Players:
         """return the game owner"""
-        return self.list_of_players[0]
+        return self.list_of_players[0]   
     def get_player_list_size(self) -> int:
         """return the current number of players"""
         return len(self.list_of_players)
     def current_turn_Player(self):
         """return this turn's Player"""
         return self.list_of_players[self.position]
+    def check_if_current_turn(self, gamer: Players) -> bool:
+        return gamer == self.current_turn_Player()
     def kick(self, gamer: Players):
         """disqualify a player based on time, or the number of invalid times"""
         self.list_of_players.remove(gamer)

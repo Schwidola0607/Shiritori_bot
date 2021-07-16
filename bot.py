@@ -13,7 +13,6 @@ load_dotenv()
 intents = discord.Intents.all()
 Dictionary = PyDictionary()
 TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
 COLOR = 0x00ff00
 scrabble_score = {"a": 1, "c": 3, "b": 3, "e": 1, "d": 2, "g": 2,
         "f": 4, "i": 1, "h": 4, "k": 5, "j": 8, "m": 3,
@@ -140,16 +139,16 @@ async def start(ctx):
     # print(shiritori.dict_type)
     if shiritori.state == 1:
         if shiritori.get_player_list_size() > 1:
-            shiritori.start_game()  
-            desc: str
+            shiritori.start_game()
+            desc = f'The game is beginning. {shiritori.current_turn_Player().name} '
             if shiritori.dict_type == 0:
-                desc = f'The game is beginning. {shiritori.current_turn_Player().name} Please choose a random English word.'
+                desc = desc + 'Please choose a random English word.'
             elif shiritori.dict_type == 1:
-                desc = f'The game is beginning. {shiritori.current_turn_Player().name} Please choose a random Urban Dictionary phrase.'
+                desc = desc + 'Please choose a random Urban Dictionary phrase.'
             elif shiritori.dict_type == 2:
-                desc = f'The game is beginning. {shiritori.current_turn_Player().name} Please choose the full name of a random anime character.'
+                desc = desc + 'Please choose the full name of a random anime character.'
             elif shiritori.dict_type == 3:
-                desc = f'The game is beginning. {shiritori.current_turn_Player().name} Please choose a fifa player name.'
+                desc = desc + 'Please choose a fifa player name.'
             embed_var = discord.Embed(
                 description = desc, 
                 color = COLOR
@@ -284,10 +283,19 @@ async def resign(ctx):
     if shiritori.state == 1 or shiritori.state == 2:
         temp_gamer = shiritori.find_player(str(ctx.message.author))
         if temp_gamer != False:
+            if temp_gamer == shiritori.current_turn_Player():
+                print(temp_gamer.name)
+                shiritori.next_turn() 
+                print(shiritori.current_turn_Player().name)
+                embed_var = discord.Embed(
+                    description = f'{ctx.message.author} has quitted'
+                    + f' your turn {shiritori.current_turn_Player()}',
+                    color = COLOR
+                )               
             shiritori.kick(temp_gamer)
             embed_var = discord.Embed(
                 description = f'{ctx.message.author}'
-                ' have resigned',
+                ' has resigned',
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
@@ -371,11 +379,5 @@ async def urbanmean(ctx, word: str):
 async def on_ready():
     """fucntion to confirm bot on board and
     print out existing members in the current guild"""        
-    guild = discord.utils.find(lambda g: g.name == GUILD, bot.guilds)
-    print(
-        f'{bot.user} has connected to the following guild:\n'
-        f'{guild.name}(id: {guild.id})'   
-        )
-    members ='\n - '.join([member.name for member in guild.members])
-    print(f'Guild Members:\n -{members}')
+    print("On Board")
 bot.run(TOKEN)
