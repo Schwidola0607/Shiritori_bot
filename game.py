@@ -81,6 +81,8 @@ class Game:
     def get_player_list_size(self) -> int:
         """return the current number of players"""
         return len(self.list_of_players)
+    def check_players_in_game(self, gamer: Players) -> bool:
+        return gamer in self.list_of_players
     def current_turn_Player(self):
         """return this turn's Player"""
         return self.list_of_players[self.position]
@@ -114,4 +116,5 @@ class Game:
     def get_winner(self) -> Players:
         """return the winner"""
         return self.list_of_players[0]
+
 

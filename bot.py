@@ -277,10 +277,37 @@ async def on_message(message):
     else:
         await bot.process_commands(message)
 
+@bot.command(name = 'resign', help = 'resign from game')
+async def resign(ctx):
+    """resign from the game"""
+    if shiritori.state == 1 or shiritori.state == 2:
+        temp_gamer = Players(str(ctx.message.author), DEFAULT_TIME)
+        if shiritori.check_players_in_game(temp_gamer) == True:
+            shiritori.kick(temp_gamer)
+            embed_var = discord.Embed(
+                description = f'{ctx.message.author}'
+                'have resigned',
+                color = COLOR
+            )
+        else:
+            embed_var = discord.Embed(
+                description = f'{ctx.message.author}'
+                'you are not in the game',
+                color = COLOR
+            )
+            await ctx.message.channel.send(embed = embed_var)
+    else:
+        embed_var = discord.Embed(
+            description = "No current game.", 
+            color = COLOR
+        )
+        await ctx.message.channel.send(embed = embed_var)
+
+
 @bot.command(name = 'abort', help = "abort the game")
 async def abort(ctx):
     """abort the game"""
-    if (shiritori.state == 1 or shiritori.state == 2):
+    if shiritori.state == 1 or shiritori.state == 2:
         if str(ctx.message.author) != shiritori.game_owner().name:
             embed_var = discord.Embed(
                 description=f'{ctx.message.author}' 
@@ -337,7 +364,7 @@ async def urbanmean(ctx, word: str):
             color = COLOR
             )
             await ctx.send(embed = embed_var)
-        
+    
 @bot.event
 async def on_ready():
     """fucntion to confirm bot on board and
