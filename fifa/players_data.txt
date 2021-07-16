@@ -394,7 +394,7 @@ Zapata
 Ndidi
 Kabak
 Tomas Tavares
-19 Josue
+Josue
 Ward-Prowse
 Zaccagni
 Bergwijn
@@ -1091,7 +1091,7 @@ Kolasinac
 Djimsiti
 Hysaj
 Karsdorp
-19 Malcom
+Malcom
 Minamino
 Perraud
 Gueye
@@ -1100,7 +1100,7 @@ Massengo
 Musrati
 Ocampo
 Mohamed
-15 Ronaldinho
+Ronaldinho
 Kolarov
 Leno
 Tavernier
@@ -1139,7 +1139,7 @@ Manolas
 Plea
 Norgaard
 Anderson Talisca
-20 Gabriel Barbosa
+Gabriel Barbosa
 Zappacosta
 Halilovic
 Castrovilli
@@ -1242,7 +1242,7 @@ Puchacz
 Arnau Puigmal
 Rafael Camacho
 Armini
-18 Kaka
+Kaka
 Payet
 Canales
 Coady
@@ -1596,7 +1596,7 @@ Ivanusec
 Bard
 Oyen
 Totti
-15 Xavi
+Xavi
 Matip
 Nolito
 Besic
@@ -1654,7 +1654,7 @@ Bade
 Theate
 Ilic
 Mascherano
-19 Dani Alves
+Dani Alves
 Joao Moutinho
 Larsson
 Candreva
@@ -1870,7 +1870,7 @@ Jonny
 Andre Gomes
 Benedetto
 Vallejo
-19 Gerson
+Gerson
 Sporar
 Okereke
 Travis
@@ -1946,7 +1946,7 @@ Dziekonski
 Koutsias
 Vitik
 Viunnyk
-20 David Villa
+David Villa
 Krul
 Jose Fonte
 Saivet
@@ -2007,10 +2007,10 @@ Tiago Almeida
 Alvarez Martinez
 Henry
 Pepe Reina
-19 Fernando Torres
+Fernando Torres
 Caballero
 McGeady
-18 Andrea Orlandi
+Andrea Orlandi
 Foster
 dos Santos
 Romero
@@ -2065,7 +2065,7 @@ Weissman
 Pobega
 Singo
 Berbatov
-11 Ronaldo
+Ronaldo
 Sosa
 Turan
 Bertrand
@@ -2187,7 +2187,7 @@ Eto'o
 Gerrard
 Jagielka
 Hutchinson
-16 Maicon
+Maicon
 Gomez
 Debuchy
 Shunin
@@ -2302,7 +2302,7 @@ Riquelme
 Greenwood
 Matazo
 Lawrence
-20 Casillas
+Casillas
 Nakamura
 Gordon
 Mikel
@@ -2416,7 +2416,7 @@ Marc Echarri
 Martinez
 Farias
 Guillaume
-14 Rogerio Ceni
+Rogerio Ceni
 McGregor
 Fuchs
 Raul Albiol
@@ -2537,7 +2537,7 @@ Fran Beltran
 Tella
 Cassano
 Marquez
-16 Lucas Lima
+Lucas Lima
 Ricardo Horta
 Angileri
 Fernandes
@@ -2764,7 +2764,7 @@ Varela
 Lincoln
 Medina
 Jarstein
-19 Robinho
+Robinho
 Clichy
 Hilton
 Jorge Molina
@@ -3040,10 +3040,10 @@ Thommy
 Arias
 Williams
 Ryczkowski
-20 Arana
+Arana
 Kamara
 Bouanga
-17 Nacho Monsalve
+Nacho Monsalve
 Cistana
 Espinoza
 Ramselaar
@@ -3051,7 +3051,7 @@ Nuno Santos
 Klose
 Terry
 De Rossi
-16 Diego
+Diego
 Pazzini
 Vorm
 Kompany
@@ -3167,7 +3167,7 @@ Ansaldi
 Diop
 Pablo Hernandez
 Ki Sung Yueng
-16 Everton Ribeiro
+Everton Ribeiro
 Rui Fonte
 Brahimi
 Gibbs
@@ -3319,17 +3319,17 @@ Campbell
 Castro-Montes
 McCrorie
 Hamer
-14 Puyol
-18 Julio Cesar
+Puyol
+Julio Cesar
 Coloccini
 Lichtsteiner
-07 Romero
+Romero
 Jimenez
 Pinola
 Song
 Beausejour
 Diamanti
-19 Filipe Luis
+Filipe Luis
 M'Bia
 Kazim-Richards
 Toivonen
@@ -3404,7 +3404,7 @@ Rodriguez
 Delcroix
 Singh
 Joao Virginia
-20 Han Kwang Song
+Han Kwang Song
 Bruno Tabata
 Mayorga
 Bataille
@@ -3494,7 +3494,7 @@ Boruc
 Diego Lopez
 Soldado
 Granqvist
-20 Gelson Fernandes
+Gelson Fernandes
 Lavezzi
 Montolivo
 Mierzejewski
@@ -3653,7 +3653,7 @@ Torregrossa
 Fulton
 Boye
 Farouk
-17 Xabi Alonso
+Xabi Alonso
 Downing
 Di Natale
 Kiessling
@@ -3818,7 +3818,7 @@ Mertesacker
 Rodriguez
 Bruno Alves
 Cambiasso
-20 Jo
+Jo
 Klavan
 Sharp
 Wright-Phillips
@@ -4038,7 +4038,7 @@ Cabral
 Ivi Lopez
 Kayembe
 Keane
-12 Roberto Carlos
+Roberto Carlos
 Del Piero
 Kuyt
 Cech
@@ -4050,7 +4050,7 @@ Corona
 Manuel Fernandes
 Rossi
 Davies
-17 Diego Alves
+Diego Alves
 Skrtel
 Ruffier
 Bendtner
@@ -4246,7 +4246,7 @@ Mwene
 Bruno Varela
 Onyedinma
 Ingason
-20 Gabriel Boschilia
+Gabriel Boschilia
 Otavio
 Briancon
 Mata
@@ -4281,7 +4281,7 @@ De Maio
 Albrighton
 Roncaglia
 Ighalo
-19 Ganso
+Ganso
 Suarez
 Acosta
 Daniel Carrico
@@ -4323,13 +4323,13 @@ Lala
 Van Crombrugge
 Alvarez
 Sosa
-17 Ricardo Carvalho
-12 Rivaldo
+Ricardo Carvalho
+Rivaldo
 De Cock
 Riquelme
 Cole
-12 Raul
-13 Marcos Senna
+Raul
+Marcos Senna
 Marshall
 Zabaleta
 Noble
@@ -4563,7 +4563,7 @@ Cerci
 Mannone
 Howedes
 Paganoni
-19 Hernanes
+Hernanes
 Vukovic
 Berardi
 Stephens
@@ -4611,9 +4611,9 @@ McDonald
 Merkel
 Seedorf
 Owen
-16 Ze Roberto
+Ze Roberto
 Routledge
-16 Luis Garcia
+Luis Garcia
 Nino
 Morgan
 D'Alessandro
@@ -4852,7 +4852,7 @@ De Marcos
 Sunzu
 Pekarik
 Smith
-09 Chileno
+Chileno
 Hyland
 Berisha
 Aquino
@@ -5245,7 +5245,7 @@ Valentini
 Haugen
 Anderson
 Eugeni
-20 Lucas Silva
+Lucas Silva
 Schrijvers
 Ponzio
 Milito
@@ -5309,7 +5309,7 @@ Kike Garcia
 Hamouma
 Crouch
 Cahill
-14 Adriano
+Adriano
 Rensing
 Edvardsen
 Fuentes
@@ -5532,7 +5532,7 @@ Moumi Ngamaleu
 John
 Brasanac
 Fisher
-20 Lucas Evangelista
+Lucas Evangelista
 Tounkara
 Dankler
 Lodygin
@@ -5628,7 +5628,7 @@ Helder Lopes
 Mbaye
 Quioto
 Schaub
-19 Douglas Santos
+Douglas Santos
 Del Fabro
 Fabri
 Lockyer
@@ -5665,12 +5665,12 @@ Kone
 Pratto
 Smithies
 Alan Kardec
-19 Ramires
+Ramires
 Mikel San Jose
 Kalinic
 Bartley
 Hubocan
-16 Weverton
+Weverton
 Montoro
 Duenas
 Fernandez
@@ -5722,7 +5722,7 @@ Mexes
 Evra
 Moya
 Plasil
-14 Juninho
+Juninho
 Dawson
 Lindegaard
 Blanco
@@ -6014,7 +6014,7 @@ Eduardo Henrique
 Davi Parrela
 Arturo Inalcio
 Ian Gonzalez
-17 Bruno Henrique
+Bruno Henrique
 Erras
 Saavedra
 D'Agostino
@@ -6106,7 +6106,7 @@ Lekue
 Murilo
 Kreuzer
 Moreira
-20 Thiago Maia
+Thiago Maia
 Akintola
 Bangoura
 Balliu
@@ -6119,14 +6119,14 @@ Gardos
 Hervias
 Ba
 Williams
-20 Adryan
+Adryan
 Igor Rossi
 O'Neil
 Krmencik
 Livaja
 Junior Urso
 Haugaard
-18 Vitinho
+Vitinho
 Lam
 Tannane
 Bessa
@@ -6162,7 +6162,7 @@ Farrell
 Rafinha
 Duarte
 Boateng
-20 Josue Sa
+Josue Sa
 Sigurjonsson
 Macey
 Bachirou
@@ -6225,19 +6225,19 @@ Alex Martinez
 Crooks
 Angha
 Forrester
-20 Wellington Nem
+Wellington Nem
 Thomas
 Hoban
-16 Fred
+Fred
 Viera
 Bolat
 Sergio
-16 Josue
+Josue
 Boussoufa
 Agbonlahor
 Guzan
-17 Michu
-13 Marlon
+Michu
+Marlon
 Etienne Jr.
 Aldrete
 Higuain
@@ -6292,8 +6292,8 @@ Maldini
 Inzaghi
 Giuly
 O'Shea
-17 Tiago
-09 Figo
+Tiago
+Figo
 Kluivert
 Gudjohnsen
 Donovan
@@ -6306,8 +6306,8 @@ Grant
 Bergvold
 Topal
 Brown
-14 Alex
-14 Cris
+Alex
+Cris
 Fletcher
 Borgetti
 Denis
@@ -6599,7 +6599,7 @@ Pitton
 Radunovic
 Maghoma
 Delaney
-20 Hildeberto Pereira
+Hildeberto Pereira
 Waldo
 Andereggen
 Ghoddos
@@ -6608,7 +6608,7 @@ Niezgoda
 Glover
 Niakate
 Fai
-19 Allan
+Allan
 Matarrita
 Walkes
 Bouzat
@@ -6709,7 +6709,7 @@ Sarr
 Said
 Kinsombi
 Cibicki
-18 Vinicius Araujo
+Vinicius Araujo
 Bodvarsson
 Rolan
 Lex
@@ -6752,7 +6752,7 @@ Eysseric
 Fagundez
 Bonham
 Flint
-20 Anibal Capela
+Anibal Capela
 Harriman
 Newton
 Boateng
@@ -6796,13 +6796,13 @@ Williams
 Morris
 Hamza
 Ripart
-16 Robinho
+Robinho
 McKay
 Fernandes
 van Overeem
 Jose Rodriguez
 Hefele
-15 Junior Malanda
+Junior Malanda
 Hassan
 Peterson
 Susaeta
@@ -6816,11 +6816,11 @@ De Bock
 Jansson
 Ricketts
 Ortuno
-20 Sandro
+Sandro
 Dean
 N'Sakala
 Grant
-20 Marc Muniesa
+Marc Muniesa
 Rodriguez
 Roderick Miranda
 Cabella
@@ -6876,9 +6876,9 @@ Freeman
 Sheehan
 Grant
 Buonanotte
-17 Jose Enrique
+Jose Enrique
 Eschenko
-20 Naldo
+Naldo
 Hamalainen
 Aluko
 Baldock
@@ -6901,7 +6901,7 @@ Bartels
 Mandjeck
 Jacobson
 Mitroglou
-20 Bruno
+Bruno
 Thomas
 Delfouneso
 Moukandjo
@@ -6917,7 +6917,7 @@ Gonzalez
 Noboa
 Vasin
 Celustka
-19 Jefferson
+Jefferson
 Ecuele Manga
 Birighitti
 Rodelin
@@ -6938,16 +6938,16 @@ Essien
 Deschacht
 Pienaar
 Huddlestone
-17 Victor Valdes
-14 Lucio
+Victor Valdes
+Lucio
 Kerzhakov
-19 Reyes
+Reyes
 Tymoshchuk
 Wurtz
 Chamakh
 Pospech
 McNulty
-15 Nene
+Nene
 Hoolahan
 Lee Chung Yong
 Snodgrass
@@ -7182,7 +7182,7 @@ Mbaizo
 Danzi
 Rieckmann
 Gomez
-20 Mujaid
+Mujaid
 Fernando Andrade
 Juan Cruz
 Wenzel-Halls
@@ -7252,7 +7252,7 @@ Coulibaly
 Tete Morente
 Raguz
 Reiter
-20 Bruno Silva
+Bruno Silva
 Javi Alonso
 Umar
 Bua
@@ -7300,8 +7300,8 @@ Ito
 Fortune
 Asano
 Amang
-19 Ribamar
-19 Felipe Vizeu
+Ribamar
+Felipe Vizeu
 Ramirez
 Villanueva
 Henry
@@ -7361,7 +7361,7 @@ Romero
 Barlaser
 Mazan
 Badji
-20 Hwang In beom
+Hwang In beom
 La Gumina
 Godoy
 Pentz
@@ -7420,7 +7420,7 @@ Kang Hyeon Mu
 Casali
 Dessers
 Wdowiak
-16 Luan
+Luan
 Silva
 Gustavo
 Akolo
@@ -7511,7 +7511,7 @@ Nyman
 Mitov Nilsson
 Riley
 Harrison
-16 Rodrigo Caio
+Rodrigo Caio
 Hall
 Hubner
 Smith
@@ -7564,7 +7564,7 @@ Uchida
 Kim Seung Gyu
 Guzman
 Hult
-20 Boveda
+Boveda
 Gardner
 Padt
 Badu
@@ -7616,18 +7616,18 @@ Vieirinha
 Rivas
 Tremoulinas
 Chantome
-20 Granero
+Granero
 Varela
 Kamara
 Martinez
 Cabrera
 Vokes
-19 Luiz Adriano
+Luiz Adriano
 Hainault
 Hlousek
 Dockal
 Barbarouses
-19 Koo Ja Cheol
+Koo Ja Cheol
 O'Donnell
 LuaLua
 Agard
@@ -7651,7 +7651,7 @@ Clayton
 King
 Alberto
 Kantarovski
-19 Mauricio
+Mauricio
 Diomande
 Sercombe
 Rudd
@@ -7677,7 +7677,7 @@ Adler
 Kaldirim
 Sidwell
 Demichelis
-14 Leo Moura
+Leo Moura
 Barzagli
 Martins
 El Hamdaoui
@@ -7689,13 +7689,13 @@ Webo
 Gutierrez
 Demir
 Andres Fernandez
-17 Arbeloa
+Arbeloa
 Ivan Cuellar
 Pavlyuchenko
 Coe
 Demarconnay
 Evans
-20 Felipe Saad
+Felipe Saad
 Pasqual
 Cranie
 Holmen
@@ -7703,7 +7703,7 @@ Salva Sevilla
 Jakobsen
 Gillet
 Naismith
-16 Willian
+Willian
 Wondolowski
 Ledley
 Adams
@@ -7720,14 +7720,14 @@ Hamer
 Bastians
 Ireland
 Basha
-19 Diego Capel
+Diego Capel
 Gislason
 Figueroa
 Arce
 Kums
 Ramos
-16 Marcelo Lomba
-13 Junior
+Marcelo Lomba
+Junior
 Bjarsmyr
 Oukidja
 Pinto
@@ -7753,8 +7753,8 @@ King
 Larsson
 Baros
 Diarra
-17 Maxwell
-13 Deco
+Maxwell
+Deco
 Misimovic
 Riesgo
 Kameni
@@ -8167,7 +8167,7 @@ Vagic
 Ngadeu
 Rikemberg
 Guveli
-18 Sergio Arribas
+Sergio Arribas
 Barnett
 Gnaka
 Bishop
@@ -8175,7 +8175,7 @@ McIntosh
 Cotugno
 Fisher
 Deng
-18 Edmilson Junior
+Edmilson Junior
 Walton
 May
 Javi Jimenez
@@ -8221,7 +8221,7 @@ Lawrence-Gabriel
 Honsak
 Goddard
 Watanabe
-20 Ramon Lopes
+Ramon Lopes
 Jaiyesimi
 Formiliano
 Abe
@@ -8333,7 +8333,7 @@ Tahiri
 Sorensen
 Barnes
 Gradit
-20 Dani Molina
+Dani Molina
 Nano Mesa
 Akindele
 Berisha
@@ -8422,7 +8422,7 @@ Huws
 Lewicki
 Tripic
 Wague
-19 Cristian Ceballos
+Cristian Ceballos
 Alvaro Lemos
 Zima
 Ngawa
@@ -8433,7 +8433,7 @@ Bulut
 Dunne
 Kiese Thelin
 Juan Cruz
-20 Ivan Lopez
+Ivan Lopez
 Hopper
 Balgradean
 Kryvtsov
@@ -8469,7 +8469,7 @@ Amorebielsa
 Willmott
 Gravenberch
 Pelupessy
-16 Gustavo Henrique
+Gustavo Henrique
 Letschert
 Goodwin
 Halvorsen
@@ -8489,7 +8489,7 @@ Strinic
 Agdestein
 Oliver
 Bech
-15 Danilo
+Danilo
 Omoijuanfo
 Recio
 Winchester
@@ -8510,7 +8510,7 @@ Urena
 Hiljemark
 Tunnicliffe
 Franke
-18 Rodrigo Moledo
+Rodrigo Moledo
 Valencia
 Wootton
 Potts
@@ -8534,7 +8534,7 @@ Mandron
 Al Faraj
 Rodriguez
 D'Alessandro
-19 Bruno Cesar
+Bruno Cesar
 Junior Caicara
 Cook
 Ionita
@@ -8600,7 +8600,7 @@ Howson
 Oniangue
 El Zhar
 John
-15 Fagner
+Fagner
 Mercado
 Pied
 Orlando Sa
@@ -8651,13 +8651,13 @@ Borges
 Boye
 Elmohamady
 Al Dawsari
-16 Thiago Ribeiro
+Thiago Ribeiro
 Keseru
 Shishkin
 Carrizo
 Maguire
 Marcelo Grohe
-16 Anderson
+Anderson
 Viviano
 Riou
 Vermeer
@@ -8673,7 +8673,7 @@ Mancienne
 Maidana
 Pereira
 Spelmann
-19 Alex Lopez
+Alex Lopez
 Surman
 Tomlin
 Lienhart
@@ -8713,8 +8713,8 @@ Vainqueur
 Hao Junmin
 Altintop
 Ziegler
-17 Dani Guiza
-16 Ruben
+Dani Guiza
+Ruben
 Jones
 Pinilla
 Voronin
@@ -8727,15 +8727,15 @@ Inan
 Bulut
 Gravgaard
 Hansen
-17 Felipe Melo
-16 Alex
+Felipe Melo
+Alex
 Gera
 Johnson
 Barton
 Rozehnal
 Abreu
-16 Helton
-13 Paulo Assuncao
+Helton
+Paulo Assuncao
 Fallon
 Halford
 Rafael
@@ -8743,10 +8743,10 @@ Endo
 Juhasz
 Gonzalez
 Pocrnjic
-12 Tuncay
+Tuncay
 Pletikosa
-19 David Garcia
-16 Verdu
+David Garcia
+Verdu
 Malafeev
 Berezutskiy
 Mila
@@ -8765,11 +8765,11 @@ Santin
 Romao
 Hoffer
 Donaldson
-20 Oriol Riera
+Oriol Riera
 Padelli
 Doyle
 Ruddy
-09 De la Red
+De la Red
 Federici
 Scholes
 Abbiati
@@ -8780,13 +8780,13 @@ Schneider
 Cruz
 Gattuso
 Litmanen
-09 Tugay
+Tugay
 Ljungberg
 Riise
 Brown
 Collins
 Tello
-19 Danny
+Danny
 Hleb
 Chimbonda
 Malouda
@@ -9145,7 +9145,7 @@ Stewart
 Shabanov
 Ademi
 Delaveris
-20 Gustavo Cascardo
+Gustavo Cascardo
 Shevchenko
 van der Gaag
 Hjulmand
@@ -9202,7 +9202,7 @@ Tiago Sa
 Samuels
 Burke
 Foulon
-19 Alex Robles
+Alex Robles
 Moser
 Carlos Miguel
 Virtue
@@ -9226,7 +9226,7 @@ O'Sullivan
 Marcinkowski
 Baird
 Cantu
-20 Zhang Yu
+Zhang Yu
 Nakamura
 Glebov
 Shabani
@@ -9277,7 +9277,7 @@ Michalak
 Zuma
 Koyalipou
 Merghem
-19 Joao Pedro
+Joao Pedro
 Beste
 Wilson
 Ahlinvi
@@ -9475,7 +9475,7 @@ Torres
 Kurumaya
 Velkoski
 Diarra
-20 Verdasca
+Verdasca
 Hlanti
 Moe
 Sandford
@@ -9574,7 +9574,7 @@ Hoyos
 Askovski
 Brinch
 Simonsen
-20 Carlos Blanco
+Carlos Blanco
 Tashaev
 Sparagna
 Innocent
@@ -9727,7 +9727,7 @@ Thiam
 Hermannsson
 Buckley
 Cicinho
-16 Gabriel
+Gabriel
 Ladapo
 Vlachodimos
 Stanton
@@ -9764,7 +9764,7 @@ Dzwigala
 Mohsen
 Gomez
 McCullough
-16 Rodrigo Dourado
+Rodrigo Dourado
 Quaschner
 Willsch
 Kolke
@@ -9793,13 +9793,13 @@ Mackay-Steven
 Bauer
 Pappoe
 Adrian Ortola
-16 Thomas
+Thomas
 Valoti
 Thoelke
 Rodriguez
 Ewerton
 Reid
-16 Chiri
+Chiri
 Archer
 Bianchetti
 Vako
@@ -9892,13 +9892,13 @@ Clayton
 Dennis
 Diomande
 Welbeck
-18 Joaozinho
+Joaozinho
 Donnarumma
 Meneses
-17 Kelvin
+Kelvin
 Alvarinho
 Bakalorz
-17 Edenilson
+Edenilson
 Korb
 Alnwick
 Ince
@@ -9938,7 +9938,7 @@ Mbodji
 Garza
 Gohou
 Drexler
-17 Vinicius
+Vinicius
 Aday Benitez
 Mokotjo
 Dabo
@@ -9979,7 +9979,7 @@ Victor Sanchez
 Afful
 Silvio
 Salamon
-20 Iturraspe
+Iturraspe
 Prijovic
 Watkins
 Slocombe
@@ -10006,7 +10006,7 @@ Ignatiev
 Formica
 Marrone
 Ferguson
-16 Dudu
+Dudu
 Madsen
 Taylor
 Jeannot
@@ -10041,11 +10041,11 @@ Daniels
 Villafana
 Martin
 Shin Kwang Hoon
-19 Fabiano
+Fabiano
 Antonito
 Kadah
 Forren
-19 Lingard
+Lingard
 Cota
 Magennis
 Naughton
@@ -10060,7 +10060,7 @@ Henrique
 Glushakov
 Pereira
 Meyler
-17 Keirrison
+Keirrison
 Mamaev
 Doyle
 Kujovic
@@ -10098,8 +10098,8 @@ Escobar
 Matheus
 Nouri
 Gibaud
-17 Welliton
-16 Felipe Santana
+Welliton
+Felipe Santana
 Milligan
 Gurtner
 Chikhaoui
@@ -10146,7 +10146,7 @@ Mavraj
 Bishop
 Bienvenu
 Bouazza
-20 Angel Rangel
+Angel Rangel
 Bialkowski
 Molina
 Lucchetti
@@ -10173,7 +10173,7 @@ Oziemczuk
 Pieri
 Jansen
 Johnson
-07 Nuno Mendes
+Nuno Mendes
 Navarro
 Pareja
 Kwarasey
@@ -10192,7 +10192,7 @@ Ukra
 Beerens
 McKeown
 Tiote
-11 Carlos De la Vega
+Carlos De la Vega
 Lejeune
 De la Bella
 Corr
@@ -10203,13 +10203,13 @@ Mancosu
 Mariappa
 Bonnet
 Antonelli
-18 Siqueira
+Siqueira
 Hysen
 Bonera
-16 Juan
-14 Lincoln
+Juan
+Lincoln
 Kahlenberg
-11 Pavon
+Pavon
 Djemba-Djemba
 Campbell
 Bodmer
@@ -10221,26 +10221,26 @@ Aquilani
 Gillet
 Conti
 Langer
-07 Velasco
+Velasco
 McCormick
 Emana
 Makoun
 Valdez
 Petkovic
 Margairaz
-14 Marcos Assuncao
+Marcos Assuncao
 Bourillon
 Cana
 Perquis
-16 Carlos Alberto
-12 Nilmar
-17 Julio Baptista
+Carlos Alberto
+Nilmar
+Julio Baptista
 Esposito
 Samaras
-19 Vagner Love
-09 Pedrinho
+Vagner Love
+Pedrinho
 Jouffre
-15 Ruben Amorim
+Ruben Amorim
 Dominguez
 Alcaraz
 Arellano
@@ -10257,8 +10257,8 @@ Mondragon
 Toraman
 Kirintili
 Greco
-19 Juanfran
-18 Gabi
+Juanfran
+Gabi
 Olic
 Rebrov
 Magnanelli
@@ -10269,11 +10269,11 @@ Heskey
 Wilbraham
 Kewell
 Wright-Phillips
-14 Dida
+Dida
 Toldo
 Recoba
 Gilardino
-09 Ahn Jung Hwan
+Ahn Jung Hwan
 Mathijsen
 Lopez
 Maresca
@@ -10657,7 +10657,7 @@ Saba
 Mouanga
 Naruse
 Antman
-19 Xavi Sintes
+Xavi Sintes
 Apa
 Freese
 Petignat
@@ -10670,7 +10670,7 @@ Gembalies
 Vargas
 Golofca
 Barker
-20 Moha
+Moha
 Minchev
 Gaponov
 Armiento
@@ -10890,7 +10890,7 @@ Soko
 Hutton
 de Boer
 Ozturk
-20 Andre Sousa
+Andre Sousa
 Tell
 Semprini
 Faraj
@@ -11019,7 +11019,7 @@ Sorli
 Caballero
 Bruno Leite
 Vazquez
-18 Rui Pedro
+Rui Pedro
 Pasher
 Cooney
 Itter
@@ -11052,7 +11052,7 @@ Mahon
 McGinty
 Guzman
 Frese
-20 Jandrei
+Jandrei
 Lankford
 Jameson
 Taylor-Crossdale
@@ -11074,7 +11074,7 @@ Vagner Corraldo
 Edmonds-Green
 El Kababri
 Gory
-19 Tche Tche
+Tche Tche
 McCrorie
 Breitkreuz
 Lingman
@@ -11124,7 +11124,7 @@ Burner
 Janvier
 Alegue
 Elias
-20 Joao Nunes
+Joao Nunes
 McKenzie
 Widgren
 Diallo
@@ -11254,7 +11254,7 @@ Ichazo
 Johnson
 Kim Seung Joon
 Martinez
-15 Cristian Alex
+Cristian Alex
 Pereira de Sa
 Robson
 Sarr
@@ -11288,7 +11288,7 @@ Nkaka
 Tahrat
 Abildgaard
 Bossin
-20 Alex Corredera
+Alex Corredera
 Benitez
 Fohrenbach
 Cadiz
@@ -11318,7 +11318,7 @@ Tiago
 Busch
 Grego Sierra
 Vitale
-15 Patrick
+Patrick
 Butez
 Carlos Nieto
 Kelly
@@ -11336,7 +11336,7 @@ Bedia
 Froese
 Boeder
 Koffi
-19 Olavide
+Olavide
 Chatzitheodoridis
 da Graca
 Moreno
@@ -11363,7 +11363,7 @@ Sane
 Laso
 Datkovic
 Halkett
-20 Nathan
+Nathan
 Burton
 Ramirez
 Koselev
@@ -11380,9 +11380,9 @@ Ivan Villar
 Manotas
 Nelson Monte
 Leandro Pereira
-16 Alex
+Alex
 Cooper
-18 Leo Pereira
+Leo Pereira
 Hahn
 Serbest
 Oztumer
@@ -11400,11 +11400,11 @@ Garcia
 Ortiz
 Badri
 Acevedo
-17 Jorge Diaz
+Jorge Diaz
 Diedhiou
 Kaptoum
 Berggreen
-20 Rafael Costa
+Rafael Costa
 Eguaras
 Stewart
 Torres
@@ -11443,7 +11443,7 @@ Matic
 Aguza
 Perea
 Florez
-19 Cotan
+Cotan
 Vasyutin
 Gyomber
 Fabricio Baiano
@@ -11463,15 +11463,15 @@ Penaranda
 Sulejmani
 Esiti
 Palacios
-20 Alain Oyarzun
+Alain Oyarzun
 Kyprianou
 Mosquera
 Pellenard
 Roa
 Arango
 Nuttall
-16 Hyoran
-16 Nenem
+Hyoran
+Nenem
 Brown
 Hamilton
 Fran Serrano
@@ -11553,7 +11553,7 @@ Farago
 Burki
 Hassan
 Lavery
-16 Biro Biro
+Biro Biro
 O'Neill
 Evans
 Andonian
@@ -11578,13 +11578,13 @@ Diony
 Marin
 Navratil
 Malele
-20 Zezinho
+Zezinho
 Powers
 Lee Jeong Hyeop
 Harbottle
 Michel
 Anani
-16 Mayke
+Mayke
 McGowan
 Mngadi
 Irwin
@@ -11630,12 +11630,12 @@ Finne
 Butler
 van Hintum
 Hassen
-17 Vana
+Vana
 Brown
 Tardieu
 Mattheus Oliveira
 Toure
-18 Victor Andrade
+Victor Andrade
 Altinay
 Lawlor
 Rabello
@@ -11673,7 +11673,7 @@ Ruben Pardo
 Roef
 Grogaard
 Andrade
-19 Joaozinho
+Joaozinho
 Salvador Agra
 Hall
 Schilk
@@ -11751,7 +11751,7 @@ Charles-Cook
 Monconduit
 Jansson
 Kister
-20 Hector
+Hector
 Galabinov
 Hoskins
 Fanimo
@@ -11791,7 +11791,7 @@ Seba
 Rose
 Fran Garcia
 Proschwitz
-18 Cesar Soriano
+Cesar Soriano
 Balaj
 Torres
 Kieftenbeld
@@ -11807,7 +11807,7 @@ Hassan
 Igboun
 Gartner
 Martignoni
-15 Bura
+Bura
 Ortega
 Gaona Lugo
 Bruno
@@ -11851,13 +11851,13 @@ Souare
 Martic
 Hanson
 Correia
-20 Romulo
+Romulo
 Blacha
 Paul
 Brown
 Long
 Ulvestad
-20 Keko
+Keko
 Uzochukwu
 Scott
 Juan Carlos
@@ -11902,7 +11902,7 @@ Amini
 Tachtsidis
 Dani Castellano
 Adailton
-17 Alvaro Dominguez
+Alvaro Dominguez
 Cornell
 McGowan
 Adu
@@ -11949,7 +11949,7 @@ Buchtmann
 Huspek
 Novak
 Juan Villar
-15 Joao Pedro
+Joao Pedro
 Duffy
 Neville
 Mesloub
@@ -11961,11 +11961,11 @@ Fernandez
 Traore
 Grossmuller
 Wellington
-18 Muriel
+Muriel
 Kim Kwang Suk
-20 Mariano
+Mariano
 Larrondo
-11 Ivan Benitez
+Ivan Benitez
 Rossettini
 Aksalu
 Barkroth
@@ -11987,12 +11987,12 @@ Godden
 Acuna
 Molins
 Kombarov
-20 Douglas
+Douglas
 Pesyakov
 Marecek
 Celik
 Friend
-16 Leandro Donizete
+Leandro Donizete
 Fernandez
 Cacciatore
 Antenucci
@@ -12000,7 +12000,7 @@ Schoeni
 Poulain
 Costa
 Gabas
-20 Alex Bergantinos
+Alex Bergantinos
 Siligardi
 Martensson
 Burchert
@@ -12009,8 +12009,8 @@ Shinnie
 Junior Negao
 Albaek
 Boland
-19 Jeffren
-18 Paulo Miranda
+Jeffren
+Paulo Miranda
 Lomban
 Alcala
 Di Tacchio
@@ -12018,20 +12018,20 @@ Quique
 Noone
 Seleznyov
 Hugo Fraile
-19 Fernandao
+Fernandao
 Beckford
 Reid
 Edgar
 Damjanovic
-18 Lulinha
+Lulinha
 Gulselam
 Elphick
-16 Egidio
-16 Breno
+Egidio
+Breno
 Knighton
 Necid
 Leo Silva
-16 Guilherme
+Guilherme
 Mabiala
 Marcq
 Boogaard
@@ -12051,7 +12051,7 @@ Vera
 Carlsen
 Boden
 Langil
-18 Kayke
+Kayke
 Wuthrich
 Amankwah
 Ogogo
@@ -12079,7 +12079,7 @@ Sismanoglu
 Collin
 Thuram
 Storm
-20 Jose Semedo
+Jose Semedo
 Manu Garcia
 Villadsen
 Jensen
@@ -12096,21 +12096,21 @@ Cresswell
 Kerry
 Palacios
 Oliech
-20 Mateus
-20 Baiano
+Mateus
+Baiano
 Ujkani
 Kage
 Helder Barbosa
 Akpala
 Tyton
-17 Lee Sung Hyun
+Lee Sung Hyun
 Kwoun Sun Tae
 Zuniga
 Bocaly
 Sutter
 Armero
 Marco Pereira
-19 Jonas
+Jonas
 Emnes
 Rooney
 Elm
@@ -12119,14 +12119,14 @@ Leye
 Furman
 Hansen
 Medunjanin
-19 Eduardo da Silva
+Eduardo da Silva
 Taylor
-11 Edel
+Edel
 Baysse
 Obertan
 Kirby
 Biseswar
-13 Julio Cesar
+Julio Cesar
 Cisse
 Danze
 Brama
@@ -12146,7 +12146,7 @@ Lamberti
 Dorn
 Jurado
 Krohn-Dehli
-17 Lanzarote
+Lanzarote
 Elton
 Guinazu
 Culio
@@ -12168,9 +12168,9 @@ Diarra
 Le Fondre
 Bovo
 N'Diaye
-20 Charles
+Charles
 Kristensen
-18 Bruno Gama
+Bruno Gama
 N'Zogbia
 Izco
 Acevedo
@@ -12209,13 +12209,13 @@ van Hooijdonk
 Zibung
 Albayrak
 Yildirim
-20 Raffael
+Raffael
 Uche
 Mikel Rico
 Javi Fuego
 Reguero
-10 Sylvinho
-20 Ivan Ramis
+Sylvinho
+Ivan Ramis
 Dikan
 Izmaylov
 Denisov
@@ -12235,8 +12235,8 @@ Halsti
 Utaka
 Murphy
 Rosenior
-16 Antonio Carlos
-10 Ruy
+Antonio Carlos
+Ruy
 Marshall
 Cvitanich
 Mackail-Smith
@@ -12253,28 +12253,28 @@ Buffel
 Gouffran
 Flamini
 Petkovic
-19 Toche
-16 Ricardo Oliveira
-07 Dani
+Toche
+Ricardo Oliveira
+Dani
 Mesbah
 Juanma
-16 Marcelinho Paraiba
-17 Iraola
+Marcelinho Paraiba
+Iraola
 Pegolo
 Pele
-13 Crusat
+Crusat
 Jonatan Soriano
-16 Oscar
+Oscar
 Ignashevich
-09 Izquierdo
-17 David Lopez
+Izquierdo
+David Lopez
 Modesto
 Almunia
 Bermudez
 Carrasso
 Perquis
 Henderson
-13 Paulo Ferreira
+Paulo Ferreira
 Lodi
 Rolfes
 Beevers
@@ -12287,26 +12287,26 @@ Gulum
 Hallfredsson
 Briand
 Pearce
-14 Fabio
-16 Cicinho
-14 Rivera
+Fabio
+Cicinho
+Rivera
 Francis
-16 Elano
-16 Luis Fabiano
-16 Lee Chun Soo
+Elano
+Luis Fabiano
+Lee Chun Soo
 Amelia
 Baier
 Antonini
-18 Diego Cavalieri
+Diego Cavalieri
 Verhulst
 Potter
-14 Kleber
+Kleber
 Milito
 Abdi
 Jones
 Richardson
 Sanchez
-15 Leandro Augusto
+Leandro Augusto
 Perez
 Bean
 Cordaro
@@ -12316,11 +12316,11 @@ Osorio
 Veron
 Wallace
 Adu
-16 Inigo Calderon
+Inigo Calderon
 Desabato
 Rommedahl
-13 Helder Rosario
-12 Michel Salgado
+Helder Rosario
+Michel Salgado
 Parker
 Gravesen
 Engelaar
@@ -12333,23 +12333,23 @@ Luyindula
 Vastic
 Kirkland
 Simons
-16 Valeron
+Valeron
 Isaksson
 De Guzman
 Mellberg
 Distin
-12 Edmilson
+Edmilson
 Ferguson
 Dudek
 von Bergen
 Rasmussen
 Manfredini
 Grosso
-11 Geovanni
-15 Cesar
+Geovanni
+Cesar
 Majstorovic
-14 Punal
-11 Munoz
+Punal
+Munoz
 Zaccardo
 Camara
 Woodgate
@@ -12360,7 +12360,7 @@ Duff
 Aliadiere
 Utaka
 Wiese
-18 Fernando Navarro
+Fernando Navarro
 Ambrosini
 Charisteas
 Collin
@@ -12382,18 +12382,18 @@ Pasquale
 Belozoglu
 Kuffour
 Day
-07 Toure
+Toure
 Locatelli
 Fiore
 Giannichedda
 Poole
-18 Eliseu
+Eliseu
 Petrov
-18 Moreira
-12 Miguel
+Moreira
+Miguel
 Dunne
 D'Anna
-08 Cafu
+Cafu
 Frings
 Anelka
 Kristinsson
@@ -12824,7 +12824,7 @@ Navarro
 Mamani
 Park Kyung Bae
 Velkovski
-20 Gabriel Canela
+Gabriel Canela
 Kaneko
 Camilo
 Tobers
@@ -12897,7 +12897,7 @@ Maciel
 Kim Tae Hyeon
 Rosolek
 Paluszek
-20 Gandoy
+Gandoy
 Lukacevic
 Eyibil
 Pedro Augusto
@@ -13070,7 +13070,7 @@ Lungwitz
 Colorado
 Idehen
 Moltenis
-20 Lucas Ribeiro
+Lucas Ribeiro
 Jonjic
 Hernandez
 Teran
@@ -13101,7 +13101,7 @@ Deman
 Maxwell
 Nisbet
 Robinho
-20 Luan Candido
+Luan Candido
 Karjalainen
 Merola
 Cretu
@@ -13182,7 +13182,7 @@ Suzuki
 Sjolstad
 Anton Escobar
 Marquez
-20 Wang Weilong
+Wang Weilong
 Mashiane
 Gulliksen
 Bustamante
@@ -13200,7 +13200,7 @@ Palocevic
 Arveladze
 Golfo
 Hudu
-20 Nguyen Cong Phuong
+Nguyen Cong Phuong
 Gabriel
 Frederiksen
 Law
@@ -13222,9 +13222,9 @@ Trejo
 Russo
 Anderson
 Insaurralde
-20 Iago Oliveira
+Iago Oliveira
 Vargas
-19 Pepe
+Pepe
 Lenzado
 van den Belt
 Sauter
@@ -13312,7 +13312,7 @@ Sang
 Abraham
 Macias
 Mora
-19 Andre Silva
+Andre Silva
 Valdes
 Purece
 Plach
@@ -13383,7 +13383,7 @@ Akbari
 Taylor
 Cartwright
 Garces
-20 Andre Luis Neitzke
+Andre Luis Neitzke
 van Kins
 Farhan
 Huang Zichang
@@ -13416,7 +13416,7 @@ Solbakken
 Mayer
 Gradecki
 Hauge
-20 Neto Borges
+Neto Borges
 Real
 Effiong
 Toye
@@ -13468,13 +13468,13 @@ van de Looi
 Rajot
 Denny
 Hallam
-19 Edu Frias
+Edu Frias
 Victor Lopez
 Marcos Lavin
 Tramoni
 Shaw
 Torres
-18 Toni Gomes
+Toni Gomes
 Dani Escriche
 Dibble
 Carballo
@@ -13538,7 +13538,7 @@ Al Dhaw
 Lloyd
 Waite
 Guidotti
-20 Joca
+Joca
 Valencia
 Gonzalez
 Stetina
@@ -13564,7 +13564,7 @@ Ndam
 Bokadi
 Blauensteiner
 Adiguzel
-18 Ronaldo Tavares
+Ronaldo Tavares
 Barbir
 Buffonge
 Al Khaibari
@@ -13681,10 +13681,10 @@ Vujica
 David
 Ohgihara
 Jeahze
-17 Alex Lazaro
+Alex Lazaro
 Fox
 Jebali
-19 Pedro Pinto
+Pedro Pinto
 Rodriguez
 Fisch
 van de Berg
@@ -13739,7 +13739,7 @@ Obexer
 Yao
 Atik
 Saksela
-20 Pedro
+Pedro
 Cuypers
 Adamonis
 Nijhuis
@@ -13756,7 +13756,7 @@ Suarez
 Kanabah
 Moore
 Lucas Kal
-19 Vitor Bueno
+Vitor Bueno
 Khemis
 Fabio China
 Alfageme
@@ -13798,7 +13798,7 @@ Kozica
 Adamczyk
 Cordero
 Lemos
-17 Sambinha
+Sambinha
 Coll
 Cotali
 Victoria
@@ -13831,7 +13831,7 @@ Mizunuma
 Yamamoto
 Tanaka
 Nagaki
-20 Caio
+Caio
 Nakamura
 Al Dawsari
 Takahashi
@@ -13874,7 +13874,7 @@ Lozano
 Simunovic
 Keller
 Marinovic
-16 Eric Garcia
+Eric Garcia
 Adri Castellano
 Osho
 Poaty
@@ -13902,7 +13902,6 @@ Yilmaz
 Brown
 Allen
 Karadeniz
-16 FakePlayer
 Al Mawas
 Macias
 Mancini
@@ -13968,7 +13967,7 @@ Gonzalez
 Cao Yongjing
 Gugganig
 Nakkim
-18 Herson Alves
+Herson Alves
 Bird
 Cardoso
 Lacazette
@@ -14010,7 +14009,7 @@ Pyke
 Le Joncour
 Hanson
 El Jebli
-16 Geferson
+Geferson
 Mogos
 Charles
 Stolz
@@ -14095,7 +14094,7 @@ Fridjonsson
 Greve
 Rivas
 Sellars
-18 Andre Leal
+Andre Leal
 Jairo
 Li Lei
 Li Ang
@@ -14107,8 +14106,8 @@ Akintunde
 Johnson
 Pellegrino
 Curado
-15 Lupeta
-19 Alex Mozo
+Lupeta
+Alex Mozo
 Alvarez
 Okuno
 Chkhapelia
@@ -14130,7 +14129,7 @@ Trueman
 Mannella
 Gaspar
 Sorokin
-20 Eneko Capilla
+Eneko Capilla
 Cornette
 Kennedy
 Kerr
@@ -14163,7 +14162,7 @@ Kubicki
 Arslan
 Sprocati
 Vatajelu
-14 Gabriel
+Gabriel
 Petkovic
 Demetriou
 Fisher
@@ -14188,14 +14187,14 @@ Matthys
 Kpekawa
 Kongolo
 Jones
-17 Dionatan Teixeira
+Dionatan Teixeira
 Jose Suarez
 Porsan-Clemente
 Dziczek
 Komenda
 Martinez
 Capello
-16 Caio Rangel
+Caio Rangel
 Agazzi
 Jesus Imaz
 Rubin
@@ -14273,7 +14272,7 @@ Dani Calvo
 Fernandez
 Diedhiou
 De Col
-19 Derley
+Derley
 Culina
 Sao
 Byrne
@@ -14283,16 +14282,16 @@ Nicholson
 Di Gennaro
 Dussaut
 Rojas
-17 Aladje
+Aladje
 Manyama
 Henderson
 Laursen
 Janio Bikel
 Paquiez
 Lennon
-20 Antonio Dominguez
+Antonio Dominguez
 Binnom-Williams
-16 Robert Goncalves
+Robert Goncalves
 Deza
 Wanderson
 Bezjak
@@ -14350,7 +14349,7 @@ Velazquez
 Martin
 Torrico
 Jauregui
-18 Dani Iglesias
+Dani Iglesias
 Fierro
 Suagher
 Beauguel
@@ -14368,7 +14367,7 @@ Yeini
 Fofana
 Nattestad
 Washington
-16 Henrique
+Henrique
 Moutari
 Songani
 Fuentes
@@ -14438,7 +14437,7 @@ Barry
 Hunt
 Naranjo
 Rea
-13 Diego Torres
+Diego Torres
 Perez
 De Girolamo
 N'Dongala
@@ -14463,7 +14462,7 @@ Simovic
 Serna
 Doucoure
 Coulibaly
-18 Ismael
+Ismael
 Garmston
 Abergel
 Hanson
@@ -14478,7 +14477,7 @@ Medel
 Hurtado
 Ormonde-Ottewill
 Kann
-19 Bicho
+Bicho
 Holmgren
 Ruben Oliveira
 Gammelby
@@ -14487,7 +14486,7 @@ Flis
 Aasheim
 Seager
 Madu
-19 Alef
+Alef
 Crecco
 Belloni
 Torijano
@@ -14502,8 +14501,8 @@ Lee Chang Geun
 Ubbink
 Hagg Johansson
 Flo
-13 Reyes
-15 Freitas
+Reyes
+Freitas
 Hurtado
 Al Olayan
 Sporkslede
@@ -14517,8 +14516,8 @@ Davey
 Ruben Martinez
 Carlos Hernandez
 Bakic
-17 Betinho
-16 Luan
+Betinho
+Luan
 Bateau
 Colclough
 Harvey
@@ -14537,8 +14536,8 @@ Boyne
 Waters
 Baccus
 Al Muwallad
-18 Luciano
-16 Rodinei
+Luciano
+Rodinei
 Gomez
 Maloca
 Ohlsson
@@ -14559,7 +14558,7 @@ Rose
 Caldwell
 Garrero
 Guilherme
-14 Ayrton
+Ayrton
 Acevedo
 Grether
 Payne
@@ -14577,7 +14576,7 @@ Britos
 Begley
 Sassi
 Zeoula
-20 Carlinhos
+Carlinhos
 Beunardeau
 Jeanvier
 Sinkala
@@ -14588,7 +14587,7 @@ Saller
 Diego Lopes
 Raeder
 Sprint
-13 Tome
+Tome
 Bruno Moreira
 Gonzalez
 Malbasic
@@ -14604,7 +14603,7 @@ Berger
 Moschl
 Schilling
 Diop
-19 Nuno Campos
+Nuno Campos
 Lobantsev
 Morias
 Moller
@@ -14633,16 +14632,16 @@ Meyer
 Skondras
 Cristiano
 Dickenson
-16 Joao Amorim
+Joao Amorim
 Molina
-14 Ronny
-14 Willian Arao
-14 Fabio
+Ronny
+Willian Arao
+Fabio
 Azeez
 Bosetti
 Badji
 Ahn Young Kyu
-17 Pol Calvet
+Pol Calvet
 Eisfeld
 Runje
 Lucas Torro
@@ -14673,7 +14672,7 @@ Romero
 Sulaimani
 Al Abed
 Philp
-16 Reinaldo
+Reinaldo
 Cardozo
 Holmen
 Etxeberria
@@ -14696,7 +14695,7 @@ Sliti
 Bayramyan
 Fernando
 Erwin
-13 Feliz
+Feliz
 Marcelo
 Kopic
 Leon
@@ -14715,7 +14714,7 @@ Eppel
 Lundevall
 Dudouit
 Chavez
-14 Patrick Vieira
+Patrick Vieira
 Sinclair
 Ojala
 Jefte
@@ -14727,7 +14726,7 @@ Antonsson
 McLaughlin
 Frick
 Ben Haim
-19 David da Silva
+David da Silva
 Morrissey
 Morozyuk
 Baudry
@@ -14745,8 +14744,8 @@ Whitehouse
 Storey
 Kessel
 Pietrzak
-15 Matheus Carvalho
-18 Nuno Henrique
+Matheus Carvalho
+Nuno Henrique
 Erokhin
 Patosi
 Borghese
@@ -14754,9 +14753,9 @@ Galano
 Koc
 Zeitz
 Benali
-18 Gladestony
+Gladestony
 Silva
-19 Rodrigo Galo
+Rodrigo Galo
 Loza
 Cropper
 Lluy
@@ -14782,7 +14781,7 @@ Raspentino
 Polworth
 O'Connor
 Redmond
-20 Pak Kwang Ryong
+Pak Kwang Ryong
 McKenzie
 Sehic
 van Leer
@@ -14792,7 +14791,7 @@ Oshilaja
 Nugent
 Leadbitter
 Ngoo
-17 Javi Hervas
+Javi Hervas
 Seuntjens
 Olkowski
 Hosiner
@@ -14812,12 +14811,12 @@ Slagveer
 Sapong
 Jimenez
 Odegaard
-16 Bruno Rangel
+Bruno Rangel
 Torres Nilo
 Erdal
 Serantes
 Gomez
-19 Rildo
+Rildo
 Drost
 Rodman
 Bisoli
@@ -14828,9 +14827,9 @@ Maurer
 Abd Elhamed
 Romanov
 Petcoff
-18 Danilo Avelar
+Danilo Avelar
 Palun
-20 Urko Vera
+Urko Vera
 Razak
 McCormack
 Flett
@@ -14853,7 +14852,7 @@ Min Sang Gi
 Sin Jin Ho
 Filipovic
 Campbell
-14 Rafael
+Rafael
 Giovanni
 Ekangamene
 Turton
@@ -14864,7 +14863,7 @@ Kempe
 Bautheac
 Saglik
 Meilinger
-19 Galvez
+Galvez
 Massey
 Sanchez
 Okoro
@@ -14877,9 +14876,9 @@ Batz
 Emenike
 Sobota
 Ogu
-15 Caetano
-20 Vicente Gomez
-14 Gustavo Busatto
+Caetano
+Vicente Gomez
+Gustavo Busatto
 Sneijder
 Peersman
 Messaoud
@@ -14909,19 +14908,19 @@ Moulin
 Duris
 Boniquet
 Bendiksen
-19 Samu Garcia
+Samu Garcia
 Tallo
-19 Douglas
+Douglas
 Poloz
-18 Julian Cuesta
-20 Kike Marquez
+Julian Cuesta
+Kike Marquez
 Koffie
 Tankulic
 Abbas
 Mathlouthi
 Anchico
 Maubleu
-19 Babanco
+Babanco
 Ramos
 Wieser
 Mori
@@ -14934,7 +14933,7 @@ Djilobodji
 Igboananike
 Morrow
 Gimenez
-17 Edu Oriol
+Edu Oriol
 Mveng
 Serginho
 Sliskovic
@@ -14961,8 +14960,8 @@ Maduena
 De Silva
 Ciftci
 Jensen
-19 Mandi
-17 Cala
+Mandi
+Cala
 Cofie
 Benedetti
 Boyle
@@ -14975,18 +14974,18 @@ Salomon
 Stangl
 Kukuruzovic
 Mboyo
-17 Joan Oriol
+Joan Oriol
 Payne
 Kashia
 Mayor
 Barrantes
-19 Assis
+Assis
 Falcinelli
 Saunier
 Madrigal
 Santos
 Marshall
-18 Marcelo Sarvas
+Marcelo Sarvas
 Jali
 Leovac
 Schrammel
@@ -15016,7 +15015,7 @@ Borner
 Gregus
 Airam Cabrera
 Jacobs
-14 Demerson
+Demerson
 O'Brien
 Ryang Yong Gi
 Tinhan
@@ -15065,15 +15064,15 @@ Yasuda
 Kurata
 Koroki
 Lim Sang Hyub
-20 Ahn Seong Nam
+Ahn Seong Nam
 Morales
 Acosta
 Mendoza
-15 Cicinho
+Cicinho
 Guarch
 Welinton
 Thorbjornsson
-10 Marquinhos
+Marquinhos
 Bahoui
 Friberg
 Johnathan
@@ -15086,21 +15085,21 @@ Davidson
 Carey
 Reeves
 Downing
-10 Messi
+Messi
 Steven Vitoria
 Thy
-16 Dede
+Dede
 Tanase
 Kratz
 Abdallah
 Allee
-17 Pedro Ken
-14 Renan
+Pedro Ken
+Renan
 Sandomierski
 Olsson
 Peskovic
 Janus
-16 Rever
+Rever
 Lippini
 Morgan
 Baxter
@@ -15143,12 +15142,12 @@ Byrne
 Niedermeier
 van der Werff
 Soderberg
-18 Edu Bedia
+Edu Bedia
 Salibur
 Deana
 Janota
 Coutts
-19 Cesar Ortiz
+Cesar Ortiz
 Marrow
 Telgenkamp
 Bennett
@@ -15157,24 +15156,24 @@ Nava
 Schonbachler
 Lecjaks
 Go Yo Han
-14 Darley
+Darley
 Murgu
 Lichaj
 Fabio Pacheco
-14 Jorginho
+Jorginho
 Kramer
 Sanchez
 Manon
-16 Marquinho
+Marquinho
 Madine
 Herrera
 Vega
-10 Celsinho
+Celsinho
 Chavez
 Hubert
 Mauricio
 Sadlok
-18 Lora
+Lora
 Senecky
 Evans
 Woods
@@ -15189,10 +15188,10 @@ Ostbo
 Espinosa
 Veskovac
 Kukeli
-19 Josimar Lima
+Josimar Lima
 Ryan
 Wagstaff
-15 Marcos Paulo
+Marcos Paulo
 Atkinson
 Di Carmine
 Grant
@@ -15204,7 +15203,7 @@ Christensen
 Daprela
 Caceres
 Trevino
-16 Apodi
+Apodi
 Soto
 Moimbe
 Canavan
@@ -15214,12 +15213,12 @@ Tarasov
 Escobar
 Nakamura
 Fogden
-16 Leandro Almeida
-16 Lucas
+Leandro Almeida
+Lucas
 Almeback
 Elm
 Larsson
-16 Carlos Eduardo
+Carlos Eduardo
 Armand
 Akhmedov
 Ferry
@@ -15229,7 +15228,7 @@ Qin Sheng
 Rojas
 Sandilands
 Nichols
-20 Zhou Ting
+Zhou Ting
 Whelpdale
 Sarmiento
 Hesse
@@ -15238,7 +15237,7 @@ Brockie
 Craddock
 Hines
 Paulo Vinicius
-14 Renato Caja
+Renato Caja
 Gonzalez
 Morena
 Helland
@@ -15272,7 +15271,7 @@ Haddad
 De Pauw
 Sigthorsson
 Sankhare
-14 Adi
+Adi
 Polenz
 Ovelar
 Erdinc
@@ -15286,25 +15285,25 @@ Figueroa
 Iturra
 Assmann
 Gonzalez
-09 Thiago Silvy
+Thiago Silvy
 Guede
 Johnson
-18 Yannick Djalo
+Yannick Djalo
 Vincelot
 Gabbarini
 Pope
-20 Jon Erice
+Jon Erice
 Korkmaz
-13 Gerson
+Gerson
 Harnik
 Broz
 Drenthe
-07 Bruno Fernandes
+Bruno Fernandes
 Soddimo
 Aguilar
 Bueno
 Birnican
-20 Sergio Sanchez
+Sergio Sanchez
 Priskin
 Ivo
 Boffin
@@ -15325,10 +15324,10 @@ Skulason
 Kraft
 Feltscher
 Morganella
-18 Cabral
+Cabral
 Kopplin
 Prochazka
-14 Everton
+Everton
 Reddy
 McKay
 Leijer
@@ -15341,7 +15340,7 @@ Davies
 Demontagnac
 Kermorgant
 Parr
-16 Pedro Geromel
+Pedro Geromel
 Keita
 Ibrahim
 Granoche
@@ -15357,7 +15356,7 @@ Bravo
 De Mets
 Wikstrom
 Moulin
-19 Carlos Martinez
+Carlos Martinez
 Zurutuza
 Lumb
 Tiendalli
@@ -15372,14 +15371,14 @@ Manolo Reina
 Feilhaber
 Barnes
 Caddis
-14 Michel
+Michel
 Joyce
 Bostwick
 Mihelic
 Castro
 Malecki
 Perez
-19 Fran Rico
+Fran Rico
 Maldonado
 Feng Xiaoting
 Zhao Xuri
@@ -15387,20 +15386,20 @@ Gilmartin
 Holosko
 Horn
 Rosenthal
-16 Andre Marques
+Andre Marques
 Novakovic
 Peterson
-17 Lee Woo Jin
+Lee Woo Jin
 Scaramozzino
 Traore
 Keane
 Atik
 Tremarco
-15 Barreto
+Barreto
 Croft
 Mohamad
-16 Fernando Prass
-09 Fabiano
+Fernando Prass
+Fabiano
 Xisco
 Dawson
 Robertson
@@ -15417,11 +15416,11 @@ Ruben
 Fellah
 Jones
 Wheater
-20 Kwak Tae Hwi
+Kwak Tae Hwi
 Oh Beom Seok
 Kasaev
 Carson
-16 Rudnei
+Rudnei
 Okoronkwo
 Whalley
 Zigic
@@ -15436,7 +15435,7 @@ Tiene
 Omar Ramos
 Hoban
 Ebanks-Blake
-17 Ronny
+Ronny
 Gakpe
 Madl
 Okotie
@@ -15452,9 +15451,9 @@ Hammill
 Guthrie
 Peltier
 Sorsa
-07 Paulo Sousa
+Paulo Sousa
 Lewis
-16 Marcelo Boeck
+Marcelo Boeck
 Hoskins
 Ayala
 Munoz
@@ -15463,31 +15462,31 @@ Martens
 Kamanan
 Considine
 Hollis
-13 Gabriel
+Gabriel
 Sardo
 Hernandez
 Lindgren
 Steinhofer
 Mooney
 Obbadi
-11 Dong Fangzhuo
+Dong Fangzhuo
 Asare
 Gerrard
 Pavlovic
 Nurse
 Wilkinson
 Vyntra
-20 Abraham Gonzalez
-16 Damia
+Abraham Gonzalez
+Damia
 Watson
-18 Jesus Gamez
+Jesus Gamez
 Castroman
 Maric
 Rojas
 Leciejewski
 Alvarez
 Zapater
-17 Artur
+Artur
 Ivanov
 Volkov
 Ilic
@@ -15498,7 +15497,7 @@ Caranta
 Taylor
 Morrison
 Forte
-14 Wesley
+Wesley
 McCormack
 McGovern
 Whelan
@@ -15510,7 +15509,7 @@ Lombaerts
 Jarvis
 Hayes
 Brown
-16 Raul Meireles
+Raul Meireles
 Yanbaev
 Luiz Carlos
 Kieszek
@@ -15518,8 +15517,8 @@ Peszko
 De fauw
 Al Habsi
 Austbo
-16 Taddei
-16 Amauri
+Taddei
+Amauri
 Sammarco
 Bennett
 Fahey
@@ -15551,26 +15550,26 @@ Flinders
 Koren
 Cureton
 Williamson
-14 Claudemir
-16 Alex
+Claudemir
+Alex
 Yeates
 Barreto
 Pawelec
 Martinez
 Haland
-17 Piti
+Piti
 Tumasyan
 Roman
 Bus
 Olsen
 Stearman
 Lee Ho
-18 Kim Chi Woo
+Kim Chi Woo
 Samson
 McCormack
 Villar
 Arce
-19 Tiago Gomes
+Tiago Gomes
 Rojas
 Rodriguez
 Sandoval
@@ -15582,7 +15581,7 @@ Wilhelmsson
 Butina
 Silva
 Medjani
-16 Michel Bastos
+Michel Bastos
 Marveaux
 Perez
 Cardozo
@@ -15591,7 +15590,7 @@ Sanchez
 Gutierrez
 Nakata
 Diaz
-18 Moreno
+Moreno
 Buxton
 Ebondo
 Husyev
@@ -15613,15 +15612,15 @@ Belluschi
 Ozat
 Schwegler
 Andersson
-19 Bruno Saltor
-08 Alberto
-09 Alberto
-16 Lafita
+Bruno Saltor
+Alberto
+Alberto
+Lafita
 Wome
 Franco
-13 Corrales
-15 Nunez
-16 Carlos Cuellar
+Corrales
+Nunez
+Carlos Cuellar
 Ryzhikov
 Zyryanov
 Kolodin
@@ -15630,14 +15629,14 @@ Moti
 Prepelita
 Radoi
 Berezutskiy
-16 Dani Mallo
-17 Duda
-11 Oleguer
-20 Mario Alvarez
+Dani Mallo
+Duda
+Oleguer
+Mario Alvarez
 Delporte
 Sow
 Zoko
-12 Josetxo
+Josetxo
 Contreras
 Diawara
 Milosevic
@@ -15652,17 +15651,17 @@ Aydin
 Ceylan
 Ne
 Hall
-16 Angel
-17 Rubinho
+Angel
+Rubinho
 Liendl
-16 Cleiton Xavier
+Cleiton Xavier
 Maenpaa
-19 Sergio Garcia
-13 Ricardo
-14 Juanlu
-16 Hector Font
+Sergio Garcia
+Ricardo
+Juanlu
+Hector Font
 Ruiz
-13 Cho Jun Ho
+Cho Jun Ho
 Kim Young Kwang
 Ciani
 Alioui
@@ -15680,21 +15679,21 @@ Fox
 Kilgallon
 Pipe
 Brush
-19 Diego Tardelli
+Diego Tardelli
 Quievreux
 de Zeeuw
 Nardiello
 Lux
 Gonzalez
-15 Lino
+Lino
 Terlizzi
 Piccolo
 Johnson
-10 Tristan
+Tristan
 Pedersen
 Forssell
 Traore
-14 Gilberto Silva
+Gilberto Silva
 Gabriel
 Olivera
 Caracciolo
@@ -15742,12 +15741,12 @@ Dunne
 Bertelsen
 Camara
 Tosic
-20 Aduriz
-14 Gabri
+Aduriz
+Gabri
 Audel
-14 Eduardo
+Eduardo
 McAuley
-17 Cani
+Cani
 Boateng
 Cocu
 Stam
@@ -15761,14 +15760,14 @@ Harte
 Mpenza
 Italiano
 Bilic
-09 Cruchaga
-11 Albert Luque
+Cruchaga
+Albert Luque
 Kafes
-11 Guti
+Guti
 Makaay
 Dellas
 Asamoah
-09 Ailton
+Ailton
 Lupatelli
 Keita
 Facey
@@ -15789,8 +15788,8 @@ Balaban
 Nuzzolo
 Hyypia
 Smertin
-07 Vitor Baia
-16 Helder Postiga
+Vitor Baia
+Helder Postiga
 Prica
 Sonck
 Klimowicz
@@ -15811,9 +15810,9 @@ Djordjevic
 Scarpi
 Taylor
 Neville
-11 Arnau
+Arnau
 Schwarzer
-09 Hasan Sas
+Hasan Sas
 Tare
 Lehmann
 Elber
@@ -15824,15 +15823,15 @@ Cannavaro
 Nelsen
 Pires
 Coupet
-13 Mido
+Mido
 Emerton
 Fontana
-07 Silva
+Silva
 Bridge
 Dardai
-12 Petit
-13 Nuno Gomes
-08 Alhandra
+Petit
+Nuno Gomes
+Alhandra
 Silva
 Filippini
 Legrottaglie
@@ -15840,8 +15839,8 @@ Perrotta
 Oddo
 Montero
 Carragher
-08 Canizares
-10 Morientes
+Canizares
+Morientes
 Reiziger
 Pavone
 Cova
@@ -16260,3 +16259,4 @@ Pandur
 Blackmore
 Jones
 Rolt
+
