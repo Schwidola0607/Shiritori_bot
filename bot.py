@@ -99,7 +99,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
     # print(f'debug checkpoint#1 {shiritori.state}')
 
    
-@bot.command(name = 'join', aliases = ['j'])
+@bot.command(name = 'join', help = 'join a game', aliases = ['j'])
 async def join(ctx):
     """join the current game"""
     if shiritori.state == 2:
@@ -116,7 +116,7 @@ async def join(ctx):
         await ctx.message.channel.send(embed = embed_var)
     else: 
         current_player = Players(str(ctx.message.author), DEFAULT_TIME)
-        if shiritori.find_player(str(ctx.message.author)):
+        if shiritori.find_player(str(ctx.message.author)) != False:
             embed_var = discord.Embed(
                     description = f'{ctx.message.author}'
                     ' You are already in the game!', 
@@ -134,7 +134,7 @@ async def join(ctx):
     #print(f'debug checkpoint#2 {shiritori.state}')
 
 
-@bot.command(name = 'start', aliases = ['s'])
+@bot.command(name = 'start', help = 'start a game', aliases = ['s'])
 async def start(ctx):
     """start the current game"""
     # print(shiritori.dict_type)
@@ -278,14 +278,12 @@ async def on_message(message):
     else:
         await bot.process_commands(message)
 
-@bot.command(name = 'resign', help = 'resign from game')
+@bot.command(name = 'resign', help = 'resign from game', aliases = ['r'])
 async def resign(ctx):
     """resign from the game"""
     if shiritori.state == 1 or shiritori.state == 2:
-        temp_gamer = Players(str(ctx.message.author), DEFAULT_TIME)
-        await ctx.message.channel.send(f'{ctx.message.author} {DEFAULT_TIME}')
-        await ctx.message.channel.send(shiritori.check_players_in_game(temp_gamer))
-        if shiritori.check_players_in_game(temp_gamer) == True:
+        temp_gamer = shiritori.find_player(str(ctx.message.author))
+        if temp_gamer != False:
             shiritori.kick(temp_gamer)
             embed_var = discord.Embed(
                 description = f'{ctx.message.author}'
