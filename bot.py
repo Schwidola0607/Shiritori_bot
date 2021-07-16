@@ -282,6 +282,7 @@ async def resign(ctx):
     """resign from the game"""
     if shiritori.state == 1 or shiritori.state == 2:
         temp_gamer = Players(str(ctx.message.author), DEFAULT_TIME)
+        await ctx.message.channel.send(f'{ctx.message.author} {DEFAULT_TIME}')
         if shiritori.check_players_in_game(temp_gamer) == True:
             shiritori.kick(temp_gamer)
             embed_var = discord.Embed(
@@ -293,7 +294,7 @@ async def resign(ctx):
         else:
             embed_var = discord.Embed(
                 description = f'{ctx.message.author}'
-                ' you are not in the game',
+                ' You are not in the game',
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
