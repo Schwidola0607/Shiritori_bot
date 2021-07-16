@@ -286,13 +286,14 @@ async def resign(ctx):
             shiritori.kick(temp_gamer)
             embed_var = discord.Embed(
                 description = f'{ctx.message.author}'
-                'have resigned',
+                ' have resigned',
                 color = COLOR
             )
+            await ctx.message.channel.send(embed = embed_var)
         else:
             embed_var = discord.Embed(
                 description = f'{ctx.message.author}'
-                'you are not in the game',
+                ' you are not in the game',
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
@@ -311,7 +312,7 @@ async def abort(ctx):
         if str(ctx.message.author) != shiritori.game_owner().name:
             embed_var = discord.Embed(
                 description=f'{ctx.message.author}' 
-                'you do not have permission', 
+                ', you do not have permission', 
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
