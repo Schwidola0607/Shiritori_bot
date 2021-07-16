@@ -32,27 +32,27 @@ DEFAULT_DICT_TYPE = 0
 shiritori = Game(DEFAULT_DICT_TYPE)
 bot = commands.Bot(command_prefix = '&', intents = intents)
 
-@bot.command(name = 'create', help = "Create a blitz, bullet or casual shiritori game with different dictionary modes", aliases = ['c'])
+@bot.command(name = 'create', help = "Create a ultrabullet, bullet or blitz shiritori game with different dictionary modes", aliases = ['c'])
 async def create(ctx, game_type: str = None, dictionary_type: str = None):
     """create a game by selecting the game mode"""
     global DEFAULT_TIME
-    if game_type == "bullet":
+    if game_type == "ultrabullet":
+        DEFAULT_TIME = 30
+    elif game_type == "bullet":
         DEFAULT_TIME = 60
     elif game_type == "blitz":
         DEFAULT_TIME = 180
-    elif game_type == "casual":
-        DEFAULT_TIME = 1800
     elif game_type == None:
         embed_var = discord.Embed(
             title = f'{ctx.message.author} please select a game mode!', 
-            description = "bullet, blitz, or casual", 
+            description = "ultrabullet, bullet or blitz", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
     else:
         embed_var = discord.Embed(
             title = f'Invalid game mode. {ctx.message.author} please select again!', 
-            description = "bullet, blitz, or casual", 
+            description = "ultrabullet, bullet or blitz", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
@@ -277,35 +277,59 @@ async def on_message(message):
     else:
         await bot.process_commands(message)
 
-@bot.command(name = 'resign', help = 'resign from game', aliases = ['r'])
+@bot.command(name = 'resign', help = "resign from the game", aliases = ['r'])
 async def resign(ctx):
-    """resign from the game"""
-    if shiritori.state == 1 or shiritori.state == 2:
-        temp_gamer = shiritori.find_player(str(ctx.message.author))
-        if temp_gamer != False:
-            if temp_gamer == shiritori.current_turn_Player():
-                print(temp_gamer.name)
-                shiritori.next_turn() 
-                print(shiritori.current_turn_Player().name)
-                embed_var = discord.Embed(
-                    description = f'{ctx.message.author} has quitted'
-                    + f' your turn {shiritori.current_turn_Player()}',
-                    color = COLOR
-                )               
-            shiritori.kick(temp_gamer)
+    """abort the game"""
+    player_name = str(ctx.message.author)
+    if shiritori.state == 1:
+        in_the_game = 0
+        for s in shiritori.list_of_players:
+            if player_name == s.name:
+                shiritori.kick(s)
+                in_the_game = 1
+        if in_the_game:
             embed_var = discord.Embed(
-                description = f'{ctx.message.author}'
-                ' has resigned',
-                color = COLOR
-            )
+            description = f"{player_name} has resigned from the game.", 
+            color = COLOR)
             await ctx.message.channel.send(embed = embed_var)
         else:
             embed_var = discord.Embed(
-                description = f'{ctx.message.author}'
-                ' You are not in the game',
-                color = COLOR
-            )
+            description = f"{player_name} You are not in the game yet!", 
+            color = COLOR)
             await ctx.message.channel.send(embed = embed_var)
+
+
+    elif shiritori.state == 2:
+        nxt_turn = 0
+        if  player_name == shiritori.current_turn_Player().name:
+            nxt_turn = 1
+        for s in shiritori.list_of_players:
+            if player_name == s.name:
+                shiritori.kick(s)
+        embed_var = discord.Embed(
+            description = f"{player_name} has resigned from the game.", 
+            color = COLOR)
+        await ctx.message.channel.send(embed = embed_var)
+
+        if nxt_turn:
+            shiritori.next_turn()
+
+        if shiritori.check_end():
+            embed_var = discord.Embed(
+                title = "Game ended!", 
+                description = f'Congratulations {shiritori.get_winner().name}', 
+                color = COLOR)
+            await ctx.channel.send(embed = embed_var)
+            shiritori.end()
+            return
+
+        embed_var = discord.Embed(
+        description = f'{shiritori.current_turn_Player().name} your turn.' +
+        f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
+        color = COLOR
+        )
+        await ctx.channel.send(embed = embed_var)
+
     else:
         embed_var = discord.Embed(
             description = "No current game.", 
@@ -313,6 +337,73 @@ async def resign(ctx):
         )
         await ctx.message.channel.send(embed = embed_var)
 
+@bot.command(name = 'kicc', help = "kicc a player", aliases = ['k'])
+async def kicc(ctx, player_name: str):
+    """abort the game"""
+    if shiritori.state == 1:
+        in_the_game = 0
+        for s in shiritori.list_of_players:
+            if player_name == s.name:
+                shiritori.kick(s)
+                in_the_game = 1
+        print(in_the_game)
+
+        if in_the_game:
+            embed_var = discord.Embed(
+            description = f"{player_name} has been kicked from the game.", 
+            color = COLOR)
+            await ctx.message.channel.send(embed = embed_var)
+        else:
+            embed_var = discord.Embed(
+            description = f"{player_name} is not in the game yet!", 
+            color = COLOR)
+            await ctx.message.channel.send(embed = embed_var)
+
+    elif shiritori.state == 2:
+        if str(ctx.message.author) != shiritori.game_owner().name:
+            embed_var = discord.Embed(
+                description=f'{ctx.message.author}' 
+                'you do not have permission', 
+                color = COLOR
+            )
+            await ctx.message.channel.send(embed = embed_var)
+        else:
+            nxt_turn = 0
+            if  player_name == shiritori.current_turn_Player().name:
+                nxt_turn = 1
+            for s in shiritori.list_of_players:
+                if player_name == s.name:
+                    shiritori.kick(s)
+            embed_var = discord.Embed(
+                description = f"{player_name} has been kicced from the game.", 
+                color = COLOR)
+            await ctx.message.channel.send(embed = embed_var)
+
+            if nxt_turn:
+                shiritori.next_turn()
+
+            if shiritori.check_end():
+                embed_var = discord.Embed(
+                    title = "Game ended!", 
+                    description = f'Congratulations {shiritori.get_winner().name}', 
+                    color = COLOR)
+                await ctx.channel.send(embed = embed_var)
+                shiritori.end()
+                return
+
+            embed_var = discord.Embed(
+            description = f'{shiritori.current_turn_Player().name} your turn.' +
+            f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
+            color = COLOR
+            )
+            await ctx.channel.send(embed = embed_var)
+
+    else:
+        embed_var = discord.Embed(
+            description = "No current game.", 
+            color = COLOR
+        )
+        await ctx.message.channel.send(embed = embed_var)
 
 @bot.command(name = 'abort', help = "abort the game")
 async def abort(ctx):
@@ -377,7 +468,9 @@ async def urbanmean(ctx, word: str):
     
 @bot.event
 async def on_ready():
-    """fucntion to confirm bot on board and
-    print out existing members in the current guild"""        
     print("On Board")
+
+async def announce_kick():
+    pass
+
 bot.run(TOKEN)
