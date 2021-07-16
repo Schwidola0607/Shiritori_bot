@@ -26,7 +26,7 @@ class Game:
         self.list_of_used_words = Trie()
         self.leaderboard = []
         self.current_letter = ""
-        self.position = 0
+        self.current_position = 0
     def add_new_players(self, gamer: Players):
         """add a new player when joined"""
         self.list_of_players.append(gamer)
@@ -36,6 +36,10 @@ class Game:
         self.current_letter = word[len(word) - 1]
     def start_game(self):
         """method to start game"""
+        i = 0
+        for player in self.list_of_players:
+            player.position = i
+            i += 1
         self.state = 2
         self.current_turn_Player().countdown()
     def check_word_validity(self, word: str):
@@ -84,16 +88,21 @@ class Game:
         return len(self.list_of_players)
     def current_turn_Player(self):
         """return this turn's Player"""
-        return self.list_of_players[self.position]
+        return self.list_of_players[self.current_position]
     def kick(self, gamer: Players):
         """disqualify a player based on time, or the number of invalid times"""
+        if self.state == 2:
+            pos = gamer.position
+            for i in range(pos+1, self.get_player_list_size()):
+                self.list_of_players[i].position -= 1
+            if pos <= self.current_position:
+                self.current_position -= 1
         self.list_of_players.remove(gamer)
-        self.position -= 1
     def next_turn(self):
         """move to next Player's turn"""
-        self.position = self.position + 1
-        if self.position == self.get_player_list_size():
-            self.position = 0
+        self.current_position = self.current_position + 1
+        if self.current_position == self.get_player_list_size():
+            self.current_position = 0
         self.current_turn_Player().countdown()
     def check_end(self):
         """end game condition"""
@@ -110,7 +119,7 @@ class Game:
         self.list_of_used_words = Trie()
         self.leaderboard = []
         self.current_letter = ""
-        self.position = 0
+        self.current_position = 0
 
     def get_winner(self) -> Players:
         """return the winner"""
