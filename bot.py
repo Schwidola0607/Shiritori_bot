@@ -369,16 +369,24 @@ async def kicc(ctx, player_name: str):
             await ctx.message.channel.send(embed = embed_var)
         else:
             nxt_turn = 0
+            has_find = False
             if  player_name == shiritori.current_turn_Player().name:
                 nxt_turn = 1
             for s in shiritori.list_of_players:
                 if player_name == s.name:
+                    has_find = True
                     shiritori.kick(s)
-            embed_var = discord.Embed(
-                description = f"{player_name} has been kicced from the game.", 
-                color = COLOR)
-            await ctx.message.channel.send(embed = embed_var)
-
+            if has_find == True:
+                embed_var = discord.Embed(
+                    description = f"{player_name} has been kicced from the game.", 
+                    color = COLOR)
+                await ctx.message.channel.send(embed = embed_var)
+            else:
+                embed_var = discord.Embed(
+                    description = f'{player_name} is not currently in the game',
+                    color = COLOR
+                )
+                await ctx.message.channel.send(embed = embed_var)
             if nxt_turn:
                 shiritori.next_turn()
 
