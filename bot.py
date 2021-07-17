@@ -424,6 +424,8 @@ async def kicc(ctx, player_name: str):
 async def rank(ctx):
     if shiritori.state == 3:
         ranking = shiritori.display_leaderboard()
+        for i in shiritori.leaderboard:
+            print(f'{i.name} {i.score}')
         desc = ""
         print(len(ranking))
         for i in range (len(ranking)):
