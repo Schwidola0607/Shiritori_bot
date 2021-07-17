@@ -423,9 +423,9 @@ async def kicc(ctx, player_name: str):
 async def rank(ctx):
     if shiritori.state == 3:
         ranking = shiritori.display_leaderboard()
-        desc:str
+        desc = ""
         for i in range (len(ranking)):
-            desc += f'#{i + 1}: {ranking[i].name} with {ranking[i].get_score()} points\n'
+            desc = desc + f'#{i + 1}: {ranking[i].name} with {ranking[i].get_score()} points\n'
         embed_var = discord.Embed(
             title = 'Final leaderboard',
             description = desc,
