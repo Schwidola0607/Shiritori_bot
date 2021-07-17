@@ -1,3 +1,4 @@
+from discord.embeds import Embed
 from fifa.check_fifa import check_players_name
 import os
 import discord
@@ -25,34 +26,38 @@ def get_score(word: str) -> int:
     for letter in word:
         res += scrabble_score[letter]
     return res
-DEFAULT_TIME = 1800
+DEFAULT_TIME = 180
+BOOL_SCRABBLE = False
 DEFAULT_DICT_TYPE = 0 
 """ 0 for english, 1 for urban dictionary, 2 for MAL, 3 for fifa"""
 
 shiritori = Game(DEFAULT_DICT_TYPE)
 bot = commands.Bot(command_prefix = '&', intents = intents)
 
-@bot.command(name = 'create', help = "Create a ultrabullet, bullet or blitz shiritori game with different dictionary modes", aliases = ['c'])
+@bot.command(name = 'create', help = "Create a ultrabullet, bullet, blitz or srabble, shiritori game with different dictionary modes", aliases = ['c'])
 async def create(ctx, game_type: str = None, dictionary_type: str = None):
     """create a game by selecting the game mode"""
     global DEFAULT_TIME
+    global BOOL_SCRABBLE
     if game_type == "ultrabullet":
         DEFAULT_TIME = 30
     elif game_type == "bullet":
         DEFAULT_TIME = 60
     elif game_type == "blitz":
-        DEFAULT_TIME = 180
+        DEFAULT_TIME = 180  
+    elif game_type == "scrabble":
+        BOOL_SCRABBLE = True
     elif game_type == None:
         embed_var = discord.Embed(
             title = f'{ctx.message.author} please select a game mode!', 
-            description = "ultrabullet, bullet or blitz", 
+            description = "ultrabullet, bullet, blitz, or scrabble", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
     else:
         embed_var = discord.Embed(
             title = f'Invalid game mode. {ctx.message.author} please select again!', 
-            description = "ultrabullet, bullet or blitz", 
+            description = "ultrabullet, bullet, blitz or scrabble", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
@@ -201,7 +206,7 @@ async def on_message(message):
                 await channel.send(embed = embed_var)
                 shiritori.end()
                 return
-
+            
             embed_var = discord.Embed(
                 description = f'{shiritori.current_turn_Player().name} your turn.' +
                 f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
@@ -265,6 +270,7 @@ async def on_message(message):
 
             else:
                 shiritori.add_new_word(word)
+                shiritori.current_turn_Player().add_score(word)
                 shiritori.next_turn()
                 
                 embed_var = discord.Embed(
@@ -363,7 +369,7 @@ async def kicc(ctx, player_name: str):
         if str(ctx.message.author) != shiritori.game_owner().name:
             embed_var = discord.Embed(
                 description=f'{ctx.message.author}' 
-                'you do not have permission', 
+                ' you do not have permission', 
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
@@ -383,7 +389,7 @@ async def kicc(ctx, player_name: str):
                 await ctx.message.channel.send(embed = embed_var)
             else:
                 embed_var = discord.Embed(
-                    description = f'{player_name} is not currently in the game',
+                    description = f'{player_name} is not in the game yet!',
                     color = COLOR
                 )
                 await ctx.message.channel.send(embed = embed_var)
@@ -413,6 +419,20 @@ async def kicc(ctx, player_name: str):
         )
         await ctx.message.channel.send(embed = embed_var)
 
+@bot.command(name = 'rank', help = "display leaderboard") 
+async def rank(ctx):
+    if shiritori.state == 3:
+        ranking = shiritori.display_leaderboard()
+        desc:str
+        for i in range (len(ranking)):
+            desc += f'#{i + 1}: {ranking[i].name} with {ranking[i].get_score()} points\n'
+        embed_var = discord.Embed(
+            title = 'Final leaderboard',
+            description = desc,
+            color = COLOR
+        )
+        await ctx.message.channel.send(embed = embed_var)
+   
 @bot.command(name = 'abort', help = "abort the game")
 async def abort(ctx):
     """abort the game"""
