@@ -32,6 +32,7 @@ class Game:
     def add_new_players(self, gamer: Players):
         """add a new player when joined"""
         self.list_of_players.append(gamer)
+        self.leaderboard.append(gamer)
     def add_new_word(self, word: str):
         """new word to list_of_used_word after a turn"""
         self.list_of_used_words.add(word)
@@ -41,9 +42,8 @@ class Game:
         i = 0
         for player in self.list_of_players:
             player.position = i
-            i += 1
-            self.leaderboard.append(player)
-        self.state = 2
+            i += 1        
+            self.state = 2
         self.current_turn_Player().countdown()
     def check_word_validity(self, word: str):
         """check for a word validitiy according to the Shiritori's rule"""
