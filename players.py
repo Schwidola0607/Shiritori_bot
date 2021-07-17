@@ -9,7 +9,7 @@ def get_score(word: str) -> int:
     """return the score of a word using scrabble points"""
     res = 0
     for letter in word:
-        res += scrabble_score[letter.lower]
+        res += scrabble_score[letter.lower()]
     return res
 
 class Players:
