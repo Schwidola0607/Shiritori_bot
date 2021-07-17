@@ -1,3 +1,4 @@
+from bot import BOOL_SCRABBLE
 import requests
 import json
 from dict_trie import Trie
@@ -6,6 +7,7 @@ from dictionary.MAL.character_names.check_MAL_name import check_MAL_name
 from players import Players
 DEFAULT_TIME = 1800
 DEFAULT_DICT_TYPE = 0
+BOOL_SCRABBLE = False
 """0 for english, 1 for urban, 2 for MAL, 3 for fifa"""
 from PyDictionary import PyDictionary
 Dictionary = PyDictionary()
@@ -14,6 +16,7 @@ class Game:
     """a class to represent the current instance of a game"""
     state = 0 #0 - not begin, 1 - waiting for players, 2 - start/on progress, 3 - has just ended
     dict_type = DEFAULT_DICT_TYPE #0 - casual shiritori, 1 - urbandict shiritori
+    
     list_of_players = []
     list_of_used_words = Trie()
     leaderboard = []
@@ -109,7 +112,8 @@ class Game:
         for gamer in self.list_of_players:
             if gamer.get_remaining_time() < 0:
                 self.list_of_players.remove(gamer)
-                self.leaderboard.append(gamer)
+                if BOOL_SCRABBLE == False:
+                    self.leaderboard.append(gamer)
         return self.state == 2 and self.get_player_list_size() == 1
     def end(self):
         """method to end the game"""
@@ -123,6 +127,12 @@ class Game:
 
     def get_winner(self) -> Players:
         """return the winner"""
-        return self.list_of_players[0]
+        if BOOL_SCRABBLE == False:
+            return self.list_of_players[0]
+    def display_leaderboard(self) -> list:
+        if BOOL_SCRABBLE == True:
+            self.leaderboard.sort(key = lambda x: x.score, reverse = True)
+        return self.leaderboard
+            
 
 

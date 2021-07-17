@@ -24,7 +24,7 @@ def get_score(word: str) -> int:
     """return the score of a word according to scrabble"""
     res = 0
     for letter in word:
-        res += scrabble_score[letter]
+        res += scrabble_score[letter.lower()]
     return res
 DEFAULT_TIME = 180
 BOOL_SCRABBLE = False
