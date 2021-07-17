@@ -1,4 +1,3 @@
-from bot import BOOL_SCRABBLE
 import requests
 import json
 from dict_trie import Trie
