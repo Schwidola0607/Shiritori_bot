@@ -270,7 +270,8 @@ async def on_message(message):
 
             else:
                 shiritori.add_new_word(word)
-                shiritori.current_turn_Player().add_score(word)
+                if BOOL_SCRABBLE == True:
+                    shiritori.current_turn_Player().add_score(word)
                 shiritori.next_turn()
                 
                 embed_var = discord.Embed(
@@ -424,6 +425,7 @@ async def rank(ctx):
     if shiritori.state == 3:
         ranking = shiritori.display_leaderboard()
         desc = ""
+        print(len(ranking))
         for i in range (len(ranking)):
             desc = desc + f'#{i + 1}: {ranking[i].name} with {ranking[i].get_score()} points\n'
         embed_var = discord.Embed(

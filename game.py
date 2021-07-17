@@ -42,6 +42,7 @@ class Game:
         for player in self.list_of_players:
             player.position = i
             i += 1
+            self.leaderboard.append(player)
         self.state = 2
         self.current_turn_Player().countdown()
     def check_word_validity(self, word: str):
@@ -111,7 +112,6 @@ class Game:
         for gamer in self.list_of_players:
             if gamer.get_remaining_time() < 0:
                 self.list_of_players.remove(gamer)
-                self.leaderboard.append(gamer)
         return self.state == 2 and self.get_player_list_size() == 1
     def end(self):
         """method to end the game"""
@@ -125,9 +125,9 @@ class Game:
 
     def get_winner(self) -> Players:
         """return the winner"""
-        if BOOL_SCRABBLE == False:
-            return self.list_of_players[0]
+        return self.list_of_players[0]
     def display_leaderboard(self) -> list:
+        """return leaderboard based on scrabble score"""
         if BOOL_SCRABBLE == True:
             self.leaderboard.sort(key = lambda x: x.score, reverse = True)
         return self.leaderboard
