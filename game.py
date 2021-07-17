@@ -111,8 +111,7 @@ class Game:
         for gamer in self.list_of_players:
             if gamer.get_remaining_time() < 0:
                 self.list_of_players.remove(gamer)
-                if BOOL_SCRABBLE == False:
-                    self.leaderboard.append(gamer)
+                self.leaderboard.append(gamer)
         return self.state == 2 and self.get_player_list_size() == 1
     def end(self):
         """method to end the game"""
