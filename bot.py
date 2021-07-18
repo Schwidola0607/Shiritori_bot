@@ -301,7 +301,7 @@ async def on_message(message):
 
 @bot.command(name = 'resign', help = "resign from the game", aliases = ['r'])
 async def resign(ctx):
-    """abort the game"""
+    """resign from the current game"""
     player_name = str(ctx.message.author)
     if shiritori.state == 1:
         in_the_game = 0
@@ -363,7 +363,7 @@ async def resign(ctx):
 
 @bot.command(name = 'kicc', help = "kicc a player", aliases = ['k'])
 async def kicc(ctx, player_name: str):
-    """abort the game"""
+    """kick a player out of the game"""
     if shiritori.state == 1:
         in_the_game = 0
         for s in shiritori.list_of_players:
@@ -476,6 +476,7 @@ async def leaderboard(ctx):
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
+
 @bot.command(name = 'abort', help = "abort the game")
 async def abort(ctx):
     """abort the game"""
