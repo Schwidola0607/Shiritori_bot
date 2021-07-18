@@ -322,7 +322,7 @@ async def resign(ctx):
                 title = "Game ended!", 
                 description = f'Congratulations {shiritori.get_winner().name}', 
                 color = COLOR)
-            print(shiritori.get_winner().score)
+            # print(shiritori.get_winner().score)
             await ctx.channel.send(embed = embed_var)
             shiritori.end()
             return
@@ -350,7 +350,7 @@ async def kicc(ctx, player_name: str):
             if player_name == s.name:
                 shiritori.kick(s)
                 in_the_game = 1
-        print(in_the_game)
+        # print(in_the_game)
 
         if in_the_game:
             embed_var = discord.Embed(
@@ -423,10 +423,10 @@ async def leaderboard(ctx):
     if shiritori.state == 3:
         if shiritori.archive_leaderboard[-1][1] == True:
             ranking = shiritori.display_leaderboard()
-            for i in ranking:
-                print(f'{i.name} {i.score}')
+            # for i in ranking:
+            #     print(f'{i.name} {i.score}')
+            # print(len(ranking))
             desc = ""
-            print(len(ranking))
             for i in range (len(ranking)):
                 desc = desc + f'#{i + 1}: {ranking[i].name} with {ranking[i].get_score()} points\n'
             embed_var = discord.Embed(
@@ -510,7 +510,7 @@ async def urbanmean(ctx, word: str):
     
 @bot.event
 async def on_ready():
-    print("On Board")
+    print("maid0902 on board")
 
 async def announce_kick():
     pass
