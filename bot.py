@@ -26,6 +26,8 @@ bot = commands.Bot(command_prefix = '&', intents = intents)
 @bot.command(name = 'create', help = "Create a ultrabullet, bullet, blitz or srabble, shiritori game with different dictionary modes", aliases = ['c'])
 async def create(ctx, game_type: str = None, dictionary_type: str = None):
     """create a game by selecting the game mode"""
+    correct_game_type = True
+    correct_dict_type = True
     global DEFAULT_TIME
     if game_type == "ultrabullet":
         DEFAULT_TIME = 30
@@ -42,6 +44,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
+        correct_game_type = False
     else:
         embed_var = discord.Embed(
             title = f'Invalid game mode. {ctx.message.author} please select again!', 
@@ -49,6 +52,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
+        correct_game_type = False
 
     dict_index = -1
     if dictionary_type == "normal":
@@ -66,6 +70,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
+        correct_dict_type = False
     else:
         embed_var = discord.Embed(
             title = f'Invalid dictionary mode. {ctx.message.author} please select again!', 
@@ -73,11 +78,12 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
-        return
+        correct_dict_type = False
 
     if game_type == None or dictionary_type == None:
         return
-
+    if correct_game_type == False or correct_dict_type == False:
+        return
     shiritori.dict_type = dict_index
     shiritori.state = 1
     current_player = Players(str(ctx.message.author), DEFAULT_TIME)
@@ -218,7 +224,7 @@ async def on_message(message):
                         color = COLOR
                     )
                     await channel.send(embed = embed_var)
-                    
+
                 shiritori.current_turn_Player().invalid_left -= 1
                 if shiritori.current_turn_Player().invalid_left < 0:
                     embed_var = discord.Embed(
