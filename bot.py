@@ -204,10 +204,15 @@ async def on_message(message):
         else:
             if shiritori.check_word_validity(word) == 0:
                 shiritori.current_turn_Player().countdown()
+                if shiritori.BOOL_SCRABBLE == True:
+                    shiritori.current_turn_Player().penalty(20)
+                desc = 'Invalid word Baka! ' 
+                + "{:.2f}".format(shiritori.current_turn_Player().time_left)
+                + ' seconds left.\n'
+                if shiritori.BOOL_SCRABBLE == True:
+                    desc += '-20 points penalty'
                 embed_var = discord.Embed(
-                    description = 'Invalid word Baka! ' 
-                    +"{:.2f}".format(shiritori.current_turn_Player().time_left)
-                    +' seconds left.', 
+                    description = desc, 
                     color = COLOR
                 )
                 await channel.send(embed = embed_var)
@@ -299,6 +304,7 @@ async def resign(ctx):
         for s in shiritori.list_of_players:
             if player_name == s.name:
                 shiritori.kick(s)
+                s.out_of_rank()
         embed_var = discord.Embed(
             description = f"{player_name} has resigned from the game.", 
             color = COLOR)
@@ -369,6 +375,7 @@ async def kicc(ctx, player_name: str):
                 if player_name == s.name:
                     has_find = True
                     shiritori.kick(s)
+                    s.out_of_rank()
             if has_find == True:
                 embed_var = discord.Embed(
                     description = f"{player_name} has been kicced from the game.", 

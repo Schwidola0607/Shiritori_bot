@@ -30,7 +30,11 @@ class Players:
         self.score += get_score(word)  
     def get_score(self) -> int:
         """get score of a Player"""
-        return self.score 
+        return self.score
+    def penalty(self, sub:int):
+        self.score -= sub
+    def out_of_rank(self):
+        self.score = -1
     def get_remaining_time(self) -> int: 
         """get remaining time of a player units: second"""
         return self.time_left
