@@ -529,6 +529,12 @@ async def mean(ctx, word = '', word_type = ''):
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
+        elif word_type not in temporary_dict:
+            embed_var = discord.Embed(
+                description = "Wrong word type!", 
+                color = COLOR
+            )
+            await ctx.message.channel.send(embed = embed_var)
         else:
             for index, meaning_line in enumerate(temporary_dict[word_type]):
                 embed_var = discord.Embed(
