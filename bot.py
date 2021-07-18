@@ -64,6 +64,11 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
+        correct_game_type = False
+
+    if correct_game_type == False:
+        return
+    
     dict_index = -1
     if dictionary_type == "normal":
         dict_index = 0
@@ -89,10 +94,8 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         )
         await ctx.message.channel.send(embed = embed_var)
         correct_dict_type = False
-
-    if game_type == None or dictionary_type == None:
-        return
-    if correct_game_type == False or correct_dict_type == False:
+        
+    if correct_dict_type == False:
         return
     shiritori.dict_type = dict_index
     shiritori.state = 1
