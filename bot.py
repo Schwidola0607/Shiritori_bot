@@ -15,19 +15,8 @@ intents = discord.Intents.all()
 Dictionary = PyDictionary()
 TOKEN = os.getenv('DISCORD_TOKEN')
 COLOR = 0x00ff00
-scrabble_score = {"a": 1, "c": 3, "b": 3, "e": 1, "d": 2, "g": 2,
-        "f": 4, "i": 1, "h": 4, "k": 5, "j": 8, "m": 3,
-        "l": 1, "o": 1, "n": 1, "q": 10, "p": 3, "s": 1,
-        "r": 1, "u": 1, "t": 1, "w": 4, "v": 4, "y": 4,
-        "x": 8, "z": 10}
-def get_score(word: str) -> int:
-    """return the score of a word according to scrabble"""
-    res = 0
-    for letter in word:
-        res += scrabble_score[letter.lower()]
-    return res
+
 DEFAULT_TIME = 180
-BOOL_SCRABBLE = False
 DEFAULT_DICT_TYPE = 0 
 """ 0 for english, 1 for urban dictionary, 2 for MAL, 3 for fifa"""
 
@@ -38,7 +27,6 @@ bot = commands.Bot(command_prefix = '&', intents = intents)
 async def create(ctx, game_type: str = None, dictionary_type: str = None):
     """create a game by selecting the game mode"""
     global DEFAULT_TIME
-    global BOOL_SCRABBLE
     if game_type == "ultrabullet":
         DEFAULT_TIME = 30
     elif game_type == "bullet":
@@ -46,7 +34,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
     elif game_type == "blitz":
         DEFAULT_TIME = 180  
     elif game_type == "scrabble":
-        BOOL_SCRABBLE = True
+        shiritori.BOOL_SCRABBLE = True
     elif game_type == None:
         embed_var = discord.Embed(
             title = f'{ctx.message.author} please select a game mode!', 
@@ -90,7 +78,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
     if game_type == None or dictionary_type == None:
         return
 
-    shiritori.__init__(dict_index)
+    shiritori.dict_type = dict_index
     shiritori.state = 1
     current_player = Players(str(ctx.message.author), DEFAULT_TIME)
     shiritori.add_new_players(current_player)
@@ -270,8 +258,6 @@ async def on_message(message):
 
             else:
                 shiritori.add_new_word(word)
-                if BOOL_SCRABBLE == True:
-                    shiritori.current_turn_Player().add_score(word)
                 shiritori.next_turn()
                 
                 embed_var = discord.Embed(
@@ -424,7 +410,7 @@ async def kicc(ctx, player_name: str):
 async def rank(ctx):
     if shiritori.state == 3:
         ranking = shiritori.display_leaderboard()
-        for i in shiritori.leaderboard:
+        for i in ranking:
             print(f'{i.name} {i.score}')
         desc = ""
         print(len(ranking))
