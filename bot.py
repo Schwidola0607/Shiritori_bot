@@ -418,8 +418,8 @@ async def kicc(ctx, player_name: str):
         )
         await ctx.message.channel.send(embed = embed_var)
 
-@bot.command(name = 'rank', help = "display leaderboard") 
-async def rank(ctx):
+@bot.command(name = 'leaderboard', help = "display leaderboard", aliases = ['l']) 
+async def leaderboard(ctx):
     if shiritori.state == 3:
         if shiritori.archive_leaderboard[-1][1] == True:
             ranking = shiritori.display_leaderboard()
@@ -437,7 +437,7 @@ async def rank(ctx):
             await ctx.message.channel.send(embed = embed_var)
         else:
             embed_var = discord.Embed(
-                description = "Not point is given for modes other than scrabble",
+                description = "No point is given for modes other than scrabble",
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
