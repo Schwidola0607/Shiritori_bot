@@ -272,7 +272,7 @@ async def on_message(message):
                         return
 
                     embed_var = discord.Embed(
-                    description = f'{shiritori.current_turn_Player().name} your turn.' +
+                    description = f'{shiritori.current_turn_Player().name} your turn. ' +
                     f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
                     color = COLOR
                     )
