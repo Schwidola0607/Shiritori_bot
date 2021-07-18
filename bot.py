@@ -1,5 +1,6 @@
 import os
 import discord
+from discord.embeds import Embed
 import requests
 import json
 from players import Players
@@ -420,7 +421,7 @@ async def kicc(ctx, player_name: str):
 
 @bot.command(name = 'leaderboard', help = "display leaderboard", aliases = ['l']) 
 async def leaderboard(ctx):
-    if shiritori.state == 2 or shiritori.state == 3:
+    if shiritori.state == 3:
         if shiritori.archive_leaderboard[-1][1] == True:
             ranking = shiritori.display_leaderboard()
             desc = ""
@@ -435,6 +436,18 @@ async def leaderboard(ctx):
         else:
             embed_var = discord.Embed(
                 description = "No point is given for modes other than scrabble",
+                color = COLOR
+            )
+            await ctx.message.channel.send(embed = embed_var)
+    elif shiritori.state == 2:
+        if shiritori.BOOL_SCRABBLE == True:
+            ranking = shiritori.display_leaderboard()
+            desc = ""
+            for i in range (len(ranking)):
+                desc = desc + f'#{i + 1}: {ranking[i].name} with {ranking[i].get_score()} points\n'
+            embed_var = discord.Embed(
+                title = 'Current leaderboard',
+                description = desc,
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
