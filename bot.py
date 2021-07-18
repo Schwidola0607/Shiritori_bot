@@ -25,6 +25,20 @@ bot = commands.Bot(command_prefix = '&', intents = intents)
 @bot.command(name = 'create', help = "Create a ultrabullet, bullet, blitz or srabble, shiritori game with different dictionary modes", aliases = ['c'])
 async def create(ctx, game_type: str = None, dictionary_type: str = None):
     """create a game by selecting the game mode"""
+    if shiritori.state == 1:
+        embed_var = discord.Embed(
+            description = "Game already created!", 
+            color = COLOR
+        )
+        await ctx.message.channel.send(embed = embed_var)
+        return
+    elif shiritori.state == 2:
+        embed_var = discord.Embed(
+            description = "Game in progress!", 
+            color = COLOR
+        )
+        await ctx.message.channel.send(embed = embed_var)
+        return
     correct_game_type = True
     correct_dict_type = True
     global DEFAULT_TIME
@@ -157,6 +171,12 @@ async def start(ctx):
             )
             await ctx.message.channel.send(embed = embed_var)
         # print(f'debug checkpoint#3 {shiritori.state}')
+    elif shiritori.state == 2:
+        embed_var = discord.Embed(
+            description = "Game in progress!", 
+            color = COLOR
+        )
+        await ctx.message.channel.send(embed = embed_var)
     else: 
         embed_var = discord.Embed(
             description = "No current game.", 
