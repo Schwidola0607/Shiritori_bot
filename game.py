@@ -6,7 +6,6 @@ from dictionary.MAL.character_names.check_MAL_name import check_MAL_name
 from players import Players
 DEFAULT_TIME = 1800
 DEFAULT_DICT_TYPE = 0
-BOOL_SCRABBLE = False
 """0 for english, 1 for urban, 2 for MAL, 3 for fifa"""
 from PyDictionary import PyDictionary
 Dictionary = PyDictionary()
@@ -15,20 +14,24 @@ class Game:
     """a class to represent the current instance of a game"""
     state = 0 #0 - not begin, 1 - waiting for players, 2 - start/on progress, 3 - has just ended
     dict_type = DEFAULT_DICT_TYPE #0 - casual shiritori, 1 - urbandict shiritori
+    BOOL_SCRABBLE = False
     
     list_of_players = []
     list_of_used_words = Trie()
     leaderboard = []
     current_letter = ""
     position = 0
+    archive_leaderboard = []
     def __init__(self, dict_type: int):
         self.state = 0
         self.dict_type = dict_type
+        self.BOOL_SCRABBLE = False
         self.list_of_players = []
         self.list_of_used_words = Trie()
         self.leaderboard = []
         self.current_letter = ""
         self.current_position = 0
+        self.archive_leaderboard = []
     def add_new_players(self, gamer: Players):
         """add a new player when joined"""
         self.list_of_players.append(gamer)
@@ -36,7 +39,8 @@ class Game:
     def add_new_word(self, word: str):
         """new word to list_of_used_word after a turn"""
         self.list_of_used_words.add(word)
-        self.current_letter = word[len(word) - 1]
+        self.current_turn_Player().add_score(word)
+        self.current_letter = word[-1]
     def start_game(self):
         """method to start game"""
         i = 0
@@ -100,6 +104,8 @@ class Game:
                 self.list_of_players[i].position -= 1
             if pos <= self.current_position:
                 self.current_position -= 1
+        if self.state == 1:
+            self.leaderboard.remove(gamer)
         self.list_of_players.remove(gamer)
     def next_turn(self):
         """move to next Player's turn"""
@@ -117,6 +123,8 @@ class Game:
         """method to end the game"""
         self.state = 3
         self.dict_type = DEFAULT_DICT_TYPE
+        self.archive_leaderboard.append([self.leaderboard, self.BOOL_SCRABBLE])
+        self.BOOL_SCRABBLE = False
         self.list_of_players = []
         self.list_of_used_words = Trie()
         self.leaderboard = []
@@ -128,9 +136,15 @@ class Game:
         return self.list_of_players[0]
     def display_leaderboard(self) -> list:
         """return leaderboard based on scrabble score"""
-        if BOOL_SCRABBLE == True:
-            self.leaderboard.sort(key = lambda x: x.score, reverse = True)
-        return self.leaderboard
+        if self.state == 2:
+            if self.BOOL_SCRABBLE == True:
+                self.leaderboard.sort(key = lambda x: x.score, reverse = True)
+            return self.leaderboard
+        elif self.state == 3:
+            print(self.archive_leaderboard[-1])
+            if self.archive_leaderboard[-1][1] == True:
+                self.archive_leaderboard[-1][0].sort(key = lambda x: x.score, reverse = True)
+            return self.archive_leaderboard[-1][0]
             
 
 
