@@ -10,7 +10,6 @@ from discord.ext import commands
 from dotenv import load_dotenv
 
 load_dotenv()
-intents = discord.Intents.all()
 Dictionary = PyDictionary()
 TOKEN = os.getenv('DISCORD_TOKEN')
 COLOR = 0x00ff00
@@ -20,7 +19,7 @@ DEFAULT_DICT_TYPE = 0
 """ 0 for english, 1 for urban dictionary, 2 for MAL, 3 for fifa"""
 
 shiritori = Game(DEFAULT_DICT_TYPE)
-bot = commands.Bot(command_prefix = '&', intents = intents)
+bot = commands.Bot(command_prefix = '&')
 
 @bot.command(name = 'create', help = "Create a ultrabullet, bullet, blitz or srabble, shiritori game with different dictionary modes", aliases = ['c'])
 async def create(ctx, game_type: str = None, dictionary_type: str = None):
