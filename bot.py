@@ -204,19 +204,21 @@ async def on_message(message):
         else:
             if shiritori.check_word_validity(word) == 0:
                 shiritori.current_turn_Player().countdown()
-                if shiritori.BOOL_SCRABBLE == True:
-                    shiritori.current_turn_Player().penalty(20)
-                desc = 'Invalid word Baka! ' 
-                + "{:.2f}".format(shiritori.current_turn_Player().time_left)
-                + ' seconds left.\n'
-                if shiritori.BOOL_SCRABBLE == True:
-                    desc += '-20 points penalty'
                 embed_var = discord.Embed(
-                    description = desc, 
+                    description = 'Invalid word Baka! ' 
+                    + "{:.2f}".format(shiritori.current_turn_Player().time_left)
+                    + ' seconds left.\n', 
                     color = COLOR
                 )
                 await channel.send(embed = embed_var)
-
+                if shiritori.BOOL_SCRABBLE == True:
+                    shiritori.current_turn_Player().penalty(20)
+                    embed_var = discord.Embed(
+                        description = '-20 points penalty',
+                        color = COLOR
+                    )
+                    await channel.send(embed = embed_var)
+                    
                 shiritori.current_turn_Player().invalid_left -= 1
                 if shiritori.current_turn_Player().invalid_left < 0:
                     embed_var = discord.Embed(
