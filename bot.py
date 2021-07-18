@@ -505,12 +505,14 @@ async def abort(ctx):
 async def mean(ctx, word: str, word_type):
     """return the meaning(s) of a word"""
     temporary_dict = Dictionary.meaning(word)
-    for meaning_line in temporary_dict[word_type]:
+    for index, meaning_line in enumerate(temporary_dict[word_type]):
         embed_var = discord.Embed(
             description=f'-{meaning_line}', 
             color = COLOR
         )
         await ctx.send(embed = embed_var)    
+        if index == 4:
+            break
 
 @bot.command(name = 'urbanmean', help = "return the meaning of a string in urban dictionary")
 async def urbanmean(ctx, word: str):
@@ -531,12 +533,14 @@ async def urbanmean(ctx, word: str):
         )
         await ctx.send(embed = embed_var)
     else:
-        for mean in def_list:
+        for index, mean in enumerate(def_list):
             embed_var = discord.Embed(
             description=str(mean['definition']), 
             color = COLOR
             )
             await ctx.send(embed = embed_var)
+            if index == 4:
+                break
     
 @bot.event
 async def on_ready():
