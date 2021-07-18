@@ -55,10 +55,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         await ctx.message.channel.send(embed = embed_var)
         correct_game_type = False
         return
-<<<<<<< HEAD
-=======
-
->>>>>>> 3a6af7de3afa62aa12ed63ed6daaa5f5667e03ff
+    
     dict_index = -1
     if dictionary_type == "normal":
         dict_index = 0
