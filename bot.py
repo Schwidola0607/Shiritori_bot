@@ -521,8 +521,9 @@ async def mean(ctx, word = '', word_type = ''):
         )
         await ctx.message.channel.send(embed = embed_var)
     else:
+        word_type = word_type.capitalize()
         temporary_dict = Dictionary.meaning(word)
-        if len(temporary_dict[word_type]) == 0:
+        if temporary_dict is None:
             embed_var = discord.Embed(
                 description = "Word have no meaning!", 
                 color = COLOR
