@@ -94,7 +94,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         )
         await ctx.message.channel.send(embed = embed_var)
         correct_dict_type = False
-        
+
     if correct_dict_type == False:
         return
     shiritori.dict_type = dict_index
@@ -505,20 +505,48 @@ async def abort(ctx):
         await ctx.message.channel.send(embed = embed_var)
 
 @bot.command(name = 'mean', help = "return the meaning of a string")
-async def mean(ctx, word: str, word_type):
+async def mean(ctx, word = '', word_type = ''):
     """return the meaning(s) of a word"""
-    temporary_dict = Dictionary.meaning(word)
-    for index, meaning_line in enumerate(temporary_dict[word_type]):
+    if word == '':
         embed_var = discord.Embed(
-            description=f'-{meaning_line}', 
+            description = "Please include a word.", 
             color = COLOR
         )
-        await ctx.send(embed = embed_var)    
-        if index == 4:
-            break
+        await ctx.message.channel.send(embed = embed_var)
+        return
+    if word_type == '':
+        embed_var = discord.Embed(
+            description = "Please include a word type.", 
+            color = COLOR
+        )
+        await ctx.message.channel.send(embed = embed_var)
+    else:
+        temporary_dict = Dictionary.meaning(word)
+        if len(temporary_dict[word_type]) == 0:
+            embed_var = discord.Embed(
+                description = "Word have no meaning!", 
+                color = COLOR
+            )
+            await ctx.message.channel.send(embed = embed_var)
+        else:
+            for index, meaning_line in enumerate(temporary_dict[word_type]):
+                embed_var = discord.Embed(
+                    description=f'-{meaning_line}', 
+                    color = COLOR
+                )
+                await ctx.send(embed = embed_var)    
+                if index == 4:
+                    break
 
 @bot.command(name = 'urbanmean', help = "return the meaning of a string in urban dictionary")
-async def urbanmean(ctx, word: str):
+async def urbanmean(ctx, word = ''):
+    if word == '':
+        embed_var = discord.Embed(
+            description = "Please include a phrase.", 
+            color = COLOR
+        )
+        await ctx.message.channel.send(embed = embed_var)
+        return
     response = requests.get("https://api.urbandictionary.com/v0/define?term=" + word).text
     dict_response = json.loads(response)
     if ('error' in dict_response): # url is redirected
