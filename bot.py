@@ -1,6 +1,3 @@
-from discord.embeds import Embed
-from requests.sessions import RecentlyUsedContainer
-from fifa.check_fifa import check_players_name
 import os
 import discord
 import requests
@@ -53,9 +50,6 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
-        correct_game_type = False
-        return
-    
     dict_index = -1
     if dictionary_type == "normal":
         dict_index = 0
