@@ -34,7 +34,7 @@ class Players:
     def penalty(self, sub:int):
         self.score -= sub
     def out_of_rank(self):
-        self.score = -1
+        self.score = -9203
     def get_remaining_time(self) -> int: 
         """get remaining time of a player units: second"""
         return self.time_left
