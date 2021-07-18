@@ -137,7 +137,7 @@ class Game:
         if self.BOOL_SCRABBLE == False:
             return self.list_of_players[0]
         else:
-            return max(self.archive_leaderboard, key = lambda x: x.score)
+            return max(self.leaderboard, key = lambda x: x.score)
 
     def display_leaderboard(self) -> list:
         """return leaderboard based on scrabble score"""
