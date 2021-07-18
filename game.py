@@ -98,6 +98,7 @@ class Game:
         return self.list_of_players[self.current_position]
     def kick(self, gamer: Players):
         """disqualify a player based on time, or the number of invalid times"""
+        """kick a player from a game instance"""
         if self.state == 2:
             pos = gamer.position
             for i in range(pos + 1, self.get_player_list_size()):
@@ -133,7 +134,11 @@ class Game:
 
     def get_winner(self) -> Players:
         """return the winner"""
-        return self.list_of_players[0]
+        if self.BOOL_SCRABBLE == False:
+            return self.list_of_players[0]
+        else:
+            return max(self.archive_leaderboard, key = lambda x: x.score)
+
     def display_leaderboard(self) -> list:
         """return leaderboard based on scrabble score"""
         if self.state == 2:
