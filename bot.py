@@ -322,6 +322,7 @@ async def resign(ctx):
                 title = "Game ended!", 
                 description = f'Congratulations {shiritori.get_winner().name}', 
                 color = COLOR)
+            print(shiritori.get_winner().score)
             await ctx.channel.send(embed = embed_var)
             shiritori.end()
             return
@@ -420,7 +421,7 @@ async def kicc(ctx, player_name: str):
 @bot.command(name = 'rank', help = "display leaderboard") 
 async def rank(ctx):
     if shiritori.state == 3:
-        if shiritori.BOOL_SCRABBLE == True:
+        if shiritori.archive_leaderboard[-1][1] == True:
             ranking = shiritori.display_leaderboard()
             for i in ranking:
                 print(f'{i.name} {i.score}')
