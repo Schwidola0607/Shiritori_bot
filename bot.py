@@ -424,20 +424,32 @@ async def kicc(ctx, player_name: str):
 @bot.command(name = 'rank', help = "display leaderboard") 
 async def rank(ctx):
     if shiritori.state == 3:
-        ranking = shiritori.display_leaderboard()
-        for i in ranking:
-            print(f'{i.name} {i.score}')
-        desc = ""
-        print(len(ranking))
-        for i in range (len(ranking)):
-            desc = desc + f'#{i + 1}: {ranking[i].name} with {ranking[i].get_score()} points\n'
+        if shiritori.BOOL_SCRABBLE == True:
+            ranking = shiritori.display_leaderboard()
+            for i in ranking:
+                print(f'{i.name} {i.score}')
+            desc = ""
+            print(len(ranking))
+            for i in range (len(ranking)):
+                desc = desc + f'#{i + 1}: {ranking[i].name} with {ranking[i].get_score()} points\n'
+            embed_var = discord.Embed(
+                title = 'Final leaderboard',
+                description = desc,
+                color = COLOR
+            )
+            await ctx.message.channel.send(embed = embed_var)
+        else:
+            embed_var = discord.Embed(
+                description = "Not point is given for modes other than scrabble",
+                color = COLOR
+            )
+            await ctx.message.channel.send(embed = embed_var)
+    else:
         embed_var = discord.Embed(
-            title = 'Final leaderboard',
-            description = desc,
+            description = "The game has not ended yet!",
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
-   
 @bot.command(name = 'abort', help = "abort the game")
 async def abort(ctx):
     """abort the game"""
