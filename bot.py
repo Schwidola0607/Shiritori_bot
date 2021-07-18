@@ -420,12 +420,9 @@ async def kicc(ctx, player_name: str):
 
 @bot.command(name = 'leaderboard', help = "display leaderboard", aliases = ['l']) 
 async def leaderboard(ctx):
-    if shiritori.state == 3:
+    if shiritori.state == 2 or shiritori.state == 3:
         if shiritori.archive_leaderboard[-1][1] == True:
             ranking = shiritori.display_leaderboard()
-            # for i in ranking:
-            #     print(f'{i.name} {i.score}')
-            # print(len(ranking))
             desc = ""
             for i in range (len(ranking)):
                 desc = desc + f'#{i + 1}: {ranking[i].name} with {ranking[i].get_score()} points\n'
@@ -443,7 +440,7 @@ async def leaderboard(ctx):
             await ctx.message.channel.send(embed = embed_var)
     else:
         embed_var = discord.Embed(
-            description = "The game has not ended yet!",
+            description = "There is no archived game yet!",
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
