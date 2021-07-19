@@ -1,11 +1,13 @@
 import requests
 import json
+import discord
 from dict_trie import Trie
 from fifa.check_fifa import check_players_name
 from dictionary.MAL.character_names.check_MAL_name import check_MAL_name
 from players import Players
 DEFAULT_TIME = 1800
 DEFAULT_DICT_TYPE = 0
+COLOR = 0x00ff00
 """0 for english, 1 for urban, 2 for MAL, 3 for fifa"""
 from PyDictionary import PyDictionary
 Dictionary = PyDictionary()
@@ -144,12 +146,23 @@ class Game:
         if self.state == 2:
             if self.BOOL_SCRABBLE == True:
                 self.leaderboard.sort(key = lambda x: x.score, reverse = True)
+            else:
+                self.leaderboard.sort(key = lambda x: x.time_left, reverse = True)
             return self.leaderboard
         elif self.state == 3:
-            print(self.archive_leaderboard[-1])
+            #print(self.archive_leaderboard[-1])
             if self.archive_leaderboard[-1][1] == True:
                 self.archive_leaderboard[-1][0].sort(key = lambda x: x.score, reverse = True)
+            else:
+                self.archive_leaderboard[-1][0].sort(key = lambda x: x.time_left, reverse = True)
             return self.archive_leaderboard[-1][0]
+    
+    async def announce(self, ctx, case: str):
+        embed_var = discord.Embed(
+            description = "something!",
+            color = COLOR
+        )
+        await ctx.send(embed = embed_var)
             
 
 
