@@ -16,6 +16,7 @@ def get_score(word: str) -> int:
 class Players:
     """ a class to represent players"""
     name = ""
+    uid = ''
     score = 0
     invalid_left = 3
     time_left = 0
@@ -23,9 +24,10 @@ class Players:
     timer = threading.Timer
     start_time = 0
     position = 0
-    def __init__(self, name: str, t: int):
+    def __init__(self, name: str, t: int, uid: str):
         self.name = name
         self.time_left = t
+        self.uid = uid
     def add_score(self, word: str):
         """add score to a Player"""
         self.score += get_score(word)  
