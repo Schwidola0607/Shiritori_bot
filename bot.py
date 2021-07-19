@@ -336,7 +336,7 @@ async def resign(ctx):
         for s in shiritori.list_of_players:
             if player_name == s.name:
                 shiritori.kick(s)
-                s.out_of_rank()
+                s.out_of_rank(shiritori.BOOL_SCRABBLE)
         embed_var = discord.Embed(
             description = f"<@!{ctx.message.author.id}> has resigned from the game.", 
             color = COLOR)
@@ -408,11 +408,11 @@ async def kicc(ctx, raw_id: str):
             if  player_id == shiritori.current_turn_Player().uid:
                 nxt_turn = 1
             for s in shiritori.list_of_players:
-                print(player_id, s.uid)
+                #print(player_id, s.uid)
                 if player_id == s.uid:
                     has_find = True
                     shiritori.kick(s)
-                    s.out_of_rank()
+                    s.out_of_rank(shiritori.BOOL_SCRABBLE)
                     break
             if has_find == True:
                 embed_var = discord.Embed(
@@ -459,7 +459,10 @@ async def leaderboard(ctx):
             ranking = shiritori.display_leaderboard()
             desc = ""
             for i in range (len(ranking)):
-                desc = desc + f'#{i + 1}: {ranking[i].name} with {ranking[i].get_score()} points\n'
+                if ranking[i].get_score() != -9203:
+                    desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> with {ranking[i].get_score()} points\n'
+                else:
+                    desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of the game\n'
             embed_var = discord.Embed(
                 title = 'Final leaderboard',
                 description = desc,
@@ -467,8 +470,18 @@ async def leaderboard(ctx):
             )
             await ctx.message.channel.send(embed = embed_var)
         else:
+            ranking = shiritori.display_leaderboard()
+            desc = ""
+            for i in range (len(ranking)):
+                if ranking[i].time_left == -9203:
+                    desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of the game\n'
+                elif ranking[i].time_left < 0:
+                    desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of time\n'
+                else:
+                    desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> with {ranking[i].time_left:.2f} seconds left\n'
             embed_var = discord.Embed(
-                description = "No point is given for modes other than scrabble",
+                title = 'Final leaderboard',
+                description = desc,
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
@@ -477,9 +490,28 @@ async def leaderboard(ctx):
             ranking = shiritori.display_leaderboard()
             desc = ""
             for i in range (len(ranking)):
-                desc = desc + f'#{i + 1}: {ranking[i].name} with {ranking[i].get_score()} points\n'
+                if ranking[i].get_score() != -9203:
+                    desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> with {ranking[i].get_score()} points\n'
+                else:
+                    desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of the game\n'
             embed_var = discord.Embed(
-                title = 'Current leaderboard',
+                title = 'Final leaderboard',
+                description = desc,
+                color = COLOR
+            )
+            await ctx.message.channel.send(embed = embed_var)
+        else:
+            ranking = shiritori.display_leaderboard()
+            desc = ""
+            for i in range (len(ranking)):
+                if ranking[i].time_left == -9203:
+                    desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of the game\n'
+                elif ranking[i].time_left < 0:
+                    desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of time\n'
+                else:
+                    desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> with {ranking[i].time_left:.2f} seconds left\n'
+            embed_var = discord.Embed(
+                title = 'Final leaderboard',
                 description = desc,
                 color = COLOR
             )
@@ -590,6 +622,10 @@ async def urbanmean(ctx, word = ''):
             await ctx.send(embed = embed_var)
             if index == 4:
                 break
+
+@bot.command(name = 'announce', help = 'announce something')
+async def announce(ctx):
+    await shiritori.announce(ctx, 'a')
     
 @bot.event
 async def on_ready():
