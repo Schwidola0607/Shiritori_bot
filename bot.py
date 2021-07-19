@@ -99,7 +99,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         return
     shiritori.dict_type = dict_index
     shiritori.state = 1
-    current_player = Players(str(ctx.message.author), DEFAULT_TIME)
+    current_player = Players(str(ctx.message.author), DEFAULT_TIME, ctx.message.author.id)
     shiritori.add_new_players(current_player)
     embed_var = discord.Embed(
         title = f'{ctx.message.author} is creating a new game!', 
@@ -126,10 +126,10 @@ async def join(ctx):
         )
         await ctx.message.channel.send(embed = embed_var)
     else: 
-        current_player = Players(str(ctx.message.author), DEFAULT_TIME)
+        current_player = Players(str(ctx.message.author), DEFAULT_TIME, ctx.message.author.id)
         if shiritori.find_player(str(ctx.message.author)) != False:
             embed_var = discord.Embed(
-                    description = f'{ctx.message.author}'
+                    description = f'<@!{ctx.message.author.id}>'
                     ' You are already in the game!', 
                     color = COLOR
             )
@@ -137,7 +137,7 @@ async def join(ctx):
             return
         shiritori.add_new_players(current_player)
         embed_var = discord.Embed(
-            description = f'{ctx.message.author}'
+            description = f'<@!{ctx.message.author.id}>'
             ' has joined the game.', 
             color = COLOR
         )
@@ -152,7 +152,7 @@ async def start(ctx):
     if shiritori.state == 1:
         if shiritori.get_player_list_size() > 1:
             shiritori.start_game()
-            desc = f'The game is beginning. {shiritori.current_turn_Player().name} '
+            desc = f'The game is beginning. <@!{shiritori.current_turn_Player().uid}> '
             if shiritori.dict_type == 0:
                 desc = desc + 'Please choose a random English word.'
             elif shiritori.dict_type == 1:
@@ -197,13 +197,13 @@ async def on_message(message):
         # print(shiritori.current_turn_Player().time_left)
         if shiritori.current_turn_Player().time_left < 0:
             embed_var = discord.Embed(
-                description = f'{message.author}'
+                description = f'<@!{message.author.id}>'
                 '  You have ran out of time.', 
                 color = COLOR
             )
             await channel.send(embed = embed_var)
             embed_var = discord.Embed(
-                description = f'{message.author}'
+                description = f'<@!{message.author.id}>'
                 ' has been kicced from the game.', 
                 color = COLOR)
             await channel.send(embed = embed_var)
@@ -214,14 +214,15 @@ async def on_message(message):
             if shiritori.check_end():
                 embed_var = discord.Embed(
                     title = "Game ended!", 
-                    description = f'Congratulation {shiritori.get_winner().name}', 
+                    description = f'Congratulation <@!{shiritori.get_winner().uid}>', 
                     color = COLOR)
                 await channel.send(embed = embed_var)
                 shiritori.end()
                 return
             
             embed_var = discord.Embed(
-                description = f'{shiritori.current_turn_Player().name} your turn.' +
+                description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
+                f'Begin with the letter {shiritori.current_letter}. ' +
                 f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
                 color = COLOR)
             await channel.send(embed = embed_var)
@@ -247,13 +248,13 @@ async def on_message(message):
                 shiritori.current_turn_Player().invalid_left -= 1
                 if shiritori.current_turn_Player().invalid_left < 0:
                     embed_var = discord.Embed(
-                        description = f'{message.author}'
+                        description = f'<@!{message.author.id}>'
                         ' Your word is invalid for more than 3 times.', 
                         color = COLOR
                     )
                     await channel.send(embed = embed_var)
                     embed_var = discord.Embed(
-                        description = f'{message.author}'
+                        description = f'<@!{message.author.id}>'
                         '  has been kicced from the game.', 
                         color = COLOR
                     ) 
@@ -265,14 +266,15 @@ async def on_message(message):
                     if shiritori.check_end():
                         embed_var = discord.Embed(
                             title = "Game ended!", 
-                            description = f'Congratulation {shiritori.get_winner().name}', 
+                            description = f'Congratulation <@!{shiritori.get_winner().uid}>', 
                             color = COLOR)
                         await channel.send(embed = embed_var)
                         shiritori.end()
                         return
 
                     embed_var = discord.Embed(
-                    description = f'{shiritori.current_turn_Player().name} your turn. ' +
+                    description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
+                    f'Begin with the letter {shiritori.current_letter}. ' +
                     f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
                     color = COLOR
                     )
@@ -281,7 +283,7 @@ async def on_message(message):
                 if shiritori.check_end():
                     embed_var = discord.Embed(
                         title = "Game ended!", 
-                        description = f'Congratulation {shiritori.get_winner().name}', 
+                        description = f'Congratulation <@!{shiritori.get_winner().uid}>', 
                         color = COLOR
                     )
                     await channel.send(embed = embed_var)
@@ -293,7 +295,8 @@ async def on_message(message):
                 shiritori.next_turn()
                 
                 embed_var = discord.Embed(
-                    description = f'{shiritori.current_turn_Player().name} your turn. ' +
+                    description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
+                    f'Begin with the letter {shiritori.current_letter}. ' +
                     f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
                     color = COLOR
                 )
@@ -314,12 +317,12 @@ async def resign(ctx):
                 in_the_game = 1
         if in_the_game:
             embed_var = discord.Embed(
-            description = f"{player_name} has resigned from the game.", 
+            description = f"<@!{ctx.message.author.id}> has resigned from the game.", 
             color = COLOR)
             await ctx.message.channel.send(embed = embed_var)
         else:
             embed_var = discord.Embed(
-            description = f"{player_name} You are not in the game yet!", 
+            description = f"<@!{ctx.message.author.id}> You are not in the game yet!", 
             color = COLOR)
             await ctx.message.channel.send(embed = embed_var)
 
@@ -333,7 +336,7 @@ async def resign(ctx):
                 shiritori.kick(s)
                 s.out_of_rank()
         embed_var = discord.Embed(
-            description = f"{player_name} has resigned from the game.", 
+            description = f"<@!{ctx.message.author.id}> has resigned from the game.", 
             color = COLOR)
         await ctx.message.channel.send(embed = embed_var)
 
@@ -343,7 +346,7 @@ async def resign(ctx):
         if shiritori.check_end():
             embed_var = discord.Embed(
                 title = "Game ended!", 
-                description = f'Congratulations {shiritori.get_winner().name}', 
+                description = f'Congratulations <@!{shiritori.get_winner().uid}>', 
                 color = COLOR)
             # print(shiritori.get_winner().score)
             await ctx.channel.send(embed = embed_var)
@@ -351,7 +354,8 @@ async def resign(ctx):
             return
 
         embed_var = discord.Embed(
-        description = f'{shiritori.current_turn_Player().name} your turn.' +
+        description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
+        f'Begin with the letter {shiritori.current_letter}. ' +
         f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
         color = COLOR
         )
@@ -377,19 +381,19 @@ async def kicc(ctx, player_name: str):
 
         if in_the_game:
             embed_var = discord.Embed(
-            description = f"{player_name} has been kicked from the game.", 
+            description = f"<@!{ctx.message.author.id}> has been kicked from the game.", 
             color = COLOR)
             await ctx.message.channel.send(embed = embed_var)
         else:
             embed_var = discord.Embed(
-            description = f"{player_name} is not in the game yet!", 
+            description = f"<@!{ctx.message.author.id}> is not in the game yet!", 
             color = COLOR)
             await ctx.message.channel.send(embed = embed_var)
 
     elif shiritori.state == 2:
         if str(ctx.message.author) != shiritori.game_owner().name:
             embed_var = discord.Embed(
-                description=f'{ctx.message.author}' 
+                description=f'<@!{ctx.message.author.id}>' 
                 ' you do not have permission', 
                 color = COLOR
             )
@@ -406,12 +410,12 @@ async def kicc(ctx, player_name: str):
                     s.out_of_rank()
             if has_find == True:
                 embed_var = discord.Embed(
-                    description = f"{player_name} has been kicced from the game.", 
+                    description = f"<@!{ctx.message.author.id}> has been kicced from the game.", 
                     color = COLOR)
                 await ctx.message.channel.send(embed = embed_var)
             else:
                 embed_var = discord.Embed(
-                    description = f'{player_name} is not in the game yet!',
+                    description = f'<@!{ctx.message.author.id}> is not in the game yet!',
                     color = COLOR
                 )
                 await ctx.message.channel.send(embed = embed_var)
@@ -421,14 +425,15 @@ async def kicc(ctx, player_name: str):
             if shiritori.check_end():
                 embed_var = discord.Embed(
                     title = "Game ended!", 
-                    description = f'Congratulations {shiritori.get_winner().name}', 
+                    description = f'Congratulations <@!{shiritori.get_winner().uid}>', 
                     color = COLOR)
                 await ctx.channel.send(embed = embed_var)
                 shiritori.end()
                 return
 
             embed_var = discord.Embed(
-            description = f'{shiritori.current_turn_Player().name} your turn.' +
+            description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
+            f'Begin with the letter {shiritori.current_letter}. ' +
             f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
             color = COLOR
             )
@@ -486,7 +491,7 @@ async def abort(ctx):
     if shiritori.state == 1 or shiritori.state == 2:
         if str(ctx.message.author) != shiritori.game_owner().name:
             embed_var = discord.Embed(
-                description=f'{ctx.message.author}' 
+                description=f'<@!{ctx.message.author.id}>' 
                 ', you do not have permission', 
                 color = COLOR
             )
