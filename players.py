@@ -27,7 +27,7 @@ class Players:
     def __init__(self, name: str, t: int, uid: str):
         self.name = name
         self.time_left = t
-        self.uid = uid
+        self.uid = str(uid)
     def add_score(self, word: str):
         """add score to a Player"""
         self.score += get_score(word)  

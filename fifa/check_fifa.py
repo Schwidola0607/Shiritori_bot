@@ -4,7 +4,7 @@ filename = "players_data.txt"
 f = open(os.path.join(os.path.dirname(__file__),filename))
 players_list = []
 while True:
-    line = f.readline()
+    line = f.readline().lower()
     players_list.append(line.strip())
     if not line:
         break

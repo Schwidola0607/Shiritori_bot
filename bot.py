@@ -38,6 +38,24 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         )
         await ctx.message.channel.send(embed = embed_var)
         return
+    if game_type == None:
+        embed_var = discord.Embed(
+            title = f'{ctx.message.author} please select a game mode!', 
+            description = "ultrabullet, bullet, blitz, or scrabble", 
+            color = COLOR
+        )
+        await ctx.message.channel.send(embed = embed_var)
+        return
+    if dictionary_type == None:
+        embed_var = discord.Embed(
+            title = f'{ctx.message.author} please select a dictionary mode!', 
+            description = "normal, urbandict, MAL, or Fifa", 
+            color = COLOR
+        )
+        await ctx.message.channel.send(embed = embed_var)
+        return
+    game_type = game_type.lower()
+    dictionary_type = dictionary_type.lower()
     correct_game_type = True
     correct_dict_type = True
     global DEFAULT_TIME
@@ -49,14 +67,6 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         DEFAULT_TIME = 180  
     elif game_type == "scrabble":
         shiritori.BOOL_SCRABBLE = True
-    elif game_type == None:
-        embed_var = discord.Embed(
-            title = f'{ctx.message.author} please select a game mode!', 
-            description = "ultrabullet, bullet, blitz, or scrabble", 
-            color = COLOR
-        )
-        await ctx.message.channel.send(embed = embed_var)
-        correct_game_type = False
     else:
         embed_var = discord.Embed(
             title = f'Invalid game mode. {ctx.message.author} please select again!', 
@@ -74,18 +84,10 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         dict_index = 0
     elif dictionary_type == "urbandict":
         dict_index = 1
-    elif dictionary_type == "MAL":
+    elif dictionary_type == "mal":
         dict_index = 2
     elif dictionary_type == "fifa":
         dict_index = 3
-    elif dictionary_type == None:
-        embed_var = discord.Embed(
-            title = f'{ctx.message.author} please select a dictionary mode!', 
-            description = "normal, urbandict, MAL, or Fifa", 
-            color = COLOR
-        )
-        await ctx.message.channel.send(embed = embed_var)
-        correct_dict_type = False
     else:
         embed_var = discord.Embed(
             title = f'Invalid dictionary mode. {ctx.message.author} please select again!', 
@@ -190,7 +192,7 @@ async def start(ctx):
 async def on_message(message):
     """reaction to messages currently served mainly in the game Shiritori"""
     channel = message.channel
-    word = str(message.content)
+    word = str(message.content).lower() # case insensitive
     #print(f'reactional debug {shiritori.state}')
     if shiritori.state == 2 and str(message.author) == shiritori.current_turn_Player().name and message.content[0] != '&':
         shiritori.current_turn_Player().stop_countdown()
@@ -369,24 +371,26 @@ async def resign(ctx):
         await ctx.message.channel.send(embed = embed_var)
 
 @bot.command(name = 'kicc', help = "kicc a player", aliases = ['k'])
-async def kicc(ctx, player_name: str):
+async def kicc(ctx, raw_id: str):
     """kick a player out of the game"""
+    player_id = raw_id.translate({ ord(c): None for c in "<@!>" })
     if shiritori.state == 1:
         in_the_game = 0
         for s in shiritori.list_of_players:
-            if player_name == s.name:
+            if player_id == s.uid:
                 shiritori.kick(s)
                 in_the_game = 1
+                break
         # print(in_the_game)
 
         if in_the_game:
             embed_var = discord.Embed(
-            description = f"<@!{ctx.message.author.id}> has been kicked from the game.", 
+            description = f"<@!{player_id}> has been kicked from the game.", 
             color = COLOR)
             await ctx.message.channel.send(embed = embed_var)
         else:
             embed_var = discord.Embed(
-            description = f"<@!{ctx.message.author.id}> is not in the game yet!", 
+            description = f"<@!{player_id}> is not in the game yet!", 
             color = COLOR)
             await ctx.message.channel.send(embed = embed_var)
 
@@ -401,21 +405,23 @@ async def kicc(ctx, player_name: str):
         else:
             nxt_turn = 0
             has_find = False
-            if  player_name == shiritori.current_turn_Player().name:
+            if  player_id == shiritori.current_turn_Player().uid:
                 nxt_turn = 1
             for s in shiritori.list_of_players:
-                if player_name == s.name:
+                print(player_id, s.uid)
+                if player_id == s.uid:
                     has_find = True
                     shiritori.kick(s)
                     s.out_of_rank()
+                    break
             if has_find == True:
                 embed_var = discord.Embed(
-                    description = f"<@!{ctx.message.author.id}> has been kicced from the game.", 
+                    description = f"<@!{player_id}> has been kicced from the game.", 
                     color = COLOR)
                 await ctx.message.channel.send(embed = embed_var)
             else:
                 embed_var = discord.Embed(
-                    description = f'<@!{ctx.message.author.id}> is not in the game yet!',
+                    description = f'<@!{player_id}> is not in the game yet!',
                     color = COLOR
                 )
                 await ctx.message.channel.send(embed = embed_var)
