@@ -16,7 +16,8 @@ COLOR = 0x00ff00
 
 DEFAULT_TIME = 180
 DEFAULT_DICT_TYPE = 0 
-""" 0 for english, 1 for urban dictionary, 2 for MAL, 3 for fifa"""
+DEFAULT_JOIN_EMOTE = '✅'
+""" 0 for english, 1 for urban dictionary, 2 for MAL, 3 for fifa, 4 for Vietnamese"""
 
 shiritori = Game(DEFAULT_DICT_TYPE)
 bot = commands.Bot(command_prefix = '&')
@@ -49,7 +50,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
     if dictionary_type == None:
         embed_var = discord.Embed(
             title = f'{ctx.message.author} please select a dictionary mode!', 
-            description = "normal, urbandict, MAL, or Fifa", 
+            description = "normal, urbandict, MAL, Fifa or Vietnamese", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
@@ -88,10 +89,12 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         dict_index = 2
     elif dictionary_type == "fifa":
         dict_index = 3
+    elif dictionary_type == "vietnamese":
+        dict_index = 4
     else:
         embed_var = discord.Embed(
             title = f'Invalid dictionary mode. {ctx.message.author} please select again!', 
-            description = "normal, urbandict, MAL, or fifa", 
+            description = "normal, urbandict, MAL, fifa or Vietnamese", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
@@ -108,7 +111,9 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         description = "Type &join to join the game.", 
         color = COLOR
     )
-    await ctx.message.channel.send(embed = embed_var)
+    message = await ctx.message.channel.send(embed = embed_var)
+    await message.add_reaction(DEFAULT_JOIN_EMOTE)
+    shiritori.start_message = message.id
     # print(f'debug checkpoint#1 {shiritori.state}')
 
    
@@ -163,6 +168,8 @@ async def start(ctx):
                 desc = desc + 'Please choose the full name of a random anime character.'
             elif shiritori.dict_type == 3:
                 desc = desc + 'Please choose a fifa player name.'
+            elif shiritori.dict_type == 4:
+                desc = desc + 'Please choose a random Vietnamese word.'
             embed_var = discord.Embed(
                 description = desc, 
                 color = COLOR
@@ -223,8 +230,8 @@ async def on_message(message):
                 return
             
             embed_var = discord.Embed(
-                description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-                f'Begin with the letter {shiritori.current_letter}. ' +
+                description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+                f'Begin with the letter `{shiritori.current_letter}`.\n' +
                 f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
                 color = COLOR)
             await channel.send(embed = embed_var)
@@ -233,7 +240,7 @@ async def on_message(message):
             if shiritori.check_word_validity(word) == 0:
                 shiritori.current_turn_Player().countdown()
                 embed_var = discord.Embed(
-                    description = 'Invalid word Baka! ' 
+                    description = 'Invalid word Baka!\n' 
                     + "{:.2f}".format(shiritori.current_turn_Player().time_left)
                     + ' seconds left.\n', 
                     color = COLOR
@@ -275,8 +282,8 @@ async def on_message(message):
                         return
 
                     embed_var = discord.Embed(
-                    description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-                    f'Begin with the letter {shiritori.current_letter}. ' +
+                    description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+                    f'Begin with the letter `{shiritori.current_letter}`.\n' +
                     f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
                     color = COLOR
                     )
@@ -297,8 +304,8 @@ async def on_message(message):
                 shiritori.next_turn()
                 
                 embed_var = discord.Embed(
-                    description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-                    f'Begin with the letter {shiritori.current_letter}. ' +
+                    description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+                    f'Begin with the letter `{shiritori.current_letter}`.\n' +
                     f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
                     color = COLOR
                 )
@@ -355,8 +362,8 @@ async def resign(ctx):
         if nxt_turn:
             shiritori.next_turn()
             embed_var = discord.Embed(
-            description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-            f'Begin with the letter {shiritori.current_letter}. ' +
+            description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+            f'Begin with the letter `{shiritori.current_letter}`.\n' +
             f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
             color = COLOR
             )
@@ -437,8 +444,8 @@ async def kicc(ctx, raw_id: str):
             if nxt_turn:
                 shiritori.next_turn()    
                 embed_var = discord.Embed(
-                description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-                f'Begin with the letter {shiritori.current_letter}. ' +
+                description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+                f'Begin with the letter `{shiritori.current_letter}`.\n' +
                 f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
                 color = COLOR
                 )
@@ -630,6 +637,29 @@ async def announce(ctx):
 @bot.event
 async def on_ready():
     print("maid0902 on board")
+
+@bot.event
+async def on_reaction_add(reaction, user):
+    if shiritori.state != 1: # return if not waiting for players
+        return
+    if reaction.emoji != DEFAULT_JOIN_EMOTE or reaction.message.id != shiritori.start_message: # return if not start message or wrong emote
+        return
+    if user.id == bot.user.id: # return if it's the bot
+        return
+    current_player = Players(str(user), DEFAULT_TIME, user.id)
+    shiritori.add_new_players(current_player)
+    print(f"{str(user)} joined the game")
+
+@bot.event
+async def on_reaction_remove(reaction, user):
+    if shiritori.state != 1: # return if not waiting for players
+        return
+    if reaction.emoji != DEFAULT_JOIN_EMOTE or reaction.message.id != shiritori.start_message: # return if not start message or wrong emote
+        return
+    for s in shiritori.list_of_players:
+        if str(user) == s.name:
+            shiritori.kick(s)
+            print(f"{str(user)} left the game")
 
 async def announce_kick():
     pass
