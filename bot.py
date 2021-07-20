@@ -16,6 +16,7 @@ COLOR = 0x00ff00
 
 DEFAULT_TIME = 180
 DEFAULT_DICT_TYPE = 0 
+DEFAULT_JOIN_EMOTE = '✅'
 """ 0 for english, 1 for urban dictionary, 2 for MAL, 3 for fifa"""
 
 shiritori = Game(DEFAULT_DICT_TYPE)
@@ -108,7 +109,9 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         description = "Type &join to join the game.", 
         color = COLOR
     )
-    await ctx.message.channel.send(embed = embed_var)
+    message = await ctx.message.channel.send(embed = embed_var)
+    await message.add_reaction(DEFAULT_JOIN_EMOTE)
+    shiritori.start_message = message.id
     # print(f'debug checkpoint#1 {shiritori.state}')
 
    
@@ -630,6 +633,29 @@ async def announce(ctx):
 @bot.event
 async def on_ready():
     print("maid0902 on board")
+
+@bot.event
+async def on_reaction_add(reaction, user):
+    if shiritori.state != 1: # return if not waiting for players
+        return
+    if reaction.emoji != DEFAULT_JOIN_EMOTE or reaction.message.id != shiritori.start_message: # return if not start message or wrong emote
+        return
+    if user.id == bot.user.id: # return if it's the bot
+        return
+    current_player = Players(str(user), DEFAULT_TIME, user.id)
+    shiritori.add_new_players(current_player)
+    print(f"{str(user)} joined the game")
+
+@bot.event
+async def on_reaction_remove(reaction, user):
+    if shiritori.state != 1: # return if not waiting for players
+        return
+    if reaction.emoji != DEFAULT_JOIN_EMOTE or reaction.message.id != shiritori.start_message: # return if not start message or wrong emote
+        return
+    for s in shiritori.list_of_players:
+        if str(user) == s.name:
+            shiritori.kick(s)
+            print(f"{str(user)} left the game")
 
 async def announce_kick():
     pass
