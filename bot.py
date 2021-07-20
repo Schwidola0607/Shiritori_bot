@@ -425,8 +425,6 @@ async def kicc(ctx, raw_id: str):
                     color = COLOR
                 )
                 await ctx.message.channel.send(embed = embed_var)
-            if nxt_turn:
-                shiritori.next_turn()
 
             if shiritori.check_end():
                 embed_var = discord.Embed(
@@ -437,13 +435,16 @@ async def kicc(ctx, raw_id: str):
                 shiritori.end()
                 return
 
-            embed_var = discord.Embed(
-            description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-            f'Begin with the letter {shiritori.current_letter}. ' +
-            f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
-            color = COLOR
-            )
-            await ctx.channel.send(embed = embed_var)
+            if nxt_turn:
+                shiritori.next_turn()    
+                embed_var = discord.Embed(
+                description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
+                f'Begin with the letter {shiritori.current_letter}. ' +
+                f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
+                color = COLOR
+                )
+                await ctx.channel.send(embed = embed_var)
+
 
     else:
         embed_var = discord.Embed(
