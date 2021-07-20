@@ -90,9 +90,9 @@ class Game:
             return check_players_name(word)
 
         elif self.dict_type == 4: # Vietnamese
-            response = requests.get(f"https://vdict.com/{word},3,0,0.html").text
+            response = requests.get(f"https://vtudien.com/viet-viet/dictionary/nghia-cua-tu-{word}").text
             soup = BeautifulSoup(response, 'html.parser')
-            return soup.find('div', class_='word_title') != None
+            return soup.find('h2') != None
 
     def find_player(self, name: str) -> Players:
         for gamer in self.list_of_players:
