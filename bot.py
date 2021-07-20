@@ -226,8 +226,8 @@ async def on_message(message):
                 return
             
             embed_var = discord.Embed(
-                description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-                f'Begin with the letter {shiritori.current_letter}. ' +
+                description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+                f'Begin with the letter `{shiritori.current_letter}`.\n' +
                 f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
                 color = COLOR)
             await channel.send(embed = embed_var)
@@ -236,7 +236,7 @@ async def on_message(message):
             if shiritori.check_word_validity(word) == 0:
                 shiritori.current_turn_Player().countdown()
                 embed_var = discord.Embed(
-                    description = 'Invalid word Baka! ' 
+                    description = 'Invalid word Baka!\n' 
                     + "{:.2f}".format(shiritori.current_turn_Player().time_left)
                     + ' seconds left.\n', 
                     color = COLOR
@@ -278,8 +278,8 @@ async def on_message(message):
                         return
 
                     embed_var = discord.Embed(
-                    description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-                    f'Begin with the letter {shiritori.current_letter}. ' +
+                    description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+                    f'Begin with the letter `{shiritori.current_letter}`.\n' +
                     f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
                     color = COLOR
                     )
@@ -300,8 +300,8 @@ async def on_message(message):
                 shiritori.next_turn()
                 
                 embed_var = discord.Embed(
-                    description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-                    f'Begin with the letter {shiritori.current_letter}. ' +
+                    description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+                    f'Begin with the letter `{shiritori.current_letter}`.\n' +
                     f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
                     color = COLOR
                 )
@@ -358,8 +358,8 @@ async def resign(ctx):
         if nxt_turn:
             shiritori.next_turn()
             embed_var = discord.Embed(
-            description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-            f'Begin with the letter {shiritori.current_letter}. ' +
+            description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+            f'Begin with the letter `{shiritori.current_letter}`.\n' +
             f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
             color = COLOR
             )
@@ -440,8 +440,8 @@ async def kicc(ctx, raw_id: str):
             if nxt_turn:
                 shiritori.next_turn()    
                 embed_var = discord.Embed(
-                description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-                f'Begin with the letter {shiritori.current_letter}. ' +
+                description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+                f'Begin with the letter `{shiritori.current_letter}`.\n' +
                 f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
                 color = COLOR
                 )
