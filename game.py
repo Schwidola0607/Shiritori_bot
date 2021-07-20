@@ -1,4 +1,5 @@
 import requests
+from bs4 import BeautifulSoup
 import json
 import discord
 from dict_trie import Trie
@@ -8,7 +9,7 @@ from players import Players
 DEFAULT_TIME = 1800
 DEFAULT_DICT_TYPE = 0
 COLOR = 0x00ff00
-"""0 for english, 1 for urban, 2 for MAL, 3 for fifa"""
+"""0 for english, 1 for urban, 2 for MAL, 3 for fifa, 4 for Vietnamese"""
 from PyDictionary import PyDictionary
 Dictionary = PyDictionary()
 
@@ -21,6 +22,7 @@ class Game:
     list_of_players = []
     list_of_used_words = Trie()
     leaderboard = []
+    start_message = None
     current_letter = ""
     position = 0
     archive_leaderboard = []
@@ -40,9 +42,10 @@ class Game:
         self.leaderboard.append(gamer)
     def add_new_word(self, word: str):
         """new word to list_of_used_word after a turn"""
+        word = word.strip()
         self.list_of_used_words.add(word)
         self.current_turn_Player().add_score(word)
-        self.current_letter = word[-1]
+        self.current_letter = word[-1] if self.dict_type != 4 else word.split()[-1]
     def start_game(self):
         """method to start game"""
         i = 0
@@ -53,9 +56,11 @@ class Game:
         self.current_turn_Player().countdown()
     def check_word_validity(self, word: str):
         """check for a word validitiy according to the Shiritori's rule"""
-        if (self.current_letter != '' and word[0].lower() != self.current_letter.lower()): # basic shiritori rule
+        if (self.current_letter != '' and (word[0].lower() if self.dict_type != 4 else word.split()[0]) != self.current_letter.lower()): # basic shiritori rule
             return 0
         if word in self.list_of_used_words: # basic shiritori rule
+            return 0
+        if len(word.split(' ')) < 2: # basic Vietnamese shiritori rule (i guess???)
             return 0
 
         if self.dict_type == 0: # normal
@@ -83,6 +88,11 @@ class Game:
             return check_MAL_name(word)
         elif self.dict_type == 3: #fifa
             return check_players_name(word)
+
+        elif self.dict_type == 4: # Vietnamese
+            response = requests.get(f"https://vdict.com/{word},3,0,0.html").text
+            soup = BeautifulSoup(response, 'html.parser')
+            return soup.find('div', class_='word_title') != None
 
     def find_player(self, name: str) -> Players:
         for gamer in self.list_of_players:

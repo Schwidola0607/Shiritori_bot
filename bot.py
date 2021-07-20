@@ -17,7 +17,7 @@ COLOR = 0x00ff00
 DEFAULT_TIME = 180
 DEFAULT_DICT_TYPE = 0 
 DEFAULT_JOIN_EMOTE = '✅'
-""" 0 for english, 1 for urban dictionary, 2 for MAL, 3 for fifa"""
+""" 0 for english, 1 for urban dictionary, 2 for MAL, 3 for fifa, 4 for Vietnamese"""
 
 shiritori = Game(DEFAULT_DICT_TYPE)
 bot = commands.Bot(command_prefix = '&')
@@ -50,7 +50,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
     if dictionary_type == None:
         embed_var = discord.Embed(
             title = f'{ctx.message.author} please select a dictionary mode!', 
-            description = "normal, urbandict, MAL, or Fifa", 
+            description = "normal, urbandict, MAL, Fifa or Vietnamese", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
@@ -89,10 +89,12 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         dict_index = 2
     elif dictionary_type == "fifa":
         dict_index = 3
+    elif dictionary_type == "vietnamese":
+        dict_index = 4
     else:
         embed_var = discord.Embed(
             title = f'Invalid dictionary mode. {ctx.message.author} please select again!', 
-            description = "normal, urbandict, MAL, or fifa", 
+            description = "normal, urbandict, MAL, fifa or Vietnamese", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
@@ -166,6 +168,8 @@ async def start(ctx):
                 desc = desc + 'Please choose the full name of a random anime character.'
             elif shiritori.dict_type == 3:
                 desc = desc + 'Please choose a fifa player name.'
+            elif shiritori.dict_type == 4:
+                desc = desc + 'Please choose a random Vietnamese word.'
             embed_var = discord.Embed(
                 description = desc, 
                 color = COLOR
