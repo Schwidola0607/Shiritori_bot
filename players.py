@@ -23,7 +23,6 @@ class Players:
     timer_state = 0
     timer = threading.Timer
     start_time = 0
-    position = 0
     def __init__(self, name: str, t: int, uid: str):
         self.name = name
         self.time_left = t
