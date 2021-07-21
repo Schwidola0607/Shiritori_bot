@@ -221,7 +221,6 @@ async def on_message(message):
             await channel.send(embed = embed_var)
 
             shiritori.kick(shiritori.current_turn_Player())
-            shiritori.next_turn()
 
             if shiritori.check_end():
                 winner = shiritori.get_winner()
@@ -233,6 +232,7 @@ async def on_message(message):
                 shiritori.end()
                 return
             
+            shiritori.next_turn()
             embed_var = Embed(
                 title = 'Final turn! Answer correctly to win!' if shiritori.last_person else '',
                 description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
@@ -275,8 +275,8 @@ async def on_message(message):
                     ) 
                     await channel.send(embed = embed_var)
                     
+                    shiritori.current_turn_Player().time_left = -8203
                     shiritori.kick(shiritori.current_turn_Player()) 
-                    shiritori.next_turn()
 
                     if shiritori.check_end():
                         winner = shiritori.get_winner()
@@ -288,6 +288,7 @@ async def on_message(message):
                         shiritori.end()
                         return
 
+                    shiritori.next_turn()
                     embed_var = Embed(
                         title = 'Final turn! Answer correctly to win!' if shiritori.last_person else '',
                         description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
@@ -510,6 +511,8 @@ async def leaderboard(ctx):
             for i in range (len(ranking)):
                 if ranking[i].time_left == -9203:
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of the game\n'
+                elif ranking[i].time_left < 0 and ranking[i].invalid_left < 0:
+                    desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of invalid\n'
                 elif ranking[i].time_left < 0:
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of time\n'
                 else:
@@ -530,7 +533,7 @@ async def leaderboard(ctx):
                 else:
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of the game\n'
             embed_var = Embed(
-                title = 'Final leaderboard',
+                title = 'Current leaderboard',
                 description = desc,
                 color = COLOR
             )
@@ -541,12 +544,14 @@ async def leaderboard(ctx):
             for i in range (len(ranking)):
                 if ranking[i].time_left == -9203:
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of the game\n'
+                elif ranking[i].time_left < 0 and ranking[i].invalid_left < 0:
+                    desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of invalid\n'
                 elif ranking[i].time_left < 0:
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of time\n'
                 else:
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> with {ranking[i].time_left:.2f} seconds left\n'
             embed_var = Embed(
-                title = 'Final leaderboard',
+                title = 'Current leaderboard',
                 description = desc,
                 color = COLOR
             )

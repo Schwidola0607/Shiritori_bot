@@ -120,7 +120,7 @@ class Game:
             return
         if self.state == 1:
             self.leaderboard.remove(gamer)
-            return
+            #return
         self.list_of_players.remove(gamer)
     def next_turn(self):
         """move to next Player's turn"""
