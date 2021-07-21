@@ -16,30 +16,34 @@ COLOR = 0x00ff00
 
 DEFAULT_TIME = 180
 DEFAULT_DICT_TYPE = 0 
-""" 0 for english, 1 for urban dictionary, 2 for MAL, 3 for fifa"""
+DEFAULT_JOIN_EMOTE = '✅'
+""" 0 for english, 1 for urban dictionary, 2 for MAL, 3 for fifa, 4 for Vietnamese"""
+
+intents = discord.Intents.default()
+intents.members = True
 
 shiritori = Game(DEFAULT_DICT_TYPE)
-bot = commands.Bot(command_prefix = '&')
+bot = commands.Bot(command_prefix = '&', intents = intents)
 
 @bot.command(name = 'create', help = "Create a ultrabullet, bullet, blitz or srabble, shiritori game with different dictionary modes", aliases = ['c'])
 async def create(ctx, game_type: str = None, dictionary_type: str = None):
     """create a game by selecting the game mode"""
     if shiritori.state == 1:
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = "Game already created!", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
         return
     elif shiritori.state == 2:
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = "Game in progress!", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
         return
     if game_type == None:
-        embed_var = discord.Embed(
+        embed_var = Embed(
             title = f'{ctx.message.author} please select a game mode!', 
             description = "ultrabullet, bullet, blitz, or scrabble", 
             color = COLOR
@@ -47,9 +51,9 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         await ctx.message.channel.send(embed = embed_var)
         return
     if dictionary_type == None:
-        embed_var = discord.Embed(
+        embed_var = Embed(
             title = f'{ctx.message.author} please select a dictionary mode!', 
-            description = "normal, urbandict, MAL, or Fifa", 
+            description = "normal, urbandict, MAL, Fifa or Vietnamese", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
@@ -68,7 +72,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
     elif game_type == "scrabble":
         shiritori.BOOL_SCRABBLE = True
     else:
-        embed_var = discord.Embed(
+        embed_var = Embed(
             title = f'Invalid game mode. {ctx.message.author} please select again!', 
             description = "ultrabullet, bullet, blitz or scrabble", 
             color = COLOR
@@ -88,10 +92,12 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         dict_index = 2
     elif dictionary_type == "fifa":
         dict_index = 3
+    elif dictionary_type == "vietnamese":
+        dict_index = 4
     else:
-        embed_var = discord.Embed(
+        embed_var = Embed(
             title = f'Invalid dictionary mode. {ctx.message.author} please select again!', 
-            description = "normal, urbandict, MAL, or fifa", 
+            description = "normal, urbandict, MAL, fifa or Vietnamese", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
@@ -103,12 +109,14 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
     shiritori.state = 1
     current_player = Players(str(ctx.message.author), DEFAULT_TIME, ctx.message.author.id)
     shiritori.add_new_players(current_player)
-    embed_var = discord.Embed(
+    embed_var = Embed(
         title = f'{ctx.message.author} is creating a new game!', 
-        description = "Type &join to join the game.", 
+        description = "Type &join or react to join the game.", 
         color = COLOR
     )
-    await ctx.message.channel.send(embed = embed_var)
+    message = await ctx.message.channel.send(embed = embed_var)
+    await message.add_reaction(DEFAULT_JOIN_EMOTE)
+    shiritori.start_message = message.id
     # print(f'debug checkpoint#1 {shiritori.state}')
 
    
@@ -116,13 +124,13 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
 async def join(ctx):
     """join the current game"""
     if shiritori.state == 2:
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = "Game in progress!", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
     elif shiritori.state == 0 or shiritori.state == 3:
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = "No current game.", 
             color = COLOR
         )
@@ -130,7 +138,7 @@ async def join(ctx):
     else: 
         current_player = Players(str(ctx.message.author), DEFAULT_TIME, ctx.message.author.id)
         if shiritori.find_player(str(ctx.message.author)) != False:
-            embed_var = discord.Embed(
+            embed_var = Embed(
                     description = f'<@!{ctx.message.author.id}>'
                     ' You are already in the game!', 
                     color = COLOR
@@ -138,7 +146,7 @@ async def join(ctx):
             await ctx.message.channel.send(embed = embed_var)
             return
         shiritori.add_new_players(current_player)
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = f'<@!{ctx.message.author.id}>'
             ' has joined the game.', 
             color = COLOR
@@ -154,35 +162,37 @@ async def start(ctx):
     if shiritori.state == 1:
         if shiritori.get_player_list_size() > 1:
             shiritori.start_game()
-            desc = f'The game is beginning. <@!{shiritori.current_turn_Player().uid}> '
+            desc = f'The game is beginning.\n<@!{shiritori.current_turn_Player().uid}>, '
             if shiritori.dict_type == 0:
-                desc = desc + 'Please choose a random English word.'
+                desc = desc + 'please choose a random English word.'
             elif shiritori.dict_type == 1:
-                desc = desc + 'Please choose a random Urban Dictionary phrase.'
+                desc = desc + 'please choose a random Urban Dictionary phrase.'
             elif shiritori.dict_type == 2:
-                desc = desc + 'Please choose the full name of a random anime character.'
+                desc = desc + 'please choose the full name of a random anime character.'
             elif shiritori.dict_type == 3:
-                desc = desc + 'Please choose a fifa player name.'
-            embed_var = discord.Embed(
+                desc = desc + 'please choose a fifa player name.'
+            elif shiritori.dict_type == 4:
+                desc = desc + 'please choose a random Vietnamese word.'
+            embed_var = Embed(
                 description = desc, 
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
         else:
-            embed_var = discord.Embed(
+            embed_var = Embed(
                 description = "Not enough players!", 
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
         # print(f'debug checkpoint#3 {shiritori.state}')
     elif shiritori.state == 2:
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = "Game in progress!", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
     else: 
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = "No current game.", 
             color = COLOR
         )
@@ -194,46 +204,49 @@ async def on_message(message):
     channel = message.channel
     word = str(message.content).lower() # case insensitive
     #print(f'reactional debug {shiritori.state}')
-    if shiritori.state == 2 and str(message.author) == shiritori.current_turn_Player().name and message.content[0] != '&':
+    if shiritori.state == 2 and shiritori.current_turn_Player() and str(message.author) == shiritori.current_turn_Player().name and message.content[0] != '&':
         shiritori.current_turn_Player().stop_countdown()
         # print(shiritori.current_turn_Player().time_left)
         if shiritori.current_turn_Player().time_left < 0:
-            embed_var = discord.Embed(
+            embed_var = Embed(
                 description = f'<@!{message.author.id}>'
                 '  You have ran out of time.', 
                 color = COLOR
             )
             await channel.send(embed = embed_var)
-            embed_var = discord.Embed(
+            embed_var = Embed(
                 description = f'<@!{message.author.id}>'
                 ' has been kicced from the game.', 
                 color = COLOR)
             await channel.send(embed = embed_var)
 
             shiritori.kick(shiritori.current_turn_Player())
-            shiritori.next_turn()
 
             if shiritori.check_end():
-                embed_var = discord.Embed(
+                winner = shiritori.get_winner()
+                embed_var = Embed(
                     title = "Game ended!", 
-                    description = f'Congratulation <@!{shiritori.get_winner().uid}>', 
+                    description = f'Congratulations <@!{winner.uid}>!' if winner is not None else f'Game ended in a draw!', 
                     color = COLOR)
                 await channel.send(embed = embed_var)
                 shiritori.end()
                 return
             
-            embed_var = discord.Embed(
-                description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-                f'Begin with the letter {shiritori.current_letter}. ' +
+            shiritori.next_turn()
+            embed_var = Embed(
+                title = 'Final turn! Answer correctly to win!' if shiritori.last_person else '',
+                description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+                f'Begin with the letter `{shiritori.current_letter}`.\n' +
                 f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
-                color = COLOR)
+                color = COLOR
+            )
             await channel.send(embed = embed_var)
 
         else:
             if shiritori.check_word_validity(word) == 0:
                 shiritori.current_turn_Player().countdown()
-                embed_var = discord.Embed(
-                    description = 'Invalid word Baka! ' 
+                embed_var = Embed(
+                    description = 'Invalid word Baka!\n' 
                     + "{:.2f}".format(shiritori.current_turn_Player().time_left)
                     + ' seconds left.\n', 
                     color = COLOR
@@ -241,7 +254,7 @@ async def on_message(message):
                 await channel.send(embed = embed_var)
                 if shiritori.BOOL_SCRABBLE == True:
                     shiritori.current_turn_Player().penalty(20)
-                    embed_var = discord.Embed(
+                    embed_var = Embed(
                         description = '-20 points penalty',
                         color = COLOR
                     )
@@ -249,43 +262,47 @@ async def on_message(message):
 
                 shiritori.current_turn_Player().invalid_left -= 1
                 if shiritori.current_turn_Player().invalid_left < 0:
-                    embed_var = discord.Embed(
+                    embed_var = Embed(
                         description = f'<@!{message.author.id}>'
                         ' Your word is invalid for more than 3 times.', 
                         color = COLOR
                     )
                     await channel.send(embed = embed_var)
-                    embed_var = discord.Embed(
+                    embed_var = Embed(
                         description = f'<@!{message.author.id}>'
                         '  has been kicced from the game.', 
                         color = COLOR
                     ) 
                     await channel.send(embed = embed_var)
                     
+                    shiritori.current_turn_Player().time_left = -8203
                     shiritori.kick(shiritori.current_turn_Player()) 
-                    shiritori.next_turn()
 
                     if shiritori.check_end():
-                        embed_var = discord.Embed(
+                        winner = shiritori.get_winner()
+                        embed_var = Embed(
                             title = "Game ended!", 
-                            description = f'Congratulation <@!{shiritori.get_winner().uid}>', 
+                            description = f'Congratulations <@!{winner.uid}>!' if winner is not None else f'Game ended in a draw!', 
                             color = COLOR)
                         await channel.send(embed = embed_var)
                         shiritori.end()
                         return
 
-                    embed_var = discord.Embed(
-                    description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-                    f'Begin with the letter {shiritori.current_letter}. ' +
-                    f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
-                    color = COLOR
+                    shiritori.next_turn()
+                    embed_var = Embed(
+                        title = 'Final turn! Answer correctly to win!' if shiritori.last_person else '',
+                        description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+                        f'Begin with the letter `{shiritori.current_letter}`.\n' +
+                        f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
+                        color = COLOR
                     )
                     await channel.send(embed = embed_var)
                     
                 if shiritori.check_end():
-                    embed_var = discord.Embed(
+                    winner = shiritori.get_winner()
+                    embed_var = Embed(
                         title = "Game ended!", 
-                        description = f'Congratulation <@!{shiritori.get_winner().uid}>', 
+                        description = f'Congratulations <@!{winner.uid}>!' if winner is not None else f'Game ended in a draw!',  
                         color = COLOR
                     )
                     await channel.send(embed = embed_var)
@@ -294,11 +311,26 @@ async def on_message(message):
 
             else:
                 shiritori.add_new_word(word)
-                shiritori.next_turn()
                 
-                embed_var = discord.Embed(
-                    description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-                    f'Begin with the letter {shiritori.current_letter}. ' +
+                if shiritori.get_player_list_size() == 1:
+                    shiritori.last_person_answered = True
+
+                if shiritori.check_end():
+                    winner = shiritori.get_winner()
+                    embed_var = Embed(
+                        title = "Game ended!", 
+                        description = f'Congratulations <@!{winner.uid}>!' if winner is not None else f'Game ended in a draw!',  
+                        color = COLOR
+                    )
+                    await channel.send(embed = embed_var)
+                    shiritori.end()
+                    return
+
+                shiritori.next_turn()
+                embed_var = Embed(
+                    title = 'Final turn! Answer correctly to win!' if shiritori.last_person else '',
+                    description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+                    f'Begin with the letter `{shiritori.current_letter}`.\n' +
                     f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
                     color = COLOR
                 )
@@ -318,12 +350,12 @@ async def resign(ctx):
                 shiritori.kick(s)
                 in_the_game = 1
         if in_the_game:
-            embed_var = discord.Embed(
+            embed_var = Embed(
             description = f"<@!{ctx.message.author.id}> has resigned from the game.", 
             color = COLOR)
             await ctx.message.channel.send(embed = embed_var)
         else:
-            embed_var = discord.Embed(
+            embed_var = Embed(
             description = f"<@!{ctx.message.author.id}> You are not in the game yet!", 
             color = COLOR)
             await ctx.message.channel.send(embed = embed_var)
@@ -337,34 +369,35 @@ async def resign(ctx):
             if player_name == s.name:
                 shiritori.kick(s)
                 s.out_of_rank(shiritori.BOOL_SCRABBLE)
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = f"<@!{ctx.message.author.id}> has resigned from the game.", 
             color = COLOR)
         await ctx.message.channel.send(embed = embed_var)
 
-        if nxt_turn:
-            shiritori.next_turn()
-
         if shiritori.check_end():
-            embed_var = discord.Embed(
+            winner = shiritori.get_winner()
+            embed_var = Embed(
                 title = "Game ended!", 
-                description = f'Congratulations <@!{shiritori.get_winner().uid}>', 
+                description = f'Congratulations <@!{winner.uid}>!' if winner is not None else f'Game ended in a draw!',
                 color = COLOR)
             # print(shiritori.get_winner().score)
             await ctx.channel.send(embed = embed_var)
             shiritori.end()
             return
 
-        embed_var = discord.Embed(
-        description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-        f'Begin with the letter {shiritori.current_letter}. ' +
-        f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
-        color = COLOR
-        )
-        await ctx.channel.send(embed = embed_var)
+        if nxt_turn:
+            shiritori.next_turn()
+            embed_var = Embed(
+                title = 'Final turn! Answer correctly to win!' if shiritori.last_person else '',
+                description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+                f'Begin with the letter `{shiritori.current_letter}`.\n' +
+                f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
+                color = COLOR
+            )
+            await ctx.channel.send(embed = embed_var)
 
     else:
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = "No current game.", 
             color = COLOR
         )
@@ -384,19 +417,19 @@ async def kicc(ctx, raw_id: str):
         # print(in_the_game)
 
         if in_the_game:
-            embed_var = discord.Embed(
+            embed_var = Embed(
             description = f"<@!{player_id}> has been kicked from the game.", 
             color = COLOR)
             await ctx.message.channel.send(embed = embed_var)
         else:
-            embed_var = discord.Embed(
+            embed_var = Embed(
             description = f"<@!{player_id}> is not in the game yet!", 
             color = COLOR)
             await ctx.message.channel.send(embed = embed_var)
 
     elif shiritori.state == 2:
         if str(ctx.message.author) != shiritori.game_owner().name:
-            embed_var = discord.Embed(
+            embed_var = Embed(
                 description=f'<@!{ctx.message.author.id}>' 
                 ' you do not have permission', 
                 color = COLOR
@@ -415,38 +448,41 @@ async def kicc(ctx, raw_id: str):
                     s.out_of_rank(shiritori.BOOL_SCRABBLE)
                     break
             if has_find == True:
-                embed_var = discord.Embed(
+                embed_var = Embed(
                     description = f"<@!{player_id}> has been kicced from the game.", 
                     color = COLOR)
                 await ctx.message.channel.send(embed = embed_var)
             else:
-                embed_var = discord.Embed(
+                embed_var = Embed(
                     description = f'<@!{player_id}> is not in the game yet!',
                     color = COLOR
                 )
                 await ctx.message.channel.send(embed = embed_var)
-            if nxt_turn:
-                shiritori.next_turn()
 
             if shiritori.check_end():
-                embed_var = discord.Embed(
+                winner = shiritori.get_winner()
+                embed_var = Embed(
                     title = "Game ended!", 
-                    description = f'Congratulations <@!{shiritori.get_winner().uid}>', 
+                    description = f'Congratulations <@!{winner.uid}>!' if winner is not None else f'Game ended in a draw!',  
                     color = COLOR)
                 await ctx.channel.send(embed = embed_var)
                 shiritori.end()
                 return
 
-            embed_var = discord.Embed(
-            description = f'<@!{shiritori.current_turn_Player().uid}> your turn. ' +
-            f'Begin with the letter {shiritori.current_letter}. ' +
-            f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
-            color = COLOR
-            )
-            await ctx.channel.send(embed = embed_var)
+            if nxt_turn:
+                shiritori.next_turn()    
+                embed_var = Embed(
+                    title = 'Final turn! Answer correctly to win!' if shiritori.last_person else '',
+                    description = f'<@!{shiritori.current_turn_Player().uid}> your turn.\n' +
+                    f'Begin with the letter `{shiritori.current_letter}`.\n' +
+                    f'{"{:.2f}".format(shiritori.current_turn_Player().time_left)} seconds left.', 
+                    color = COLOR
+                )
+                await ctx.channel.send(embed = embed_var)
+
 
     else:
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = "No current game.", 
             color = COLOR
         )
@@ -463,7 +499,7 @@ async def leaderboard(ctx):
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> with {ranking[i].get_score()} points\n'
                 else:
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of the game\n'
-            embed_var = discord.Embed(
+            embed_var = Embed(
                 title = 'Final leaderboard',
                 description = desc,
                 color = COLOR
@@ -475,11 +511,13 @@ async def leaderboard(ctx):
             for i in range (len(ranking)):
                 if ranking[i].time_left == -9203:
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of the game\n'
+                elif ranking[i].time_left < 0 and ranking[i].invalid_left < 0:
+                    desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of invalid\n'
                 elif ranking[i].time_left < 0:
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of time\n'
                 else:
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> with {ranking[i].time_left:.2f} seconds left\n'
-            embed_var = discord.Embed(
+            embed_var = Embed(
                 title = 'Final leaderboard',
                 description = desc,
                 color = COLOR
@@ -494,8 +532,8 @@ async def leaderboard(ctx):
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> with {ranking[i].get_score()} points\n'
                 else:
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of the game\n'
-            embed_var = discord.Embed(
-                title = 'Final leaderboard',
+            embed_var = Embed(
+                title = 'Current leaderboard',
                 description = desc,
                 color = COLOR
             )
@@ -506,18 +544,20 @@ async def leaderboard(ctx):
             for i in range (len(ranking)):
                 if ranking[i].time_left == -9203:
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of the game\n'
+                elif ranking[i].time_left < 0 and ranking[i].invalid_left < 0:
+                    desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of invalid\n'
                 elif ranking[i].time_left < 0:
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> out of time\n'
                 else:
                     desc = desc + f'#{i + 1}: <@!{ranking[i].uid}> with {ranking[i].time_left:.2f} seconds left\n'
-            embed_var = discord.Embed(
-                title = 'Final leaderboard',
+            embed_var = Embed(
+                title = 'Current leaderboard',
                 description = desc,
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
     else:
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = "There is no archived game yet!",
             color = COLOR
         )
@@ -528,7 +568,7 @@ async def abort(ctx):
     """abort the game"""
     if shiritori.state == 1 or shiritori.state == 2:
         if str(ctx.message.author) != shiritori.game_owner().name:
-            embed_var = discord.Embed(
+            embed_var = Embed(
                 description=f'<@!{ctx.message.author.id}>' 
                 ', you do not have permission', 
                 color = COLOR
@@ -536,12 +576,12 @@ async def abort(ctx):
             await ctx.message.channel.send(embed = embed_var)
         else:
             shiritori.end()
-            embed_var = discord.Embed(
+            embed_var = Embed(
                 description = "The game has been aborted.", 
                 color = COLOR)
             await ctx.message.channel.send(embed = embed_var)
     else:
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = "No current game.", 
             color = COLOR
         )
@@ -551,14 +591,14 @@ async def abort(ctx):
 async def mean(ctx, word = '', word_type = ''):
     """return the meaning(s) of a word"""
     if word == '':
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = "Please include a word.", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
         return
     if word_type == '':
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = "Please include a word type.", 
             color = COLOR
         )
@@ -567,20 +607,20 @@ async def mean(ctx, word = '', word_type = ''):
         word_type = word_type.capitalize()
         temporary_dict = Dictionary.meaning(word)
         if temporary_dict is None:
-            embed_var = discord.Embed(
+            embed_var = Embed(
                 description = "Word have no meaning!", 
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
         elif word_type not in temporary_dict:
-            embed_var = discord.Embed(
+            embed_var = Embed(
                 description = "Wrong word type!", 
                 color = COLOR
             )
             await ctx.message.channel.send(embed = embed_var)
         else:
             for index, meaning_line in enumerate(temporary_dict[word_type]):
-                embed_var = discord.Embed(
+                embed_var = Embed(
                     description=f'-{meaning_line}', 
                     color = COLOR
                 )
@@ -591,7 +631,7 @@ async def mean(ctx, word = '', word_type = ''):
 @bot.command(name = 'urbanmean', help = "return the meaning of a string in urban dictionary")
 async def urbanmean(ctx, word = ''):
     if word == '':
-        embed_var = discord.Embed(
+        embed_var = Embed(
             description = "Please include a phrase.", 
             color = COLOR
         )
@@ -608,14 +648,14 @@ async def urbanmean(ctx, word = ''):
 
     def_list = dict_response['list']
     if not len(def_list):
-        embed_var = discord.Embed(
+        embed_var = Embed(
         description='The phrase has no meaning!', 
         color = COLOR
         )
         await ctx.send(embed = embed_var)
     else:
         for index, mean in enumerate(def_list):
-            embed_var = discord.Embed(
+            embed_var = Embed(
             description=str(mean['definition']), 
             color = COLOR
             )
@@ -630,6 +670,30 @@ async def announce(ctx):
 @bot.event
 async def on_ready():
     print("maid0902 on board")
+
+@bot.event
+async def on_reaction_add(reaction, user):
+    if shiritori.state != 1: # return if not waiting for players
+        return
+    if reaction.emoji != DEFAULT_JOIN_EMOTE or reaction.message.id != shiritori.start_message: # return if not start message or wrong emote
+        return
+    if user.id == bot.user.id: # return if it's the bot
+        return
+    if (not shiritori.find_player(str(user))):
+        current_player = Players(str(user), DEFAULT_TIME, user.id)
+        shiritori.add_new_players(current_player)
+        print(f"{str(user)} joined the game")
+
+@bot.event
+async def on_reaction_remove(reaction, user):
+    if shiritori.state != 1: # return if not waiting for players
+        return
+    if reaction.emoji != DEFAULT_JOIN_EMOTE or reaction.message.id != shiritori.start_message: # return if not start message or wrong emote
+        return
+    for s in shiritori.list_of_players:
+        if str(user) == s.name:
+            shiritori.kick(s)
+            print(f"{str(user)} left the game")
 
 async def announce_kick():
     pass

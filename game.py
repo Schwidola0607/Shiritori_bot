@@ -1,4 +1,5 @@
 import requests
+from bs4 import BeautifulSoup
 import json
 import discord
 from dict_trie import Trie
@@ -8,7 +9,7 @@ from players import Players
 DEFAULT_TIME = 1800
 DEFAULT_DICT_TYPE = 0
 COLOR = 0x00ff00
-"""0 for english, 1 for urban, 2 for MAL, 3 for fifa"""
+"""0 for english, 1 for urban, 2 for MAL, 3 for fifa, 4 for Vietnamese"""
 from PyDictionary import PyDictionary
 Dictionary = PyDictionary()
 
@@ -21,9 +22,11 @@ class Game:
     list_of_players = []
     list_of_used_words = Trie()
     leaderboard = []
+    start_message = None
     current_letter = ""
-    position = 0
     archive_leaderboard = []
+    last_person = False
+    last_person_answered = False
     def __init__(self, dict_type: int):
         self.state = 0
         self.dict_type = dict_type
@@ -34,28 +37,29 @@ class Game:
         self.current_letter = ""
         self.current_position = 0
         self.archive_leaderboard = []
+        self.last_person = False
+        self.last_person_answered = False
     def add_new_players(self, gamer: Players):
         """add a new player when joined"""
         self.list_of_players.append(gamer)
         self.leaderboard.append(gamer)
     def add_new_word(self, word: str):
         """new word to list_of_used_word after a turn"""
+        word = word.strip()
         self.list_of_used_words.add(word)
         self.current_turn_Player().add_score(word)
-        self.current_letter = word[-1]
+        self.current_letter = word[-1] if self.dict_type != 4 else word.split()[-1]
     def start_game(self):
         """method to start game"""
-        i = 0
-        for player in self.list_of_players:
-            player.position = i
-            i += 1        
-            self.state = 2
+        self.state = 2
         self.current_turn_Player().countdown()
     def check_word_validity(self, word: str):
         """check for a word validitiy according to the Shiritori's rule"""
-        if (self.current_letter != '' and word[0].lower() != self.current_letter.lower()): # basic shiritori rule
+        if (self.current_letter != '' and (word[0].lower() if self.dict_type != 4 else word.split()[0]) != self.current_letter.lower()): # basic shiritori rule
             return 0
         if word in self.list_of_used_words: # basic shiritori rule
+            return 0
+        if self.dict_type == 4 and len(word.split(' ')) < 2: # basic Vietnamese shiritori rule (i guess???)
             return 0
 
         if self.dict_type == 0: # normal
@@ -84,6 +88,11 @@ class Game:
         elif self.dict_type == 3: #fifa
             return check_players_name(word)
 
+        elif self.dict_type == 4: # Vietnamese
+            response = requests.get(f"https://vtudien.com/viet-viet/dictionary/nghia-cua-tu-{word}").text
+            soup = BeautifulSoup(response, 'html.parser')
+            return int(soup.find('h2') != None)
+
     def find_player(self, name: str) -> Players:
         for gamer in self.list_of_players:
             if gamer.name == name:
@@ -97,18 +106,21 @@ class Game:
         return len(self.list_of_players)
     def current_turn_Player(self):
         """return this turn's Player"""
-        return self.list_of_players[self.current_position]
+        if self.get_player_list_size() > 0:
+            return self.list_of_players[self.current_position]
+        return None
     def kick(self, gamer: Players):
         """disqualify a player based on time, or the number of invalid times"""
         """kick a player from a game instance"""
         if self.state == 2:
-            pos = gamer.position
-            for i in range(pos + 1, self.get_player_list_size()):
-                self.list_of_players[i].position -= 1
+            pos = self.list_of_players.index(gamer)
+            self.list_of_players.remove(gamer)
             if pos <= self.current_position:
                 self.current_position -= 1
+            return
         if self.state == 1:
             self.leaderboard.remove(gamer)
+            #return
         self.list_of_players.remove(gamer)
     def next_turn(self):
         """move to next Player's turn"""
@@ -121,7 +133,13 @@ class Game:
         for gamer in self.list_of_players:
             if gamer.get_remaining_time() < 0:
                 self.list_of_players.remove(gamer)
-        return self.state == 2 and self.get_player_list_size() == 1
+        if self.get_player_list_size() == 1 and self.last_person is False:
+            self.next_turn()
+            self.last_person = True
+            return False
+        return self.state == 2 and \
+                ((self.get_player_list_size() == 1 and self.last_person and (self.current_turn_Player().invalid_left < 0 or self.last_person_answered)) or \
+                self.get_player_list_size() == 0)
     def end(self):
         """method to end the game"""
         self.state = 3
@@ -133,11 +151,13 @@ class Game:
         self.leaderboard = []
         self.current_letter = ""
         self.current_position = 0
+        self.last_person = False
+        self.last_person_answered = False
 
     def get_winner(self) -> Players:
         """return the winner"""
         if self.BOOL_SCRABBLE == False:
-            return self.list_of_players[0]
+            return self.list_of_players[0] if self.get_player_list_size() > 0 else None
         else:
             return max(self.leaderboard, key = lambda x: x.score)
 
