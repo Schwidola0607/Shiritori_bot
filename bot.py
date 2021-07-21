@@ -19,8 +19,11 @@ DEFAULT_DICT_TYPE = 0
 DEFAULT_JOIN_EMOTE = '✅'
 """ 0 for english, 1 for urban dictionary, 2 for MAL, 3 for fifa, 4 for Vietnamese"""
 
+intents = discord.Intents.default()
+intents.members = True
+
 shiritori = Game(DEFAULT_DICT_TYPE)
-bot = commands.Bot(command_prefix = '&')
+bot = commands.Bot(command_prefix = '&', intents = intents)
 
 @bot.command(name = 'create', help = "Create a ultrabullet, bullet, blitz or srabble, shiritori game with different dictionary modes", aliases = ['c'])
 async def create(ctx, game_type: str = None, dictionary_type: str = None):
@@ -674,7 +677,7 @@ async def on_reaction_add(reaction, user):
     if (not shiritori.find_player(str(user))):
         current_player = Players(str(user), DEFAULT_TIME, user.id)
         shiritori.add_new_players(current_player)
-    print(f"{str(user)} joined the game")
+        print(f"{str(user)} joined the game")
 
 @bot.event
 async def on_reaction_remove(reaction, user):

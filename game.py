@@ -59,7 +59,7 @@ class Game:
             return 0
         if word in self.list_of_used_words: # basic shiritori rule
             return 0
-        if len(word.split(' ')) < 2: # basic Vietnamese shiritori rule (i guess???)
+        if self.dict_type == 4 and len(word.split(' ')) < 2: # basic Vietnamese shiritori rule (i guess???)
             return 0
 
         if self.dict_type == 0: # normal
