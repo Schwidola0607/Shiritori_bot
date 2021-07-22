@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import json
 import discord
 from dict_trie import Trie
+from unidecode import unidecode
 from fifa.check_fifa import check_players_name
 from dictionary.MAL.character_names.check_MAL_name import check_MAL_name
 from players import Players
@@ -49,12 +50,16 @@ class Game:
         self.list_of_used_words.add(word)
         self.current_turn_Player().add_score(word)
         self.current_letter = word[-1] if self.dict_type != 4 else word.split()[-1]
+        if self.dict_type == 5:
+            self.current_letter = unidecode(self.current_letter) # remove accent for french
     def start_game(self):
         """method to start game"""
         self.state = 2
         self.current_turn_Player().countdown()
     def check_word_validity(self, word: str):
         """check for a word validitiy according to the Shiritori's rule"""
+        if self.dict_type == 5:
+            word = unidecode(word) # remove accent in french
         if (self.current_letter != '' and (word[0].lower() if self.dict_type != 4 else word.split()[0]) != self.current_letter.lower()): # basic shiritori rule
             return 0
         if word in self.list_of_used_words: # basic shiritori rule
@@ -92,6 +97,22 @@ class Game:
             response = requests.get(f"https://vtudien.com/viet-viet/dictionary/nghia-cua-tu-{word}").text
             soup = BeautifulSoup(response, 'html.parser')
             return int(soup.find('h2') != None)
+        elif self.dict_type == 5: # French
+            response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/fr/{word}").text
+            dict_response = json.loads(response)
+            if 'title' in dict_response and dict_response['title'] == 'No Definitions Found':
+                return 0
+            else:
+                return 1
+        # elif self.dict_type == 6: # Japanese
+        #     if word[-1] == 'ん':
+        #         return 0
+        #     response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/jp/{word}").text
+        #     dict_response = json.loads(response)
+        #     if 'title' in dict_response and dict_response['title'] == 'No Definitions Found':
+        #         return 0
+        #     else:
+        #         return 1
 
     def find_player(self, name: str) -> Players:
         for gamer in self.list_of_players:

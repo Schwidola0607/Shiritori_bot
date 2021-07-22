@@ -53,7 +53,7 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
     if dictionary_type == None:
         embed_var = Embed(
             title = f'{ctx.message.author} please select a dictionary mode!', 
-            description = "normal, urbandict, MAL, Fifa or Vietnamese", 
+            description = "normal, urbandict, MAL, Fifa, Vietnamese or French", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
@@ -94,10 +94,14 @@ async def create(ctx, game_type: str = None, dictionary_type: str = None):
         dict_index = 3
     elif dictionary_type == "vietnamese":
         dict_index = 4
+    elif dictionary_type == "french":
+        dict_index = 5
+    # elif dictionary_type == "japanese":
+    #     dict_index = 6
     else:
         embed_var = Embed(
             title = f'Invalid dictionary mode. {ctx.message.author} please select again!', 
-            description = "normal, urbandict, MAL, fifa or Vietnamese", 
+            description = "normal, urbandict, MAL, fifa, Vietnamese or French", 
             color = COLOR
         )
         await ctx.message.channel.send(embed = embed_var)
