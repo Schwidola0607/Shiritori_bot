@@ -1,5 +1,4 @@
 discord.py
 python-dotenv
-PyDictionary
-dict_trie
 beautifulsoup4
+Unidecode
