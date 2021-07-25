@@ -189,7 +189,7 @@ class Game:
                             lambda x: unidecode(
                                 x.find("a").text.replace(",", "")
                             ).lower()
-                            == word,
+                            == unidecode(word),
                             result,
                         )
                     )
@@ -206,7 +206,7 @@ class Game:
                 len(
                     list(
                         filter(
-                            lambda player: word
+                            lambda player: unidecode(word)
                             == unidecode(player.text.split()[-1]).lower(),
                             players,
                         )
