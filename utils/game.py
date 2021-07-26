@@ -100,6 +100,12 @@ class Game:
             self.current_player.time_left -= time.time() - self.start_time
         return
 
+    def get_time_left(self) -> int:
+        """
+        Return the time left for the current player
+        """
+        return self.current_player.time_left - (time.time() - self.start_time)
+
     def add_player(self, user) -> None:
         """
         Add a player to the game.
