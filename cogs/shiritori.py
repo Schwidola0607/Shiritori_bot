@@ -59,7 +59,7 @@ class Shiritori(commands.Cog):
                 title="Invalid word baka!",
                 description=f"{shiritori.current_player.lives} ❤️ left\n"
                 + "{:.2f}".format(shiritori.get_time_left())
-                + " seconds left.\n"
+                + " seconds left.\n",
             )
         )
 
@@ -101,7 +101,7 @@ class Shiritori(commands.Cog):
         )
 
     @commands.Cog.listener()
-    async def on_game_over(self, message, player = None):
+    async def on_game_over(self, message, player=None):
         """
         Game over
         """
@@ -156,9 +156,7 @@ class Shiritori(commands.Cog):
             await ctx.send_help(str(ctx.command))
 
     @shiritori.command(name="create", aliases=["c"])
-    async def create_shiritori(
-        self, ctx, mode: str = "bullet", dict: str = "english"
-    ):
+    async def create_shiritori(self, ctx, mode: str = "bullet", dict: str = "english"):
         f"""
         Create a shiritori game
         Game modes: {', '.join(list(map(lambda x: f'`{x}`', Mode.list())))}
@@ -275,30 +273,29 @@ class Shiritori(commands.Cog):
     @shiritori.command(name="leaderboard", aliases=["l"])
     async def leaderboard_shiritori(self, ctx):
         """Show the current leaderboard"""
-        if (
-            ctx.channel.id not in self.shiritori_games
-            or self.shiritori_games[ctx.channel.id].state == State.READY
-        ):
+        if ctx.channel.id not in self.shiritori_games:
             return await ctx.send(
                 embed=Embed(
                     title=f"There is no archived game in this channel yet",
-                    description=f"Create a game with `{ctx.prefix}shiritori create` or start the current game.",
+                    description=f"Create a game with `{ctx.prefix}shiritori create`.",
                 )
             )
         shiritori = self.shiritori_games[ctx.channel.id]
         leaderboard = shiritori.leaderboard()
         display = []
         for i, player in enumerate(leaderboard):
-            if player not in shiritori.in_game and (shiritori.state == State.PLAYING or shiritori.state == State.LAST):
-                display.append(f"#{i + 1}: <@!{player.id}> [LEFT]")
+            cur = f"[**#{i + 1}**] <@!{player.id}>"
+            if player not in shiritori.in_game and (
+                shiritori.state == State.PLAYING or shiritori.state == State.LAST
+            ):
+                cur += " [LEFT]"
             elif player.lives <= 0:
-                display.append(f"#{i + 1}: <@!{player.id}> [OUT OF `❤️`]")
+                cur += " [OUT OF `❤️`]"
             elif player.time_left <= 0:
-                display.append(f"#{i + 1}: <@!{player.id}> [OUT OF TIME]")
+                cur += " [OUT OF TIME]"
             else:
-                display.append(
-                    f"#{i + 1}: <@!{player.id}> [{f'{player.time_left:.2f} SECONDS LEFT' if shiritori.mode != Mode.SCRABBLE else f'{player.score} POINTS'}]"
-                )
+                cur += f" [{f'{player.time_left:.2f} SECONDS LEFT' if shiritori.mode != Mode.SCRABBLE else f'{player.score} POINTS'}]"
+            display.append(cur)
         await ctx.send(
             embed=Embed(
                 title=f"{'Current' if shiritori.state != State.IDLE else 'Final'} Leaderboard",
