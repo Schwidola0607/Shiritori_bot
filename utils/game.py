@@ -159,7 +159,7 @@ class Game:
             if any(not c.isalnum() for c in word):
                 return False
             response = await http.get(
-                f"https://od-api.oxforddictionaries.com/api/v2/entries/en-gb/{word}?strictMatch=true",
+                f"https://od-api.oxforddictionaries.com/api/v2/entries/en-gb/{word}",
                 res_method="json",
                 headers={"app_id": OXFORD_APP_ID, "app_key": OXFORD_APP_KEY},
             )
@@ -270,7 +270,7 @@ class Game:
                 self.used_words[-1][-1]
                 if self.dictionary != Dictionary.VIETNAMESE
                 else self.used_words[-1].split()[-1]
-            ),
+            ) if len(self.used_words) > 0 else None,
         )
         self.start_countdown()
         return

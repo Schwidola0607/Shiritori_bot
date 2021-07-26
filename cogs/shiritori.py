@@ -32,7 +32,7 @@ class Shiritori(commands.Cog):
         await shiritori.handle_word(message)
 
     @commands.Cog.listener()
-    async def on_new_turn(self, message, current_letter):
+    async def on_new_turn(self, message, current_letter=None):
         """
         New turn starts
         """
@@ -43,8 +43,9 @@ class Shiritori(commands.Cog):
                 title="Final turn! Answer a valid word to win!"
                 if shiritori.state == State.LAST
                 else "It's your turn!",
-                description=f"Begin with the letter `{current_letter}`.\n"
-                + f'{"{:.2f}".format(shiritori.get_time_left())} seconds left.',
+                description=f"Begin with the letter `{current_letter}`.\n{'{:.2f}'.format(shiritori.get_time_left())} seconds left."
+                if current_letter is not None
+                else f"Please choose a random {Dictionary.word(shiritori.dictionary)}",
             ),
         )
 
