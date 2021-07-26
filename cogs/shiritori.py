@@ -84,10 +84,18 @@ class Shiritori(commands.Cog):
         )
 
     @commands.Cog.listener()
+    async def on_player_join(self, message, user):
+        """
+        Player join
+        """
+        print(f"{str(user)} joined game in channel {message.channel.name}")
+
+    @commands.Cog.listener()
     async def on_player_left(self, message, user):
         """
         Player left
         """
+        print(f"{str(user)} left game in channel {message.channel.name}")
         return await message.channel.send(
             embed=Embed(title=f"<@!{user.id}> left the game")
         )
@@ -123,7 +131,6 @@ class Shiritori(commands.Cog):
         if user.id == self.bot.user.id:  # Ignore if it's the bot
             return
         shiritori.add_player(user)
-        print(f"{str(user)} joined game in channel {reaction.message.channel.name}")
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction, user):
@@ -184,13 +191,15 @@ class Shiritori(commands.Cog):
         message = await ctx.send(
             embed=Embed(
                 title=f"{ctx.message.author} is creating a new {mode.capitalize()} {Dictionary.to_str(dict)} game!",
-                description=f"React with {DEFAULT_JOIN_EMOTE} to join the game.",
+                description=f"React with {DEFAULT_JOIN_EMOTE} to join the game.\n"
+                + f"Check who's in with `{ctx.prefix}shiritori leaderboard`.",
             )
         )
         await message.add_reaction(DEFAULT_JOIN_EMOTE)
         self.shiritori_games[ctx.channel.id] = Game(
             self.bot, message, ctx.message, mode, dict
         )
+        self.shiritori_games[ctx.channel.id].add_player(ctx.message.author)
 
     @shiritori.command(name="start", aliases=["s"])
     async def start_shiritori(self, ctx):
