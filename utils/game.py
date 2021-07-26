@@ -78,8 +78,7 @@ class Game:
         """
         self.current_player.time_left -= time.time() - self.start_time
         self.bot.dispatch("no_time_left", self.message, self.current_player)
-        self.in_game.remove(self.current_player.id)
-        self.next_player()
+        self.remove_player(self.current_player, True)
         return
 
     def start_countdown(self) -> None:
@@ -97,7 +96,7 @@ class Game:
         """
         if self.timer:
             self.timer.cancel()
-            self.current_player.time_left -= time.time() - self.start_time
+            self.current_player.time_left -= (time.time() - self.start_time)
         return
 
     def get_time_left(self) -> int:
@@ -115,13 +114,14 @@ class Game:
         self.players[user.id] = Player(user, DEFAULT_LIVES, Mode.time(self.mode))
         return
 
-    def remove_player(self, user) -> None:
+    def remove_player(self, user, internal = False) -> None:
         """
         Remove a player from the game.
         """
         if self.state == State.PLAYING or self.state == State.LAST:
             self.in_game.remove(user.id)
-            self.bot.dispatch("player_left", self.message, user)
+            if not internal:
+                self.bot.dispatch("player_left", self.message, user)
             if self.current_player.id == user.id:
                 self.stop_countdown()
                 self.next_player()
@@ -242,10 +242,9 @@ class Game:
             else:
                 self.current_player.lives -= 1
                 if self.current_player.lives == 0:
-                    self.in_game.remove(self.current_player.id)
                     self.bot.dispatch("no_lives_left", message, self.current_player)
-                    self.in_game.remove(self.current_player.id)
-                    self.next_player()
+                    self.remove_player(self.current_player, True)
+                    return
                 self.bot.dispatch("invalid_word", message)
         return
 
@@ -282,6 +281,7 @@ class Game:
         self.state = State.PLAYING
         self.in_game = list(self.players.keys())
         self.current_player = self.players[self.in_game[self.current_index]]
+        self.start_countdown()
 
     def abort(self) -> None:
         """

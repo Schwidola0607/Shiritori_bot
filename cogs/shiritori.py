@@ -42,7 +42,7 @@ class Shiritori(commands.Cog):
             embed=Embed(
                 title="Final turn! Answer a valid word to win!"
                 if shiritori.state == State.LAST
-                else "",
+                else "It's your turn!",
                 description=f"Begin with the letter `{current_letter}`.\n"
                 + f'{"{:.2f}".format(shiritori.get_time_left())} seconds left.',
             ),
@@ -70,7 +70,7 @@ class Shiritori(commands.Cog):
         """
         return await message.channel.send(
             content=f"<@!{current_player.id}>",
-            embed=Embed(description="You ran out of time!"),
+            embed=Embed(title="You ran out of time!"),
         )
 
     @commands.Cog.listener()
@@ -78,9 +78,9 @@ class Shiritori(commands.Cog):
         """
         Player ran out of lives
         """
-        return await message.channel.send(
+        return await message.reply(
             content=f"<@!{current_player.id}>",
-            embed=Embed(description="You ran out of ❤️!"),
+            embed=Embed(title="You ran out of ❤️!"),
         )
 
     @commands.Cog.listener()
@@ -89,11 +89,11 @@ class Shiritori(commands.Cog):
         Player left
         """
         return await message.channel.send(
-            embed=Embed(description=f"<@!{user.id}> left the game")
+            embed=Embed(title=f"<@!{user.id}> left the game")
         )
 
     @commands.Cog.listener()
-    async def on_game_over(self, message, player):
+    async def on_game_over(self, message, player = None):
         """
         Game over
         """
@@ -216,6 +216,7 @@ class Shiritori(commands.Cog):
                 )
             )
 
+        """
         if len(list(shiritori.players.keys())) < 2:
             return await ctx.send(
                 embed=Embed(
@@ -223,6 +224,7 @@ class Shiritori(commands.Cog):
                     description=f"There must be at least 2 players in the game",
                 )
             )
+        """
 
         shiritori.start()
         await ctx.send(
