@@ -112,6 +112,7 @@ class Game:
         if user.id in self.players:
             return
         self.players[user.id] = Player(user, DEFAULT_LIVES, Mode.time(self.mode))
+        self.bot.dispatch("player_join", self.message, user)
         return
 
     def remove_player(self, user, internal = False) -> None:
