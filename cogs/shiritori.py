@@ -44,7 +44,7 @@ class Shiritori(commands.Cog):
                 if shiritori.state == State.LAST
                 else "",
                 description=f"Begin with the letter `{current_letter}`.\n"
-                + f'{"{:.2f}".format(shiritori.current_player.time_left)} seconds left.',
+                + f'{"{:.2f}".format(shiritori.get_time_left())} seconds left.',
             ),
         )
 
@@ -58,7 +58,7 @@ class Shiritori(commands.Cog):
             embed=Embed(
                 title="Invalid word baka!",
                 description=f"{shiritori.current_player.lives} ❤️ left\n"
-                + "{:.2f}".format(shiritori.current_player.time_left)
+                + "{:.2f}".format(shiritori.get_time_left())
                 + " seconds left.\n"
             )
         )
