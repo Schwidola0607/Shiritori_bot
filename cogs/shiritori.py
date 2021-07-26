@@ -291,7 +291,7 @@ class Shiritori(commands.Cog):
         display = []
         for i, player in enumerate(leaderboard):
             cur = f"[**#{i + 1}**] <@!{player.id}>"
-            if player not in shiritori.in_game and (
+            if player.id not in shiritori.in_game and (
                 shiritori.state == State.PLAYING or shiritori.state == State.LAST
             ):
                 cur += " [LEFT]"
