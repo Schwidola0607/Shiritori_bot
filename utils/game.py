@@ -238,6 +238,8 @@ class Game:
                 if self.current_player.lives == 0:
                     self.in_game.remove(self.current_player.id)
                     self.bot.dispatch("no_lives_left", message, self.current_player)
+                    self.in_game.remove(self.current_player.id)
+                    self.next_player()
                 self.bot.dispatch("invalid_word", message)
         return
 
