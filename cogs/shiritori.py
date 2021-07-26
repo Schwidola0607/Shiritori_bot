@@ -216,7 +216,6 @@ class Shiritori(commands.Cog):
                 )
             )
 
-        """
         if len(list(shiritori.players.keys())) < 2:
             return await ctx.send(
                 embed=Embed(
@@ -224,7 +223,6 @@ class Shiritori(commands.Cog):
                     description=f"There must be at least 2 players in the game",
                 )
             )
-        """
 
         shiritori.start()
         await ctx.send(
