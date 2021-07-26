@@ -254,6 +254,11 @@ class Shiritori(commands.Cog):
                 )
             )
         self.shiritori_games[ctx.channel.id].abort()
+        return await ctx.send(
+            embed=Embed(
+                title=f"Aborted current game",
+            )
+        )
 
     @shiritori.command(name="resign", aliases=["r"])
     async def resign_shiritori(self, ctx):
