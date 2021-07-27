@@ -172,7 +172,7 @@ class Game:
             if len(pt) > 0 or len(list(set(pt).intersection(self.original_words))) > 0:
                 return False
             self.original_words.extend(pt)
-            return
+            return True
         elif self.dictionary == Dictionary.VIETNAMESE:
             response = await http.get(
                 f"https://vtudien.com/viet-viet/dictionary/nghia-cua-tu-{word}",
