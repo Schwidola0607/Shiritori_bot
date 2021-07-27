@@ -8,8 +8,7 @@ from utils.enum import State, Mode, Dictionary
 from utils.player import Player
 from bs4 import BeautifulSoup
 
-OXFORD_APP_ID = os.environ.get("OXFORD_APP_ID")
-OXFORD_APP_KEY = os.environ.get("OXFORD_APP_KEY")
+RAPID_API_KEY = os.environ.get("WORDS_API_KEY")
 DEFAULT_LIVES = 3
 SCRABBLE_SCORE = {
     "a": 1,
@@ -70,6 +69,7 @@ class Game:
         self.timer = None
         self.start_time = 0
         self.used_words = []
+        self.original_words = []
         return
 
     def out_of_time(self) -> None:
@@ -96,7 +96,7 @@ class Game:
         """
         if self.timer:
             self.timer.cancel()
-            self.current_player.time_left -= (time.time() - self.start_time)
+            self.current_player.time_left -= time.time() - self.start_time
         return
 
     def get_time_left(self) -> int:
@@ -115,7 +115,7 @@ class Game:
         self.bot.dispatch("player_join", self.message, user)
         return
 
-    def remove_player(self, user, internal = False) -> None:
+    def remove_player(self, user, internal=False) -> None:
         """
         Remove a player from the game.
         """
@@ -159,11 +159,28 @@ class Game:
             if any(not c.isalnum() for c in word):
                 return False
             response = await http.get(
-                f"https://od-api.oxforddictionaries.com/api/v2/entries/en-gb/{word}",
+                f"https://wordsapiv1.p.rapidapi.com/words/{word}",
                 res_method="json",
-                headers={"app_id": OXFORD_APP_ID, "app_key": OXFORD_APP_KEY},
+                headers={
+                    "x-rapidapi-key": RAPID_API_KEY,
+                    "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
+                },
             )
-            return "error" not in response
+            if "results" not in response or response["results"] == []:
+                return False
+            if (
+                len(
+                    list(
+                        set(
+                            [p for w in response["results"] for p in w["pertainsTo"]]
+                        ).intersection(self.original_words)
+                    )
+                )
+                > 0
+            ):
+                return False
+            self.original_words.append(word)
+            return
         elif self.dictionary == Dictionary.VIETNAMESE:
             response = await http.get(
                 f"https://vtudien.com/viet-viet/dictionary/nghia-cua-tu-{word}",
@@ -270,7 +287,9 @@ class Game:
                 self.used_words[-1][-1]
                 if self.dictionary != Dictionary.VIETNAMESE
                 else self.used_words[-1].split()[-1]
-            ) if len(self.used_words) > 0 else None,
+            )
+            if len(self.used_words) > 0
+            else None,
         )
         self.start_countdown()
         return

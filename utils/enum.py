@@ -75,7 +75,7 @@ class Dictionary(str, Enum, metaclass=EnumMeta):
         elif dict == cls.URBAN:
             return "Urban Dictionary phrase"
         elif dict == cls.MAL:
-            return "anime name from MyAnimeList"
+            return "anime character's name from MyAnimeList"
         elif dict == cls.FIFA:
             return "FIFA player name"
         else:
