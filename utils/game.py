@@ -4,7 +4,7 @@ import threading
 from unidecode import unidecode
 from functools import reduce
 from utils import http
-from utils.enum import State, Mode, Dictionary
+from utils.enum import State, Mode, Dictionary, Card
 from utils.player import Player
 from bs4 import BeautifulSoup
 
@@ -70,6 +70,7 @@ class Game:
         self.timer = None
         self.start_time = 0
         self.used_words = []
+        self.card_mode = False
         return
 
     def out_of_time(self) -> None:
@@ -249,6 +250,13 @@ class Game:
                 self.bot.dispatch("invalid_word", message)
         return
 
+    def use_card(self, author, card: str, targeted_user) -> None:
+        """
+        Use a card
+        """
+        Card.add_effect(card, self.players[targeted_user.id])
+        self.players[author.id].inventory.remove(card)
+
     def next_player(self) -> None:
         """
         Move to next player
@@ -263,6 +271,7 @@ class Game:
             self.current_index + 1 if self.current_index < len(self.in_game) - 1 else 0
         )
         self.current_player = self.players[self.in_game[self.current_index]]
+        Card.process_effect(self.current_player)
         self.bot.dispatch(
             "new_turn",
             self.message,
@@ -297,6 +306,6 @@ class Game:
         """
         return sorted(
             self.players.values(),
-            key=lambda x: x.score if self.mode == Mode.SCRABBLE else x.time_left,
+            key=lambda x: (x.lives > 0, x.time_left > 0, x.score if self.mode == Mode.SCRABBLE else x.time_left),
             reverse=True,
         )

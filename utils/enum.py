@@ -80,3 +80,46 @@ class Dictionary(str, Enum, metaclass=EnumMeta):
             return "FIFA player name"
         else:
             raise ValueError("Invalid dictionary type")
+
+class Card(str, Enum, metaclass=EnumMeta):
+    """Gamemodes"""
+
+    HEAL = "heal"
+    KILL = "kill"
+    SUB_TIME = "sub_time"
+    ADD_TIME = "add_time"
+
+    @classmethod
+    def add_effect(cls, card, player):
+        player.card_queue.append(card)
+
+    @classmethod
+    def process_effect(cls, player):
+        for card in player.card_queue:
+            if card == cls.SUB_TIME:
+                if player.time_left > 10:
+                    player.time_left -= 10
+            elif card == cls.ADD_TIME:
+                player.time_left += 10
+            elif card == cls.KILL:
+                if player.lives > 1:
+                    player.lives -= 1
+            elif card == cls.HEAL:
+                player.lives += 1
+            else:
+                raise ValueError("Invalid card")
+        player.card_queue = []
+        return
+
+    @classmethod
+    def word(cls, card):
+        if card == cls.HEAL:
+            return "Your lives has been increased by 1."
+        elif card == cls.KILL:
+            return "Your lives has been decreased by 1."
+        elif card == cls.ADD_TIME:
+            return "Your time left has been increased by 10 seconds."
+        elif card == cls.SUB_TIME:
+            return "Your time left has been decreased by 10 seconds."
+        else:
+            raise ValueError("Invalid card")
