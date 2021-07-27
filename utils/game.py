@@ -168,18 +168,10 @@ class Game:
             )
             if "results" not in response or response["results"] == []:
                 return False
-            if (
-                len(
-                    list(
-                        set(
-                            [p for w in response["results"] for p in w["pertainsTo"]]
-                        ).intersection(self.original_words)
-                    )
-                )
-                > 0
-            ):
+            pt = [p for w in response["results"] for p in w["pertainsTo"] if "pertainsTo" in w]
+            if len(pt) > 0 or len(list(set(pt).intersection(self.original_words))) > 0:
                 return False
-            self.original_words.append(word)
+            self.original_words.extend(pt)
             return
         elif self.dictionary == Dictionary.VIETNAMESE:
             response = await http.get(
