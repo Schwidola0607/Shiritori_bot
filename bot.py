@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 bot = Bot(
-    command_prefix="!",
+    command_prefix="&",
     guild=os.environ.get("DISCORD_GUILD"),
     allowed_mentions=discord.AllowedMentions(everyone=False, roles=False),
     intents=discord.Intents(guilds=True, members=True, messages=True, reactions=True),

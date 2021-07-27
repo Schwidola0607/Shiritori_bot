@@ -4,12 +4,20 @@ import threading
 from unidecode import unidecode
 from functools import reduce
 from utils import http
+<<<<<<< HEAD
 from utils.enum import State, Mode, Dictionary, Card
 from utils.player import Player
 from bs4 import BeautifulSoup
 
 OXFORD_APP_ID = os.environ.get("OXFORD_APP_ID")
 OXFORD_APP_KEY = os.environ.get("OXFORD_APP_KEY")
+=======
+from utils.enum import State, Mode, Dictionary
+from utils.player import Player
+from bs4 import BeautifulSoup
+
+RAPID_API_KEY = os.environ.get("WORDS_API_KEY")
+>>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09
 DEFAULT_LIVES = 3
 SCRABBLE_SCORE = {
     "a": 1,
@@ -70,7 +78,11 @@ class Game:
         self.timer = None
         self.start_time = 0
         self.used_words = []
+<<<<<<< HEAD
         self.card_mode = False
+=======
+        self.original_words = []
+>>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09
         return
 
     def out_of_time(self) -> None:
@@ -97,7 +109,11 @@ class Game:
         """
         if self.timer:
             self.timer.cancel()
+<<<<<<< HEAD
             self.current_player.time_left -= (time.time() - self.start_time)
+=======
+            self.current_player.time_left -= time.time() - self.start_time
+>>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09
         return
 
     def get_time_left(self) -> int:
@@ -116,7 +132,11 @@ class Game:
         self.bot.dispatch("player_join", self.message, user)
         return
 
+<<<<<<< HEAD
     def remove_player(self, user, internal = False) -> None:
+=======
+    def remove_player(self, user, internal=False) -> None:
+>>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09
         """
         Remove a player from the game.
         """
@@ -160,11 +180,28 @@ class Game:
             if any(not c.isalnum() for c in word):
                 return False
             response = await http.get(
+<<<<<<< HEAD
                 f"https://od-api.oxforddictionaries.com/api/v2/entries/en-gb/{word}",
                 res_method="json",
                 headers={"app_id": OXFORD_APP_ID, "app_key": OXFORD_APP_KEY},
             )
             return "error" not in response
+=======
+                f"https://wordsapiv1.p.rapidapi.com/words/{word}",
+                res_method="json",
+                headers={
+                    "x-rapidapi-key": RAPID_API_KEY,
+                    "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
+                },
+            )
+            if "results" not in response or response["results"] == []:
+                return False
+            pt = [p for w in response["results"] for p in w["pertainsTo"] if "pertainsTo" in w]
+            if len(pt) > 0 or len(list(set(pt).intersection(self.original_words))) > 0:
+                return False
+            self.original_words.extend(pt)
+            return True
+>>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09
         elif self.dictionary == Dictionary.VIETNAMESE:
             response = await http.get(
                 f"https://vtudien.com/viet-viet/dictionary/nghia-cua-tu-{word}",
@@ -250,6 +287,7 @@ class Game:
                 self.bot.dispatch("invalid_word", message)
         return
 
+<<<<<<< HEAD
     def use_card(self, author, card: str, targeted_user) -> None:
         """
         Use a card
@@ -257,6 +295,8 @@ class Game:
         Card.add_effect(card, self.players[targeted_user.id])
         self.players[author.id].inventory.remove(card)
 
+=======
+>>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09
     def next_player(self) -> None:
         """
         Move to next player
@@ -271,7 +311,10 @@ class Game:
             self.current_index + 1 if self.current_index < len(self.in_game) - 1 else 0
         )
         self.current_player = self.players[self.in_game[self.current_index]]
+<<<<<<< HEAD
         Card.process_effect(self.current_player)
+=======
+>>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09
         self.bot.dispatch(
             "new_turn",
             self.message,
@@ -279,7 +322,13 @@ class Game:
                 self.used_words[-1][-1]
                 if self.dictionary != Dictionary.VIETNAMESE
                 else self.used_words[-1].split()[-1]
+<<<<<<< HEAD
             ) if len(self.used_words) > 0 else None,
+=======
+            )
+            if len(self.used_words) > 0
+            else None,
+>>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09
         )
         self.start_countdown()
         return
@@ -306,6 +355,10 @@ class Game:
         """
         return sorted(
             self.players.values(),
+<<<<<<< HEAD
             key=lambda x: (x.lives > 0, x.time_left > 0, x.score if self.mode == Mode.SCRABBLE else x.time_left),
+=======
+            key=lambda x: x.score if self.mode == Mode.SCRABBLE else x.time_left,
+>>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09
             reverse=True,
         )
