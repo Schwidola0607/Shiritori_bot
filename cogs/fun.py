@@ -3,8 +3,7 @@ from discord import Embed
 from discord.ext import commands
 from utils import http
 
-OXFORD_APP_ID = os.environ.get("OXFORD_APP_ID")
-OXFORD_APP_KEY = os.environ.get("OXFORD_APP_KEY")
+RAPID_API_KEY = os.environ.get("WORDS_API_KEY")
 
 
 class Fun(commands.Cog):
@@ -15,25 +14,32 @@ class Fun(commands.Cog):
     async def meaning(self, ctx, *, word: str):
         """Meaning of a word"""
         response = await http.get(
-            f"https://od-api.oxforddictionaries.com/api/v2/entries/en-gb/{word}",
+            f"https://wordsapiv1.p.rapidapi.com/words/{word}",
             res_method="json",
-            headers={"app_id": OXFORD_APP_ID, "app_key": OXFORD_APP_KEY},
+            headers={
+                "x-rapidapi-key": RAPID_API_KEY,
+                "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
+            },
         )
-        if "error" in response:
+        if "results" not in response or response["results"] == []:
             return await ctx.send(
                 embed=Embed(
                     description="Word have no meaning!",
                 )
             )
-        result = response["results"][0]["lexicalEntries"][0]
-        type = result["lexicalCategory"]["id"]
-        definitions = result["entries"][0]["senses"][:5]
-        display = [
-            f"{i + 1}. {word['definitions'][0]}" for i, word in enumerate(definitions)
-        ]
         endl = "\n"
+        result = response["results"][:5]
+        display = []
+        for i, w in enumerate(result):
+            line = f"{i + 1}. (_{w['partOfSpeech']}_) {w['definition']}"
+            if "examples" in w:
+                line += endl + endl.join([f"• {e}" for e in w["examples"]])
+            display.append(line)
         return await ctx.send(
-            embed=Embed(title=word, description=f"__{type}__{endl}{endl.join(display)}")
+            embed=Embed(
+                title=word,
+                description=f"/{response['pronunciation']['all']}/{endl}{endl.join(display)}",
+            )
         )
 
     @commands.command(name="urban", aliases=["urbandict", "urbanmean"])
