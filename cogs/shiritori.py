@@ -1,14 +1,8 @@
-<<<<<<< HEAD
 import re
 from discord import Embed
 from discord import Member
 from discord.ext import commands
 from utils.enum import Mode, Dictionary, State, Card
-=======
-from discord import Embed
-from discord.ext import commands
-from utils.enum import Mode, Dictionary, State
->>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09
 from utils.game import Game
 
 DEFAULT_JOIN_EMOTE = "✅"
@@ -317,7 +311,6 @@ class Shiritori(commands.Cog):
             )
         )
 
-<<<<<<< HEAD
     @shiritori.command(name="toggle_inventory_mode", aliases=["tim"])
     async def toggle_inventory_shiritori(self, ctx):
         """Toggle inventory mode"""
@@ -446,8 +439,6 @@ class Shiritori(commands.Cog):
                 )
             )
         self.shiritori_games[ctx.channel.id].players[ctx.author.id].inventory.append(card)
-=======
->>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09
 
 def setup(bot):
     bot.add_cog(Shiritori(bot))

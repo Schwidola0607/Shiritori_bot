@@ -75,8 +75,7 @@ class Dictionary(str, Enum, metaclass=EnumMeta):
         elif dict == cls.URBAN:
             return "Urban Dictionary phrase"
         elif dict == cls.MAL:
-<<<<<<< HEAD
-            return "anime name from MyAnimeList"
+            return "anime character's name from MyAnimeList"
         elif dict == cls.FIFA:
             return "FIFA player name"
         else:
@@ -124,10 +123,3 @@ class Card(str, Enum, metaclass=EnumMeta):
             return "Your time left has been decreased by 10 seconds."
         else:
             raise ValueError("Invalid card")
-=======
-            return "anime character's name from MyAnimeList"
-        elif dict == cls.FIFA:
-            return "FIFA player name"
-        else:
-            raise ValueError("Invalid dictionary type")
->>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09

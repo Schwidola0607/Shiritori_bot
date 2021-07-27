@@ -3,12 +3,7 @@ from discord import Embed
 from discord.ext import commands
 from utils import http
 
-<<<<<<< HEAD
-OXFORD_APP_ID = os.environ.get("OXFORD_APP_ID")
-OXFORD_APP_KEY = os.environ.get("OXFORD_APP_KEY")
-=======
 RAPID_API_KEY = os.environ.get("WORDS_API_KEY")
->>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09
 
 
 class Fun(commands.Cog):
@@ -19,13 +14,6 @@ class Fun(commands.Cog):
     async def meaning(self, ctx, *, word: str):
         """Meaning of a word"""
         response = await http.get(
-<<<<<<< HEAD
-            f"https://od-api.oxforddictionaries.com/api/v2/entries/en-gb/{word}",
-            res_method="json",
-            headers={"app_id": OXFORD_APP_ID, "app_key": OXFORD_APP_KEY},
-        )
-        if "error" in response:
-=======
             f"https://wordsapiv1.p.rapidapi.com/words/{word}",
             res_method="json",
             headers={
@@ -34,23 +22,11 @@ class Fun(commands.Cog):
             },
         )
         if "results" not in response or response["results"] == []:
->>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09
             return await ctx.send(
                 embed=Embed(
                     description="Word have no meaning!",
                 )
             )
-<<<<<<< HEAD
-        result = response["results"][0]["lexicalEntries"][0]
-        type = result["lexicalCategory"]["id"]
-        definitions = result["entries"][0]["senses"][:5]
-        display = [
-            f"{i + 1}. {word['definitions'][0]}" for i, word in enumerate(definitions)
-        ]
-        endl = "\n"
-        return await ctx.send(
-            embed=Embed(title=word, description=f"__{type}__{endl}{endl.join(display)}")
-=======
         endl = "\n"
         result = response["results"][:5]
         display = []
@@ -64,7 +40,6 @@ class Fun(commands.Cog):
                 title=word,
                 description=f"/{response['pronunciation']['all']}/{endl}{endl.join(display)}",
             )
->>>>>>> e4d80e090b45cb3c5cdb0996a4e0f20e92b21f09
         )
 
     @commands.command(name="urban", aliases=["urbandict", "urbanmean"])
