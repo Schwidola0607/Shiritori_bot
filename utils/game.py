@@ -169,7 +169,7 @@ class Game:
             )
             if "results" not in response or response["results"] == []:
                 return False
-            pt = [p for w in response["results"] for p in w["pertainsTo"] if "pertainsTo" in w]
+            pt = [p for w in response["results"] for p in (w["pertainsTo"] if "pertainsTo" in w else [])]
             if len(pt) > 0 or len(list(set(pt).intersection(self.original_words))) > 0:
                 return False
             self.original_words.extend(pt)
@@ -280,7 +280,8 @@ class Game:
             self.current_index + 1 if self.current_index < len(self.in_game) - 1 else 0
         )
         self.current_player = self.players[self.in_game[self.current_index]]
-        Card.process_effect(self.current_player)
+        effect_message = Card.process_effect(self.current_player)
+        print(f'{effect_message != ""} at game.py for {self.current_player}')
         self.bot.dispatch(
             "new_turn",
             self.message,
@@ -291,6 +292,7 @@ class Game:
             )
             if len(self.used_words) > 0
             else None,
+            effect_message
         )
         self.start_countdown()
         return

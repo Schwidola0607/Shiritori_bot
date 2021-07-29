@@ -6,7 +6,7 @@ from utils.enum import Mode, Dictionary, State, Card
 from utils.game import Game
 
 DEFAULT_JOIN_EMOTE = "✅"
-
+CTS = {'heal': 1, 'kill': 1, 'sub_time': 1, 'add_time': 1, 'poison': 3}
 
 class Shiritori(commands.Cog):
     def __init__(self, bot):
@@ -34,11 +34,19 @@ class Shiritori(commands.Cog):
         await shiritori.handle_word(message)
 
     @commands.Cog.listener()
-    async def on_new_turn(self, message, current_letter=None):
+    async def on_new_turn(self, message, current_letter=None, effect_message=None):
         """
         New turn starts
         """
+        print(f'{effect_message} at shiritori')
         shiritori = self.shiritori_games[message.channel.id]
+        if effect_message != "":
+            await message.channel.send(
+                embed=Embed(
+                    title = f"<@!{shiritori.current_player.id}>, you have suffered from the following effects:",
+                    description=f"{effect_message}"
+                )
+            )
         return await message.channel.send(
             content=f"<@!{shiritori.current_player.id}>",
             embed=Embed(
@@ -50,6 +58,7 @@ class Shiritori(commands.Cog):
                 else f"Please choose a random {Dictionary.word(shiritori.dictionary)}",
             ),
         )
+        
 
     @commands.Cog.listener()
     async def on_invalid_word(self, message):
@@ -408,7 +417,7 @@ class Shiritori(commands.Cog):
         self.shiritori_games[ctx.channel.id].use_card(ctx.author, card, targeted_user)
         await ctx.send(
             embed=Embed(
-                description=f"<@!{targeted_user.id}>, {Card.word(card)}.",
+                description=f"{Card.word(card, CTS[card], targeted_user.id)}",
             )
         )
 
@@ -439,6 +448,10 @@ class Shiritori(commands.Cog):
                 )
             )
         self.shiritori_games[ctx.channel.id].players[ctx.author.id].inventory.append(card)
-
+        return await ctx.send(
+            embed=Embed(
+                description=f'{card} has been added into your inventory'
+            )
+        )
 def setup(bot):
     bot.add_cog(Shiritori(bot))

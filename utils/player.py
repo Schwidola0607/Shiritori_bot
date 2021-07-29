@@ -9,4 +9,4 @@ class Player:
         self.lives = lives
         self.time_left = time_left
         self.inventory = []
-        self.card_queue = []
+        self.effect_chain = []

@@ -81,6 +81,7 @@ class Dictionary(str, Enum, metaclass=EnumMeta):
         else:
             raise ValueError("Invalid dictionary type")
 
+CTS = {'heal': 1, 'kill': 1, 'sub_time': 1, 'add_time': 1, 'poison': 3}
 class Card(str, Enum, metaclass=EnumMeta):
     """Gamemodes"""
 
@@ -88,14 +89,40 @@ class Card(str, Enum, metaclass=EnumMeta):
     KILL = "kill"
     SUB_TIME = "sub_time"
     ADD_TIME = "add_time"
-
+    POISON = "poison"
     @classmethod
     def add_effect(cls, card, player):
-        player.card_queue.append(card)
+        player.effect_chain.append((card, CTS[card]))
+    @classmethod
+    def to_emoji(cls, card):
+        if card == cls.HEAL:
+            return ":adhesive_bandage:"
+        elif card == cls.KILL:
+            return ":dagger:"
+        elif card == cls.POISON:
+            return ":biohazard:"
+    
+    @classmethod
+    def word(cls, card, cter, player_id):
+        emj = cls.to_emoji(card)
+        if card == cls.HEAL:
+            return f'<@!{player_id}> + 1 :hearts: {emj}.\n'
+        elif card == cls.KILL:
+            return f'<@!{player_id}> - 1 :hearts: {emj}.\n'
+        elif card == cls.ADD_TIME:
+            return f'<@!{player_id}> + 10 seconds {emj}.\n'
+        elif card == cls.SUB_TIME:
+            return f'<@!{player_id}> - 10 seconds {emj}.\n'
+        elif card == cls.POISON:
+            return f'<@!{player_id}> has been poisoned {emj}.\n-7 seconds every turn, {cter} turn(s) remaining.\n'
+        else:
+            raise ValueError("Invalid card")
 
     @classmethod
-    def process_effect(cls, player):
-        for card in player.card_queue:
+    def process_effect(cls, player) -> str:
+        message = ""
+        teff_chain = []
+        for card, cter in player.effect_chain:
             if card == cls.SUB_TIME:
                 if player.time_left > 10:
                     player.time_left -= 10
@@ -106,20 +133,14 @@ class Card(str, Enum, metaclass=EnumMeta):
                     player.lives -= 1
             elif card == cls.HEAL:
                 player.lives += 1
+            elif card == cls.POISON:
+                player.time_left -= 7
             else:
                 raise ValueError("Invalid card")
-        player.card_queue = []
-        return
+            message += cls.word(card, cter - 1, player.id)
+            if cter > 1:
+                teff_chain.append((card, cter - 1))
+        player.effect_chain = teff_chain
+        return message
 
-    @classmethod
-    def word(cls, card):
-        if card == cls.HEAL:
-            return "Your lives has been increased by 1."
-        elif card == cls.KILL:
-            return "Your lives has been decreased by 1."
-        elif card == cls.ADD_TIME:
-            return "Your time left has been increased by 10 seconds."
-        elif card == cls.SUB_TIME:
-            return "Your time left has been decreased by 10 seconds."
-        else:
-            raise ValueError("Invalid card")
+
