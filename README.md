@@ -26,41 +26,14 @@ Create a .env file in the following format.
 ```txt
 DISCORD_TOKEN={your_bot_token}
 DISCORD_GUILD={your_server}
+WORDS_API_KEY={your key}
 ```
 
 This is the environment variable(s) that the bot accesses the BOT_TOKEN and GUILD from.
 
 ### Game Settings
 
-In class Players, you can change the `invalid_left` variable, which determined the maximum errors a player can make.
-
-```python
-class Players:
-    """a class to represent players"""
-    name = ""
-    score = 0
-    invalid_left = 3
-    time_left = 0
-    timer_state = 0
-    timer = threading.Timer
-    start_time = 0
-```
-
-Also, you can change the timer here:
-
-```python
-async def create(ctx, game_type: str):
-    """create a game by selecting the game mode"""
-    global DEFAULT_TIME
-    if game_type == "bullet":
-        DEFAULT_TIME = 60
-    elif game_type == "blitz":
-        DEFAULT_TIME = 180
-    elif game_type == "casual":
-        DEFAULT_TIME = 1800
-```
-
-You can customize `DEFAULT_TIME` however you like. I'm using chess-style timer countdown.
+*On progress*
 
 ### Commands
 
