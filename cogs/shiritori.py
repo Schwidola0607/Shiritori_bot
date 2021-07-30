@@ -58,7 +58,6 @@ class Shiritori(commands.Cog):
                 else f"Please choose a random {Dictionary.word(shiritori.dictionary)}",
             ),
         )
-        
 
     @commands.Cog.listener()
     async def on_invalid_word(self, message):
@@ -453,5 +452,6 @@ class Shiritori(commands.Cog):
                 description=f'{card} has been added into your inventory'
             )
         )
+      
 def setup(bot):
     bot.add_cog(Shiritori(bot))

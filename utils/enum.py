@@ -142,5 +142,3 @@ class Card(str, Enum, metaclass=EnumMeta):
                 teff_chain.append((card, cter - 1))
         player.effect_chain = teff_chain
         return message
-
-

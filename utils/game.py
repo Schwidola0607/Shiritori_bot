@@ -258,7 +258,7 @@ class Game:
                     return
                 self.bot.dispatch("invalid_word", message)
         return
-
+      
     def use_card(self, author, card: str, targeted_user) -> None:
         """
         Use a card
