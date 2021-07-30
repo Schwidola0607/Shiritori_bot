@@ -1,10 +1,12 @@
+import re
 from discord import Embed
+from discord import Member
 from discord.ext import commands
-from utils.enum import Mode, Dictionary, State
+from utils.enum import Mode, Dictionary, State, Card
 from utils.game import Game
 
 DEFAULT_JOIN_EMOTE = "✅"
-
+CTS = {'heal': 1, 'kill': 1, 'sub_time': 1, 'add_time': 1, 'poison': 3}
 
 class Shiritori(commands.Cog):
     def __init__(self, bot):
@@ -32,11 +34,19 @@ class Shiritori(commands.Cog):
         await shiritori.handle_word(message)
 
     @commands.Cog.listener()
-    async def on_new_turn(self, message, current_letter=None):
+    async def on_new_turn(self, message, current_letter=None, effect_message=None):
         """
         New turn starts
         """
+        print(f'{effect_message} at shiritori')
         shiritori = self.shiritori_games[message.channel.id]
+        if effect_message != "":
+            await message.channel.send(
+                embed=Embed(
+                    title = f"<@!{shiritori.current_player.id}>, you have suffered from the following effects:",
+                    description=f"{effect_message}"
+                )
+            )
         return await message.channel.send(
             content=f"<@!{shiritori.current_player.id}>",
             embed=Embed(
@@ -309,6 +319,139 @@ class Shiritori(commands.Cog):
             )
         )
 
+    @shiritori.command(name="toggle_inventory_mode", aliases=["tim"])
+    async def toggle_inventory_shiritori(self, ctx):
+        """Toggle inventory mode"""
+        if (
+            ctx.channel.id not in self.shiritori_games
+            or self.shiritori_games[ctx.channel.id].state == State.IDLE
+        ):
+            return await ctx.send(
+                embed=Embed(
+                    title=f"There is no game in progress in this channel",
+                    description=f"Create a game with `{ctx.prefix}shiritori create`",
+                )
+            )
 
+        shiritori = self.shiritori_games[ctx.channel.id]
+
+        if shiritori.state != State.READY:
+            return await ctx.send(
+                embed=Embed(
+                    title=f"A game is already in progress in this channel",
+                    description=f"Please wait until the current game is finished before starting a new one",
+                )
+            )
+        self.shiritori_games[ctx.channel.id].card_mode = not(self.shiritori_games[ctx.channel.id].card_mode)
+
+    @shiritori.command(name="check_inventory", aliases=["ci"])
+    async def check_inventory_shiritori(self, ctx):
+        if (
+            ctx.channel.id not in self.shiritori_games
+            or self.shiritori_games[ctx.channel.id].state == State.IDLE
+        ):
+            return await ctx.send(
+                embed=Embed(
+                    title=f"There is no game in progress in this channel",
+                    description=f"Create a game with `{ctx.prefix}shiritori create`",
+                )
+            )
+        await ctx.send(
+            embed=Embed(
+                title=f"Your current inventory:",
+                description=f"{', '.join(self.shiritori_games[ctx.channel.id].players[ctx.author.id].inventory)}",
+            )
+        )
+
+    @shiritori.command(name="use_card", aliases=["uc"])
+    async def use_card_shiritori(self, ctx, card: str = None, targeted_user: Member = None):
+        #print(targeted_user)
+        if (
+            ctx.channel.id not in self.shiritori_games
+            or self.shiritori_games[ctx.channel.id].state == State.IDLE
+        ):
+            return await ctx.send(
+                embed=Embed(
+                    title=f"There is no game in progress in this channel",
+                    description=f"Create a game with `{ctx.prefix}shiritori create`",
+                )
+            )
+        
+        if (
+            ctx.author.id != self.shiritori_games[ctx.channel.id].current_player.id
+        ):
+            return await ctx.send(
+                embed=Embed(
+                    title=f"Not your turn yet!",
+                    description=f"Please wait until your turn to use the card.",
+                )
+            )
+
+        if card == None or card not in self.shiritori_games[ctx.channel.id].current_player.inventory:
+            await ctx.send(
+                embed=Embed(
+                    title=f"Your current inventory:",
+                    description=f"{', '.join(self.shiritori_games[ctx.channel.id].players[ctx.author.id].inventory)}",
+                )
+            )
+            return await ctx.send(
+                embed=Embed(
+                    title=f"Invalid card!",
+                    description=f"Please choose a card from one of the above.",
+                )
+            )
+        if targeted_user == None or targeted_user.id not in self.shiritori_games[ctx.channel.id].in_game:
+            await ctx.send(
+                embed=Embed(
+                    title=f"Your current inventory:",
+                    description=f"{', '.join(self.shiritori_games[ctx.channel.id].players[ctx.author.id].inventory)}",
+                )
+            )
+            return await ctx.send(
+                embed=Embed(
+                    title=f"Invalid targeted player!",
+                    description=f"Please choose an player currently in the game.",
+                )
+            )
+        self.shiritori_games[ctx.channel.id].use_card(ctx.author, card, targeted_user)
+        await ctx.send(
+            embed=Embed(
+                description=f"{Card.word(card, CTS[card], targeted_user.id)}",
+            )
+        )
+
+    @shiritori.command(name="add_card", aliases=["ac"])
+    async def add_card_shiritori(self, ctx, card: str = None):
+        if (
+            ctx.channel.id not in self.shiritori_games
+            or self.shiritori_games[ctx.channel.id].state == State.IDLE
+        ):
+            return await ctx.send(
+                embed=Embed(
+                    title=f"There is no game in progress in this channel",
+                    description=f"Create a game with `{ctx.prefix}shiritori create`",
+                )
+            )
+
+        if card == None:
+            return await ctx.send(
+                embed=Embed(
+                    description=f"Please choose a card!",
+                )
+            )
+        if card not in Card:
+            return await ctx.send(
+                embed=Embed(
+                    title=f"Invalid card",
+                    description=f"The cards are: {', '.join(list(map(lambda x: f'`{x}`', Card.list())))}",
+                )
+            )
+        self.shiritori_games[ctx.channel.id].players[ctx.author.id].inventory.append(card)
+        return await ctx.send(
+            embed=Embed(
+                description=f'{card} has been added into your inventory'
+            )
+        )
+      
 def setup(bot):
     bot.add_cog(Shiritori(bot))

@@ -8,3 +8,5 @@ class Player:
         self.score = 0
         self.lives = lives
         self.time_left = time_left
+        self.inventory = []
+        self.effect_chain = []
