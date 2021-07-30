@@ -1,3 +1,4 @@
+from inspect import currentframe
 import re
 from discord import Embed
 from discord import Member
@@ -85,6 +86,17 @@ class Shiritori(commands.Cog):
         )
 
     @commands.Cog.listener()
+    async def on_players_in_game(self, message):
+        """
+        Update player list
+        """
+        shiritori = self.shiritori_games[message.channel.id]
+        return await message.edit(
+            description=f"React with {DEFAULT_JOIN_EMOTE} to join the game.\n"
+                + f"Current players: {' '.join(shiritori.in_game)}."
+        )
+
+    @commands.Cog.listener()
     async def on_no_lives_left(self, message, current_player):
         """
         Player ran out of lives
@@ -108,7 +120,7 @@ class Shiritori(commands.Cog):
         """
         print(f"{str(user)} left game in channel {message.channel.name}")
         return await message.channel.send(
-            embed=Embed(title=f"<@!{user.id}> left the game")
+            embed=Embed(title=f"{user.name} left the game")
         )
 
     @commands.Cog.listener()
@@ -143,6 +155,16 @@ class Shiritori(commands.Cog):
             return
         shiritori.add_player(user)
 
+        current_author = reaction.message.embeds[0].title.split(' ')[0]
+        current_player_list = [f'<@!{str(i)}>' for i in shiritori.players]
+        await reaction.message.edit(
+            embed=Embed(
+                title=f"{current_author} is creating a new {shiritori.mode.capitalize()} {Dictionary.to_str(shiritori.dictionary)} game!",
+                description=f"React with {DEFAULT_JOIN_EMOTE} to join the game.\n"
+                    + f"Current players: {', '.join(current_player_list)}."
+            )
+        )
+
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction, user):
         if (
@@ -158,7 +180,16 @@ class Shiritori(commands.Cog):
         ):  # Ignore if not start message or wrong emote
             return
         shiritori.remove_player(user)
-        print(f"{str(user)} left game in channel {reaction.message.channel.name}")
+        
+        current_author = reaction.message.embeds[0].title.split(' ')[0]
+        current_player_list = [f'<@!{str(i)}>' for i in shiritori.players]
+        await reaction.message.edit(
+            embed=Embed(
+                title=f"{current_author} is creating a new {shiritori.mode.capitalize()} {Dictionary.to_str(shiritori.dictionary)} game!",
+                description=f"React with {DEFAULT_JOIN_EMOTE} to join the game.\n"
+                    + f"Current players: {', '.join(current_player_list)}."
+            )
+        )
 
     @commands.group(name="shiritori", aliases=["s"])
     async def shiritori(self, ctx):
@@ -201,7 +232,7 @@ class Shiritori(commands.Cog):
             embed=Embed(
                 title=f"{ctx.message.author} is creating a new {mode.capitalize()} {Dictionary.to_str(dict)} game!",
                 description=f"React with {DEFAULT_JOIN_EMOTE} to join the game.\n"
-                + f"Check who's in with `{ctx.prefix}shiritori leaderboard`.",
+                + f"Current players: <@!{ctx.message.author.id}>",
             )
         )
         await message.add_reaction(DEFAULT_JOIN_EMOTE)
