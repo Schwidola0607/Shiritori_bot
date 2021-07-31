@@ -1,13 +1,15 @@
 from inspect import currentframe
-import re
+import random
 from discord import Embed
 from discord import Member
 from discord.ext import commands
+
 from utils.enum import Mode, Dictionary, State, Card
 from utils.game import Game
 
 DEFAULT_JOIN_EMOTE = "✅"
 CTS = {'heal': 1, 'kill': 1, 'sub_time': 1, 'add_time': 1, 'poison': 3}
+ROLL_SCORE = 10
 
 class Shiritori(commands.Cog):
     def __init__(self, bot):
@@ -466,6 +468,47 @@ class Shiritori(commands.Cog):
                     description=f"The cards are: {', '.join(list(map(lambda x: f'`{x}`', Card.list())))}",
                 )
             )
+        self.shiritori_games[ctx.channel.id].players[ctx.author.id].inventory.append(card)
+        return await ctx.send(
+            embed=Embed(
+                description=f'{card} has been added into your inventory'
+            )
+        )
+
+    @shiritori.command(name="roll_card", aliases=["rc"])
+    async def roll_card_shiritori(self, ctx):
+        if (
+            ctx.channel.id not in self.shiritori_games
+            or self.shiritori_games[ctx.channel.id].state == State.IDLE
+        ):
+            return await ctx.send(
+                embed=Embed(
+                    title=f"There is no game in progress in this channel",
+                    description=f"Create a game with `{ctx.prefix}shiritori create`",
+                )
+            )
+
+        shiritori = self.shiritori_games[ctx.channel.id]
+
+        if shiritori.mode != Mode.SCRABBLE:
+            return await ctx.send(
+                embed=Embed(
+                    title=f"Invalid mode!",
+                    description=f"This command is currently available in scrabble mode only",
+                )
+            )
+
+        if ROLL_SCORE > shiritori.players[ctx.author.id].score:
+            return await ctx.send(
+                embed=Embed(
+                    title=f"Invalid value",
+                    description=f"Please select a value less or equal to your current scores to roll",
+                )
+            )
+        shiritori.players[ctx.author.id].score -= ROLL_SCORE
+
+        prob = random()
+        card = Card.rarity_to_card(prob)
         self.shiritori_games[ctx.channel.id].players[ctx.author.id].inventory.append(card)
         return await ctx.send(
             embed=Embed(
