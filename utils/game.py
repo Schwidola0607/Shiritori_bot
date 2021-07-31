@@ -3,6 +3,7 @@ import time
 import threading
 from unidecode import unidecode
 from functools import reduce
+from operator import add
 from utils import http
 from utils.enum import State, Mode, Dictionary, Card
 from utils.player import Player
@@ -42,12 +43,7 @@ SCRABBLE_SCORE = {
 
 def get_scrabble_score(word: str) -> int:
     """Return the score of a word using scrabble points"""
-    return reduce(
-        lambda a, b: (SCRABBLE_SCORE[a] if a in SCRABBLE_SCORE else 0)
-        + (SCRABBLE_SCORE[b] if b in SCRABBLE_SCORE else 0),
-        list(word),
-    )
-
+    return reduce(add, list(map(lambda a: SCRABBLE_SCORE[a] if a in SCRABBLE_SCORE else 0, word)))
 
 class Game:
     """

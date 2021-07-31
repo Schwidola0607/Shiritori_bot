@@ -1,8 +1,7 @@
-from inspect import currentframe
-import random
 from discord import Embed
 from discord import Member
 from discord.ext import commands
+import random
 
 from utils.enum import Mode, Dictionary, State, Card
 from utils.game import Game
@@ -502,17 +501,21 @@ class Shiritori(commands.Cog):
             return await ctx.send(
                 embed=Embed(
                     title=f"Invalid value",
-                    description=f"Please select a value less or equal to your current scores to roll",
+                    description=f"Please select a value less or equal to your current points to roll",
                 )
             )
         shiritori.players[ctx.author.id].score -= ROLL_SCORE
 
-        prob = random()
-        card = Card.rarity_to_card(prob)
-        self.shiritori_games[ctx.channel.id].players[ctx.author.id].inventory.append(card)
+        card = random.choices(
+            population=Card.list(),
+            weights= (Card.get_rarity(crd) for crd in Card.list()),
+            k=1)[0]
+
+        shiritori.players[ctx.author.id].inventory.append(card)
         return await ctx.send(
             embed=Embed(
-                description=f'{card} has been added into your inventory'
+                title=f'You have received a {card} card.',
+                description=f'{shiritori.players[ctx.author.id].score} points left.',
             )
         )
       
