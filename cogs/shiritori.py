@@ -472,38 +472,38 @@ class Shiritori(commands.Cog):
             )
         )
 
-    @shiritori.command(name="add_card", aliases=["ac"])
-    async def add_card_shiritori(self, ctx, card: str = None):
-        if (
-            ctx.channel.id not in self.shiritori_games
-            or self.shiritori_games[ctx.channel.id].state == State.IDLE
-        ):
-            return await ctx.send(
-                embed=Embed(
-                    title=f"There is no game in progress in this channel",
-                    description=f"Create a game with `{ctx.prefix}shiritori create`",
-                )
-            )
+    # @shiritori.command(name="add_card", aliases=["ac"])
+    # async def add_card_shiritori(self, ctx, card: str = None):
+    #     if (
+    #         ctx.channel.id not in self.shiritori_games
+    #         or self.shiritori_games[ctx.channel.id].state == State.IDLE
+    #     ):
+    #         return await ctx.send(
+    #             embed=Embed(
+    #                 title=f"There is no game in progress in this channel",
+    #                 description=f"Create a game with `{ctx.prefix}shiritori create`",
+    #             )
+    #         )
 
-        if card == None:
-            return await ctx.send(
-                embed=Embed(
-                    description=f"Please choose a card!",
-                )
-            )
-        if card not in Card:
-            return await ctx.send(
-                embed=Embed(
-                    title=f"Invalid card",
-                    description=f"The cards are: {', '.join(list(map(lambda x: f'`{x}`', Card.list())))}",
-                )
-            )
-        self.shiritori_games[ctx.channel.id].players[ctx.author.id].inventory.append(card)
-        return await ctx.send(
-            embed=Embed(
-                description=f'{card} has been added into your inventory'
-            )
-        )
+    #     if card == None:
+    #         return await ctx.send(
+    #             embed=Embed(
+    #                 description=f"Please choose a card!",
+    #             )
+    #         )
+    #     if card not in Card:
+    #         return await ctx.send(
+    #             embed=Embed(
+    #                 title=f"Invalid card",
+    #                 description=f"The cards are: {', '.join(list(map(lambda x: f'`{x}`', Card.list())))}",
+    #             )
+    #         )
+    #     self.shiritori_games[ctx.channel.id].players[ctx.author.id].inventory.append(card)
+    #     return await ctx.send(
+    #         embed=Embed(
+    #             description=f'{card} has been added into your inventory'
+    #         )
+    #     )
 
     @shiritori.command(name="roll_card", aliases=["rc"])
     async def roll_card_shiritori(self, ctx):
