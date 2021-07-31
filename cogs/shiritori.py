@@ -507,8 +507,8 @@ class Shiritori(commands.Cog):
         if ROLL_SCORE > shiritori.players[ctx.author.id].score:
             return await ctx.send(
                 embed=Embed(
-                    title=f"Invalid value",
-                    description=f"Please select a value less or equal to your current points to roll",
+                    title=f"You don't have enough points yet!",
+                    description=f"Each roll for cards will cost 10 points.",
                 )
             )
         shiritori.players[ctx.author.id].score -= ROLL_SCORE

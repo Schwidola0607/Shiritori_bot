@@ -260,6 +260,10 @@ class Game:
         Use a card
         """
         Card.add_effect(card, self.players[targeted_user.id])
+        if author.id == targeted_user.id:
+            Card.process_effect(self.players[targeted_user.id]) # card takes effect instantly if on author's turn
+            self.stop_countdown()
+            self.start_countdown()
         self.players[author.id].inventory.remove(card)
 
     def next_player(self) -> None:
