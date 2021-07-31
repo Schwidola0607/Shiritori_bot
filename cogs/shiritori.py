@@ -408,6 +408,13 @@ class Shiritori(commands.Cog):
                 )
             )
 
+        if len(self.shiritori_games[ctx.channel.id].players[ctx.author.id].inventory) == 0:
+            return await ctx.send(
+                embed=Embed(
+                    title=f"Empty inventory!",
+                )
+            )
+
         if card == None or card not in self.shiritori_games[ctx.channel.id].current_player.inventory:
             await ctx.send(
                 embed=Embed(
