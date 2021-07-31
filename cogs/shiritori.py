@@ -363,7 +363,14 @@ class Shiritori(commands.Cog):
                     description=f"Please wait until the current game is finished before starting a new one",
                 )
             )
-        self.shiritori_games[ctx.channel.id].card_mode = not(self.shiritori_games[ctx.channel.id].card_mode)
+
+        self.shiritori_games[ctx.channel.id].card_mode ^= 1
+        str_mode = "on" if self.shiritori_games[ctx.channel.id].card_mode else "off"
+        return await ctx.send(
+            embed=Embed(
+                title=f"Card mode turned {str_mode}",
+            )
+        )
 
     @shiritori.command(name="check_inventory", aliases=["ci"])
     async def check_inventory_shiritori(self, ctx):
@@ -377,6 +384,15 @@ class Shiritori(commands.Cog):
                     description=f"Create a game with `{ctx.prefix}shiritori create`",
                 )
             )
+
+        if self.shiritori_games[ctx.channel.id].card_mode != 1:
+            return await ctx.send(
+                embed=Embed(
+                    title=f"Card mode not turned on yet!",
+                    description=f"Use the toggle_card_mode command to turn on card mode before starting.",
+                )
+            )
+
         await ctx.send(
             embed=Embed(
                 title=f"Your current inventory:",
@@ -395,6 +411,14 @@ class Shiritori(commands.Cog):
                 embed=Embed(
                     title=f"There is no game in progress in this channel",
                     description=f"Create a game with `{ctx.prefix}shiritori create`",
+                )
+            )
+
+        if self.shiritori_games[ctx.channel.id].card_mode != 1:
+            return await ctx.send(
+                embed=Embed(
+                    title=f"Card mode not turned on yet!",
+                    description=f"Use the toggle_card_mode command to turn on card mode before starting.",
                 )
             )
         
@@ -491,6 +515,14 @@ class Shiritori(commands.Cog):
                 embed=Embed(
                     title=f"There is no game in progress in this channel",
                     description=f"Create a game with `{ctx.prefix}shiritori create`",
+                )
+            )
+
+        if self.shiritori_games[ctx.channel.id].card_mode != 1:
+            return await ctx.send(
+                embed=Embed(
+                    title=f"Card mode not turned on yet!",
+                    description=f"Use the toggle_card_mode command to turn on card mode before starting.",
                 )
             )
 
