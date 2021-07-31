@@ -90,15 +90,21 @@ class Card(str, Enum, metaclass=EnumMeta):
     SUB_TIME = "sub_time"
     ADD_TIME = "add_time"
     POISON = "poison"
+    
     @classmethod
     def add_effect(cls, card, player):
         player.effect_chain.append((card, CTS[card]))
+
     @classmethod
     def to_emoji(cls, card):
         if card == cls.HEAL:
             return ":adhesive_bandage:"
         elif card == cls.KILL:
             return ":dagger:"
+        elif card == cls.SUB_TIME:
+            return ":heavy_minus_sign: :clock9:"
+        elif card == cls.ADD_TIME:
+            return ":heavy_plus_sign: :clock9:"
         elif card == cls.POISON:
             return ":biohazard:"
     

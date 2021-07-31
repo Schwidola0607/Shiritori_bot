@@ -44,7 +44,7 @@ class Shiritori(commands.Cog):
         if effect_message != "":
             await message.channel.send(
                 embed=Embed(
-                    title = f"<@!{shiritori.current_player.id}>, you have suffered from the following effects:",
+                    title = f"{shiritori.current_player.name}, you have suffered from the following effects:",
                     description=f"{effect_message}"
                 )
             )
@@ -83,17 +83,6 @@ class Shiritori(commands.Cog):
         return await message.channel.send(
             content=f"<@!{current_player.id}>",
             embed=Embed(title="You ran out of time!"),
-        )
-
-    @commands.Cog.listener()
-    async def on_players_in_game(self, message):
-        """
-        Update player list
-        """
-        shiritori = self.shiritori_games[message.channel.id]
-        return await message.edit(
-            description=f"React with {DEFAULT_JOIN_EMOTE} to join the game.\n"
-                + f"Current players: {' '.join(shiritori.in_game)}."
         )
 
     @commands.Cog.listener()
@@ -350,9 +339,9 @@ class Shiritori(commands.Cog):
             )
         )
 
-    @shiritori.command(name="toggle_inventory_mode", aliases=["tim"])
-    async def toggle_inventory_shiritori(self, ctx):
-        """Toggle inventory mode"""
+    @shiritori.command(name="toggle_card_mode", aliases=["tcm"])
+    async def toggle_card_shiritori(self, ctx):
+        """Toggle card mode"""
         if (
             ctx.channel.id not in self.shiritori_games
             or self.shiritori_games[ctx.channel.id].state == State.IDLE
