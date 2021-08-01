@@ -8,7 +8,7 @@ from utils.game import Game
 
 DEFAULT_JOIN_EMOTE = "✅"
 CTS = {'heal': 1, 'kill': 1, 'sub_time': 1, 'add_time': 1, 'poison': 3}
-ROLL_SCORE = 10
+ROLL_SCORE = 20
 
 class Shiritori(commands.Cog):
     def __init__(self, bot):

@@ -43,7 +43,7 @@ SCRABBLE_SCORE = {
 
 def get_scrabble_score(word: str) -> int:
     """Return the score of a word using scrabble points"""
-    return reduce(add, list(map(lambda a: SCRABBLE_SCORE[a] if a in SCRABBLE_SCORE else 0, word)))
+    return reduce(add, list(map(lambda a: SCRABBLE_SCORE[a] if a in SCRABBLE_SCORE else 0, unidecode(word))))
 
 class Game:
     """
@@ -281,7 +281,7 @@ class Game:
         )
         self.current_player = self.players[self.in_game[self.current_index]]
         effect_message = Card.process_effect(self.current_player)
-        print(f'{effect_message != ""} at game.py for {self.current_player}')
+        #print(f'{effect_message != ""} at game.py for {self.current_player}')
         self.bot.dispatch(
             "new_turn",
             self.message,
