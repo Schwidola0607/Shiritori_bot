@@ -374,6 +374,7 @@ class Shiritori(commands.Cog):
 
     @shiritori.command(name="check_inventory", aliases=["ci"])
     async def check_inventory_shiritori(self, ctx):
+        """(Card mode) Check your current inventory"""
         if (
             ctx.channel.id not in self.shiritori_games
             or self.shiritori_games[ctx.channel.id].state == State.IDLE
@@ -402,7 +403,7 @@ class Shiritori(commands.Cog):
 
     @shiritori.command(name="use_card", aliases=["uc"])
     async def use_card_shiritori(self, ctx, card: str = None, targeted_user: Member = None):
-        #print(targeted_user)
+        """(Card mode) Use a card on a player in the game"""
         if (
             ctx.channel.id not in self.shiritori_games
             or self.shiritori_games[ctx.channel.id].state == State.IDLE
@@ -507,6 +508,7 @@ class Shiritori(commands.Cog):
 
     @shiritori.command(name="roll_card", aliases=["rc"])
     async def roll_card_shiritori(self, ctx):
+        """(Card mode) Roll a card using your points"""
         if (
             ctx.channel.id not in self.shiritori_games
             or self.shiritori_games[ctx.channel.id].state == State.IDLE
