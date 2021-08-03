@@ -1,5 +1,5 @@
 from enum import Enum, EnumMeta
-
+import random
 
 class EnumMeta(EnumMeta):
     def __contains__(cls, item):
@@ -90,15 +90,34 @@ class Card(str, Enum, metaclass=EnumMeta):
     SUB_TIME = "sub_time"
     ADD_TIME = "add_time"
     POISON = "poison"
+
     @classmethod
     def add_effect(cls, card, player):
         player.effect_chain.append((card, CTS[card]))
+
+    @classmethod
+    def get_rarity(cls, card):
+        if card == cls.HEAL:
+            return 0.3
+        elif card == cls.KILL:
+            return 0.1
+        elif card == cls.SUB_TIME:
+            return 0.2
+        elif card == cls.ADD_TIME:
+            return 0.3
+        elif card == cls.POISON:
+            return 0.1
+
     @classmethod
     def to_emoji(cls, card):
         if card == cls.HEAL:
             return ":adhesive_bandage:"
         elif card == cls.KILL:
             return ":dagger:"
+        elif card == cls.SUB_TIME:
+            return ":heavy_minus_sign: :clock9:"
+        elif card == cls.ADD_TIME:
+            return ":heavy_plus_sign: :clock9:"
         elif card == cls.POISON:
             return ":biohazard:"
     

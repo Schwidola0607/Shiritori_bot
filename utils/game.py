@@ -3,6 +3,7 @@ import time
 import threading
 from unidecode import unidecode
 from functools import reduce
+from operator import add
 from utils import http
 from utils.enum import State, Mode, Dictionary, Card
 from utils.player import Player
@@ -42,12 +43,7 @@ SCRABBLE_SCORE = {
 
 def get_scrabble_score(word: str) -> int:
     """Return the score of a word using scrabble points"""
-    return reduce(
-        lambda a, b: (SCRABBLE_SCORE[a] if a in SCRABBLE_SCORE else 0)
-        + (SCRABBLE_SCORE[b] if b in SCRABBLE_SCORE else 0),
-        list(word),
-    )
-
+    return reduce(add, list(map(lambda a: SCRABBLE_SCORE[a] if a in SCRABBLE_SCORE else 0, unidecode(word))))
 
 class Game:
     """
@@ -264,6 +260,10 @@ class Game:
         Use a card
         """
         Card.add_effect(card, self.players[targeted_user.id])
+        if author.id == targeted_user.id:
+            Card.process_effect(self.players[targeted_user.id]) # card takes effect instantly if on author's turn
+            self.stop_countdown()
+            self.start_countdown()
         self.players[author.id].inventory.remove(card)
 
     def next_player(self) -> None:
@@ -281,7 +281,7 @@ class Game:
         )
         self.current_player = self.players[self.in_game[self.current_index]]
         effect_message = Card.process_effect(self.current_player)
-        print(f'{effect_message != ""} at game.py for {self.current_player}')
+        #print(f'{effect_message != ""} at game.py for {self.current_player}')
         self.bot.dispatch(
             "new_turn",
             self.message,
